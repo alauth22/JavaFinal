@@ -1,3 +1,6 @@
 11-04-2024 17:23:50.369 DEBUG [Main.LoggingExample] - Hello World!
 11-04-2024 17:23:50.372 DEBUG [Main.LoggingExample] - Hello World, again!
 11-04-2024 17:23:50.372 WARN  [Main.LoggingExample] - Hello world!!
+11-05-2024 06:30:32.459 DEBUG [Main.LoggingExample] - Hello World!
+11-05-2024 06:30:32.461 DEBUG [Main.LoggingExample] - Hello World, again!
+11-05-2024 06:30:32.462 WARN  [Main.LoggingExample] - Hello world!!
