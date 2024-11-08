@@ -2,6 +2,8 @@ package Model;
 
 public class TimerModel {
 
+    //I do not think we will need this class
+
     private int survivalTime;
     private int gameTime;
 
