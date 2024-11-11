@@ -1,4 +1,7 @@
-package Controller;
+package controller;
+import Model.Database;
+import View.Window;
+
 import java.util.Set;
 
 public class ParserEngine {
@@ -7,10 +10,14 @@ public class ParserEngine {
     //could try an array or a dictionary, but I don't care about order.
     private Set<String> verbs;
     private Set<String> nouns;
-
+    private Window window;
+    private Database db;
 
     //constructor
-    public ParserEngine() {
+    public ParserEngine(Window window, Database db) {
+
+        this.db = db;
+        this.window = window;
 
         //add to verbs set.
         verbs.add("take");
@@ -92,15 +99,6 @@ public class ParserEngine {
         }
 
 
-
-    }
-
-
-    public static void main(String[] args) {
-
-        //call the scanner
-        //get input
-        //call the necessary class.
 
     }
 
