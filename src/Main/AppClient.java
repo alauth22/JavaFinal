@@ -1,5 +1,6 @@
 package Main;
-import Controller.GameEngine;
+import controller.GameEngine;
+import controller.ParserEngine;
 import View.Window;
 import Model.Database;
 
@@ -20,7 +21,7 @@ public enum AppClient {
 
         //using the GameEngne constructor
         private GameEngine gameEngine = new GameEngine(window, db);
-
+        //private ParserEngine parserEngine  = new ParserEngine(window, db);
 
 
         //getters and setters
@@ -29,9 +30,7 @@ public enum AppClient {
         }
 
 
-        public void setEngine(GameEngine gameengine) {
-            this.gameEngine = gameengine;
-        }
+
 
 
 }
