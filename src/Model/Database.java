@@ -1,32 +1,31 @@
 package Model;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Database {
-    public Connection databaseLink; // Declare a Connection object to hold the database link
+    private Connection databaseLink;
 
-    //Method to establish a connection to the database
-    public Connection getConnection(){
-        String databaseUser = "root";
-        String databasePassword = "javaproject2024-";
-        String url = "jdbc:mysql://localhost:3306/finaljava";
+    // Method to establish a connection to the SQLite database
+    public Connection getConnection() {
+        // Use a relative path to the database file in the resources folder
+        String url = "jdbc:sqlite:src/Resources/FinalJava.db";
 
-        try{
-            //Load the MySQL JDBC driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            // Establish the connection using the DriverManager and store it in the databaselink
-            databaseLink = DriverManager.getConnection(url,databaseUser, databasePassword);
-
-        }catch(Exception e) {
+        try {
+            // Load the SQLite JDBC driver
+            Class.forName("org.sqlite.JDBC");
+            // Establish the connection to the SQLite database
+            databaseLink = DriverManager.getConnection(url);
+            System.out.println("Connected to SQLite database!");
+        } catch (ClassNotFoundException e) {
+            System.out.println("SQLite JDBC Driver not found");
             e.printStackTrace();
-            e.getCause();
+        } catch (SQLException e) {
+            System.out.println("Connection to SQLite failed");
+            e.printStackTrace();
         }
 
-        return databaseLink; //Return the established connection
+        return databaseLink; // Return the established connection
     }
 }
-
-//switch statement to call the correct verb method
-//Singleton for the map quest
-//flat filer to help log user input
-//have nested values

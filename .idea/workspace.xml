@@ -5,43 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change">
-      <change afterPath="$PROJECT_DIR$/src/levels/LevelGridSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/Room.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/RoomBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/bathroom/Bath.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/bathroom/BathBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/garage/Garage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/garage/GarageBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/hallway/Hallway.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/hallway/HallwayBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/kitchen/Kitchen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/kitchen/KitchenBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/livingroom/Living.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/livingroom/LivingBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Model/Testconnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaFinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFinal.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/marianaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/marianaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Database.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -65,21 +39,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.LoggingExample.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Testconnection.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;randyBranch&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LoggingExample.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "marianaBranch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/maria/Downloads/apache-log4j-2.17.2-bin/log4j-core-2.17.2-javadoc.jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
