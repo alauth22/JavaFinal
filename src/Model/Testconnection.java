@@ -1,9 +1,10 @@
 package Model;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 //class to test database connection
-public class Testconnection {
-    public static void main(String[] args) {
+public class Testconnection{
+    public static void main(String[] args) throws SQLException {
         Database db = new Database();
         Connection connection = db.getConnection();
 
