@@ -1,0 +1,7 @@
+11-05-2024 16:58:21.889 DEBUG [Main.LoggingExample] - Hello World!
+11-05-2024 16:58:21.896 DEBUG [Main.LoggingExample] - Hello World, again!
+11-05-2024 16:58:21.897 WARN  [Main.LoggingExample] - Hello world!!
+11-05-2024 16:58:21.897 INFO  [Main.LoggingExample] - Info: Application is starting.
+11-05-2024 16:58:21.897 INFO  [Main.LoggingExample] - Info: Application is running.
+11-05-2024 16:58:21.897 WARN  [Main.LoggingExample] - Warning: This is a warning message.
+11-05-2024 16:58:21.898 ERROR [Main.LoggingExample] - Error: An error has occurred when starting the game!
