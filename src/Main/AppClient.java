@@ -1,5 +1,4 @@
 package Main;
-import controller.GameEngine;
 import controller.ParserEngine;
 import View.Window;
 import Model.Database;
@@ -20,14 +19,14 @@ public enum AppClient {
         private Database db = new Database();
 
         //using the GameEngne constructor
-        private GameEngine gameEngine = new GameEngine(window, db);
-        //private ParserEngine parserEngine  = new ParserEngine(window, db);
+        //private GameEngine gameEngine = new GameEngine(window, db);
+        private ParserEngine parserEngine  = new ParserEngine(window, db);
 
 
         //getters and setters
-        public GameEngine getEngine() {
-            return gameEngine;
-        }
+//        public GameEngine getEngine() {return gameEngine;}
+
+        public ParserEngine getParserEngine() {return parserEngine; }
 
 
 
