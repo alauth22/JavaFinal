@@ -32,8 +32,8 @@ public class GameEngine {
             this.setDb(db);
             this.setWindow(window);
             levels = new LevelGridSystem();
-            //setUpGameTimer();
-            //setUpSurvivalTimer();
+            setUpGameTimer();
+            setUpSurvivalTimer();
             createRooms();
 
         }
