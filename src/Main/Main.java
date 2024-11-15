@@ -8,16 +8,17 @@ public class Main {
             try {
                 //grab the one instance of the appClient
                 AppClient test1 = AppClient.INSTANCE;
+                test1.getParserEngine().scanText();
 
             }
             catch (ArithmeticException e) {
                 //first handle the specific exception
-                System.out.println("Error: Cannot divid by zero.");
+                System.out.println("Error: Cannot divide by zero.");
 
             }
             catch (Exception e) {
                 //now handle any other exceptions like a catch all
-                System.out.println("An unexpected error has occured: " + e.getMessage());
+                System.out.println("An unexpected error has occurred: " + e.getMessage());
 
             }
             finally {
@@ -29,5 +30,4 @@ public class Main {
 
 
     }
-
 
