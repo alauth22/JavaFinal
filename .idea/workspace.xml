@@ -5,17 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change">
-      <change afterPath="$PROJECT_DIR$/src/controller/ParserMethods.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/levels/character/Character.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Model/EntityModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entity/Entity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entity/IntruderEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entity/PlayerEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/levels/character/Intruder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_8_2024_4_08_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_8_2024_4_08_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaFinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFinal.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/AppClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/AppClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GameEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Testconnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/GameText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GameEngine.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameTimer/GameTimer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameTimer/GameTimer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/levels/LevelGridSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/levels/LevelGridSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/levels/character/Character.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/levels/character/PlayerCharacter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +54,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/alauth22/JavaFinal.git&quot;,
-    &quot;accountId&quot;: &quot;525ed17e-c4cb-4d8e-8e1a-76a31f6b28ac&quot;
+    &quot;accountId&quot;: &quot;63891d79-37a5-40ba-a408-9409a942d22f&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -59,21 +66,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.LoggingExample.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Testconnection.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ameliaBranch&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LoggingExample.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Testconnection.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "randyBranch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

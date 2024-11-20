@@ -1,11 +1,15 @@
 package controller;
 import Model.Database;
-import View.Window;
+import Model.EntityModel;
+import View.GameText;
 import gameTimer.GameTimer;
 import gameTimer.SurvivalTimer;
 import levels.LevelGridSystem;
+import levels.Room;
 import levels.bathroom.Bath;
 import levels.bathroom.BathBuilder;
+import levels.character.Intruder;
+import levels.character.PlayerCharacter;
 import levels.garage.Garage;
 import levels.garage.GarageBuilder;
 import levels.hallway.Hallway;
@@ -22,36 +26,38 @@ public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
     //could try an array or a dictionary, but I don't care about order.
+    private GameText window;
+    private Database db;
+    private EntityModel entityModel;
+
     private Set<String> verbs;
     private Set<String> nouns;
-    private Window window;
-    private Database db;
     private ArrayList<String> commandHistory;
-    private LevelGridSystem levelGridSystem;
 
-    //GAME ENGINE STUFF
-    //private variables to hold the parameter values
-    //private Window window;
-    //private Database db;
+
     private GameTimer gameTimer;
     private SurvivalTimer survivalTimer;
     private LevelGridSystem levels;
 
+    private PlayerCharacter player;
+    private Intruder intruder;
     //constructor
-    public ParserEngine(Window window, Database db) {
+    public ParserEngine(GameText window, Database db, EntityModel entityModel) {
 
         this.db = db;
         this.window = window;
-
+        this.entityModel = entityModel;
 
         //GAME ENGINE
         //this.setDb(db);
         //this.setWindow(window);
         levels = new LevelGridSystem();
-        //setUpGameTimer();
+        setUpGameTimer();
         //setUpSurvivalTimer();
         createRooms();
 
+        player = new PlayerCharacter();
+        intruder = new Intruder();
         //initialize the HashSet, which implements the Set interface
         verbs = new HashSet<>();
         nouns = new HashSet<>();
@@ -106,6 +112,7 @@ public class ParserEngine {
         nouns.add("west");
         nouns.add("east");
 
+        enemyMovement();
     }
 
 
@@ -161,7 +168,7 @@ public class ParserEngine {
             commandHistory.add(noun);
         }
 
-        trackMovement(verb, noun);
+        trackMovement(verb, noun, player);
 
         /*
         I need to ensure that the string array returned is indeed in the order of [0] = verb
@@ -232,7 +239,7 @@ public class ParserEngine {
 
 
     //switch case method to keep track of
-    private void trackMovement(String verb, String noun)
+    private void trackMovement(String verb, String noun, Room room)
     {
         /*
         if verb = go
@@ -241,22 +248,33 @@ public class ParserEngine {
 
         if(verb.equalsIgnoreCase("go"))
         {
+            int posX = entityModel.getPosX();
+            int posY = entityModel.getPosY();
+
             switch (noun) {
                 case "north":
                     System.out.println("Going North!");
-                    levels.moveNorth();
+                    levels.moveNorth(posX, posY, room);
+                    entityModel.setPosX(posX - 1);
+                    entityModel.setPosY(posY);
                     break;
                 case "south":
                     System.out.println("Going South!");
-                    levels.moveSouth();
+                    levels.moveSouth(posX, posY, room);
+                    entityModel.setPosX(posX + 1);
+                    entityModel.setPosY(posY);
                     break;
                 case "west":
                     System.out.println("Going West!");
-                    levels.moveWest();
+                    levels.moveWest(posX, posY, room);
+                    entityModel.setPosX(posX);
+                    entityModel.setPosY(posY - 1);
                     break;
                 case "east":
                     System.out.println("Going East!");
-                    levels.moveEast();
+                    levels.moveEast(posX, posY, room);
+                    entityModel.setPosX(posX);
+                    entityModel.setPosY(posY + 1);
                     break;
 
             }
@@ -267,6 +285,26 @@ public class ParserEngine {
     }
 
 
+    public void enemyMovement()
+    {
+       new Thread(() -> {
+           while(true) {
+               gameTimer.checkTimer(() -> {
+                   String[] directions = {"north", "south", "east","west"};
+                   Random random = new Random();
+
+                   String randomDirection = directions[random.nextInt(directions.length)];
+
+                   trackMovement("go", randomDirection, intruder);
+               });
+               try {
+                   Thread.sleep(500);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+           }
+       }).start();
+    }
 
     public void createRooms()
     {
@@ -327,12 +365,12 @@ public class ParserEngine {
         survivalTimer.setSeconds(10);
         survivalTimer.start();
     }
-    public Window getWindow() {
+    public GameText getWindow() {
         return window;
     }
 
 
-    public void setWindow(Window window) {
+    public void setWindow(GameText window) {
         this.window = window;
     }
 
@@ -345,6 +383,7 @@ public class ParserEngine {
     public void setDb(Database db) {
         this.db = db;
     }
+
 
 
 

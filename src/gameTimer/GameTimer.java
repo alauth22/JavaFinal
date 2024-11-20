@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 public class GameTimer {
 
+
     private int seconds = 0;
     private Timer timer;
 
@@ -14,21 +15,22 @@ public class GameTimer {
 
     }
 
-    public void start()
-    {
-        timer.scheduleAtFixedRate(new TimerTask()
-        {
+    public void start() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
-            public void run()
-            {
-              seconds++;
-              System.out.println("Game Timer: " + seconds);
+            public void run() {
+                seconds++;
+
             }
-
-
         }, 0, 1000);
     }
+    public void checkTimer(Runnable action) {
+        if(seconds % 15 == 0 && seconds != 0)
+        {
+           action.run();
 
+        }
+    }
     public void setSeconds(int time)
     {
         this.seconds = time;

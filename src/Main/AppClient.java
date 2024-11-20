@@ -1,6 +1,7 @@
 package Main;
+import Model.EntityModel;
+import View.GameText;
 import controller.ParserEngine;
-import View.Window;
 import Model.Database;
 
 
@@ -15,12 +16,13 @@ public enum AppClient {
 
         //make instance of both controller and view and database
 
-        private Window window = new Window();
+        private GameText gameText = new GameText();
+        private EntityModel entityModel = new EntityModel();
         private Database db = new Database();
 
         //using the GameEngne constructor
         //private GameEngine gameEngine = new GameEngine(window, db);
-        private ParserEngine parserEngine  = new ParserEngine(window, db);
+        private ParserEngine parserEngine  = new ParserEngine(gameText, db, entityModel);
 
 
         //getters and setters
