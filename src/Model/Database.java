@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.*;
 
 public class Database {
     private Connection databaseLink;
@@ -25,7 +26,7 @@ public class Database {
 
         return conn;
     }
-
+    //Project 4.5 assignment
     // Method to add an item to the database
     public void addItem(Item item) throws SQLException {
         String query = "INSERT INTO items (id, name, quantity) VALUES (?, ?, ?)";
@@ -61,4 +62,25 @@ public class Database {
             System.out.println("Item updated: ID=" + id + ", New Quantity=" + newQuantity);
         }
     }
+
+    // Method to retrieve an item by its ID
+    public Item getItemById(int id) throws SQLException {
+        String query = "SELECT * FROM items WHERE id = ?";
+        try (Connection conn = getConnection(); // Use getConnection() to get the connection
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, id);  // Set the item ID in the query
+            ResultSet rs = pstmt.executeQuery(); // Execute the query
+
+            if (rs.next()) {
+                int itemId = rs.getInt("id");
+                String itemName = rs.getString("name");
+                int itemQuantity = rs.getInt("quantity");
+                return new Item(itemId, itemName, itemQuantity); // Return the Item object
+            } else {
+                System.out.println("Item not found with ID: " + id);
+                return null;
+            }
+        }
+    }
+
 }

@@ -40,6 +40,7 @@ public class Inventory {
         System.out.println("Item not found with ID: " + id);
     }
 
+
     // Method to display all items in the inventory
     public void displayInventory() {
         System.out.println("Current Inventory:");
