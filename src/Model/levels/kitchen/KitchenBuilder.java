@@ -1,6 +1,6 @@
-package levels.kitchen;
+package Model.levels.kitchen;
 
-import levels.RoomBuilder;
+import Model.levels.RoomBuilder;
 
 public class KitchenBuilder implements RoomBuilder<Kitchen> {
     @Override

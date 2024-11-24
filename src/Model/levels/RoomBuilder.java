@@ -1,4 +1,4 @@
-package levels;
+package Model.levels;
 
 public interface RoomBuilder<T> {
 
