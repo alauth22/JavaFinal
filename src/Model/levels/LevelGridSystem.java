@@ -1,15 +1,100 @@
-package levels;
+package Model.levels;
 
-import levels.character.Character;
+import Model.levels.character.Character;
 
 public class LevelGridSystem {
 
     private Room[][] levelGrid;
     //private String[][] levelOne;
-    Character player;
+    private Character player;
+
+    private int XNorth;
+
+    private int XSouth;
+
+    private int YWest;
+
+    private int YEast;
+
+    private int coorX;
+
+    private int coorY;
+
+
+    public int getXNorth()
+    {
+        return XNorth;
+    }
+
+    public void setXNorth(int xNorth) {
+        this.XNorth = xNorth;
+    }
+
+
+
+    public int getXSouth()
+    {
+        return XSouth;
+    }
+
+    public void setXSouth(int xSouth) {
+        this.XSouth = xSouth;
+    }
+
+
+
+
+    public int getYWest()
+    {
+        return YWest;
+    }
+
+    public void setYWest(int yWest) {
+        this.YWest = yWest;
+    }
+
+
+    public int getYEast()
+    {
+        return YEast;
+    }
+
+    public void setYEast(int yEast) {
+        this.YEast = yEast;
+    }
+
+
+    //getter for coorX
+    public int getCoorX()
+    {
+        return coorX;
+    }
+
+    //setter for coorX
+    public void setCoorX(int coorX)
+    {
+        this.coorX = coorX;
+    }
+
+    //getter for coorY
+    public int getCoorY()
+    {
+        return coorY;
+    }
+
+    //setter for coorY
+    public void setCoorY(int coorY)
+    {
+        this.coorY = coorY;
+    }
+
+
+
 
     public LevelGridSystem()
     {
+        player = new Character();
+
         levelGrid = new Room[8][8];
     }
 
@@ -45,19 +130,21 @@ public class LevelGridSystem {
     }
 
 
+
+
+
+
     public void moveNorth()
     {
         //assume we are beginning in the bottom right corner of grid
-        int coorX = 7;
-        int coorY = 7;
-        player = new Character();
+
 
         if(coorX < 8)
         {
             //level one grid
 
             //going north, so decrement the X coordinate to go straight up.
-            coorX--;
+
             //you are here in the grid
             setRoomToGrid(coorX, coorY, player);
         }
@@ -70,9 +157,7 @@ public class LevelGridSystem {
     public void moveSouth()
     {
         //assume we are beginning in the bottom right corner of grid
-        int coorX = 7;
-        int coorY = 7;
-        player = new Character();
+
 
         if(coorX < 8)
         {
@@ -91,9 +176,8 @@ public class LevelGridSystem {
     public void moveEast()
     {
         //assume we are beginning in the bottom right corner of grid
-        int coorX = 7;
-        int coorY = 7;
-        player = new Character();
+
+
 
         if(coorY < 8)
         {
@@ -113,9 +197,8 @@ public class LevelGridSystem {
     {
 
         //assume we are beginning in the bottom right corner of grid
-        int coorX = 7;
-        int coorY = 7;
-        player = new Character();
+
+
 
         if(coorY < 8)
         {

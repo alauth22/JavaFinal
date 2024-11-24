@@ -1,4 +1,6 @@
 package Main;
+import Model.Player;
+import Model.PlayerCords;
 import controller.ParserEngine;
 import View.Window;
 import Model.Database;
@@ -18,9 +20,11 @@ public enum AppClient {
         private Window window = new Window();
         private Database db = new Database();
 
+        PlayerCords playerCords = new PlayerCords();
+
         //using the GameEngne constructor
         //private GameEngine gameEngine = new GameEngine(window, db);
-        private ParserEngine parserEngine  = new ParserEngine(window, db);
+        private ParserEngine parserEngine  = new ParserEngine(window, db, playerCords);
 
 
         //getters and setters

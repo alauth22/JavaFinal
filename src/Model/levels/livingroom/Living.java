@@ -1,8 +1,8 @@
-package levels.bathroom;
+package Model.levels.livingroom;
 
-import levels.Room;
+import Model.levels.Room;
 
-public class Bath extends Room {
+public class Living extends Room {
     @Override
     public boolean lights(boolean onOff) {
         return false;
@@ -20,6 +20,6 @@ public class Bath extends Room {
 
     @Override
     public char getRoomSymbol() {
-        return 'B';
+        return 'L';
     }
 }
