@@ -1,8 +1,8 @@
-package levels.kitchen;
+package Model.levels.character;
 
-import levels.Room;
+import Model.levels.Room;
 
-public class Kitchen extends Room {
+public class Character extends Room {
     @Override
     public boolean lights(boolean onOff) {
         return false;
@@ -20,6 +20,6 @@ public class Kitchen extends Room {
 
     @Override
     public char getRoomSymbol() {
-        return 'K';
+        return 'P';
     }
 }

@@ -1,6 +1,6 @@
-package levels.bathroom;
+package Model.levels.bathroom;
 
-import levels.RoomBuilder;
+import Model.levels.RoomBuilder;
 
 public class BathBuilder  implements RoomBuilder<Bath> {
 

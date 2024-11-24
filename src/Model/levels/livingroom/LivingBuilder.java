@@ -1,6 +1,6 @@
-package levels.livingroom;
+package Model.levels.livingroom;
 
-import levels.RoomBuilder;
+import Model.levels.RoomBuilder;
 
 public class LivingBuilder implements RoomBuilder<Living> {
     @Override

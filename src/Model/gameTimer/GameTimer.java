@@ -1,4 +1,4 @@
-package gameTimer;
+package Model.gameTimer;
 
 import java.util.Timer;
 import java.util.TimerTask;

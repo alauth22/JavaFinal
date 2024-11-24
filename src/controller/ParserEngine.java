@@ -1,19 +1,20 @@
 package controller;
 import Model.Database;
+import Model.PlayerCords;
 import View.Window;
-import gameTimer.GameTimer;
-import gameTimer.SurvivalTimer;
-import levels.LevelGridSystem;
-import levels.bathroom.Bath;
-import levels.bathroom.BathBuilder;
-import levels.garage.Garage;
-import levels.garage.GarageBuilder;
-import levels.hallway.Hallway;
-import levels.hallway.HallwayBuilder;
-import levels.kitchen.Kitchen;
-import levels.kitchen.KitchenBuilder;
-import levels.livingroom.Living;
-import levels.livingroom.LivingBuilder;
+import Model.gameTimer.GameTimer;
+import Model.gameTimer.SurvivalTimer;
+import Model.levels.LevelGridSystem;
+import Model.levels.bathroom.Bath;
+import Model.levels.bathroom.BathBuilder;
+import Model.levels.garage.Garage;
+import Model.levels.garage.GarageBuilder;
+import Model.levels.hallway.Hallway;
+import Model.levels.hallway.HallwayBuilder;
+import Model.levels.kitchen.Kitchen;
+import Model.levels.kitchen.KitchenBuilder;
+import Model.levels.livingroom.Living;
+import Model.levels.livingroom.LivingBuilder;
 
 import java.util.*;
 
@@ -36,12 +37,14 @@ public class ParserEngine {
     private GameTimer gameTimer;
     private SurvivalTimer survivalTimer;
     private LevelGridSystem levels;
+    private PlayerCords playerCords;
 
     //constructor
-    public ParserEngine(Window window, Database db) {
+    public ParserEngine(Window window, Database db, PlayerCords playerCords) {
 
         this.db = db;
         this.window = window;
+        this.playerCords = playerCords;
 
 
         //GAME ENGINE
@@ -215,8 +218,6 @@ public class ParserEngine {
 
 
 
-
-
     private void showCommand()
     {
         for(int i = 0; i < commandHistory.size(); i += 2)
@@ -229,11 +230,10 @@ public class ParserEngine {
 
 
 
-
-
     //switch case method to keep track of
     private void trackMovement(String verb, String noun)
     {
+
         /*
         if verb = go
         then we need a switch statement for noun for north, south, east, OR west
@@ -241,21 +241,37 @@ public class ParserEngine {
 
         if(verb.equalsIgnoreCase("go"))
         {
+            int xNorth = playerCords.getCoorX() - 1;
+            int xSouth = playerCords.getCoorX() + 1;
+
+            int yEast = playerCords.getCoorY() + 1;
+            int yWest = playerCords.getCoorY() - 1;
+
+            levels.setCoorX(xNorth);
+            //levels.getCoorX(xSouth);
+            levels.setCoorY(yWest);
+
+
+
             switch (noun) {
                 case "north":
                     System.out.println("Going North!");
+                    playerCords.setCoorX(xNorth);
                     levels.moveNorth();
                     break;
                 case "south":
                     System.out.println("Going South!");
+                    playerCords.setCoorX(xSouth);
                     levels.moveSouth();
                     break;
                 case "west":
                     System.out.println("Going West!");
+                    playerCords.setCoorY(yWest);
                     levels.moveWest();
                     break;
                 case "east":
                     System.out.println("Going East!");
+                    playerCords.setCoorY(yEast);
                     levels.moveEast();
                     break;
 
@@ -265,7 +281,6 @@ public class ParserEngine {
         }
 
     }
-
 
 
     public void createRooms()
@@ -345,6 +360,10 @@ public class ParserEngine {
     public void setDb(Database db) {
         this.db = db;
     }
+
+    //create methods to trigger an update between two tables (Inventory and Item)
+    //player push button --> trigger methods --> take knife out of Inventory table and put it into Item table
+    //if there are 3 knives --> 2 knives left in Inventory table and 1 knife in Item table 
 
 
 

@@ -1,8 +1,8 @@
-package levels.garage;
+package Model.levels.bathroom;
 
-import levels.Room;
+import Model.levels.Room;
 
-public class Garage extends Room {
+public class Bath extends Room {
     @Override
     public boolean lights(boolean onOff) {
         return false;
@@ -20,6 +20,6 @@ public class Garage extends Room {
 
     @Override
     public char getRoomSymbol() {
-        return 'G';
+        return 'B';
     }
 }

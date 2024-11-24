@@ -1,6 +1,6 @@
-package levels.garage;
+package Model.levels.garage;
 
-import levels.RoomBuilder;
+import Model.levels.RoomBuilder;
 
 public class GarageBuilder implements RoomBuilder<Garage> {
     @Override

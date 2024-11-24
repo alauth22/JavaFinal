@@ -1,6 +1,6 @@
-package levels.hallway;
+package Model.levels.hallway;
 
-import levels.RoomBuilder;
+import Model.levels.RoomBuilder;
 
 public class HallwayBuilder implements RoomBuilder<Hallway> {
     @Override

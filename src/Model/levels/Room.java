@@ -1,4 +1,4 @@
-package levels;
+package Model.levels;
 
 abstract public class Room {
     public abstract boolean lights(boolean onOff);
