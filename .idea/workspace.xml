@@ -5,27 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change">
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_5_2024_6_28_AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_5_2024_6_28_AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Testconnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Testconnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Resources/FinalJava.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/Resources/FinalJava.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -34,12 +27,12 @@
     &quot;assignee&quot;: &quot;Randall442&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/alauth22/JavaFinal",
-    "accountId": "71b3f993-faaa-4b5c-9784-00780f747139"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/alauth22/JavaFinal.git&quot;,
+    &quot;accountId&quot;: &quot;63891d79-37a5-40ba-a408-9409a942d22f&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -52,13 +45,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.LoggingExample.executor": "Run",
-    "Application.Main.executor": "Run",
     "Application.Testconnection.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "marianaBranch",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar",
+    "last_opened_file_path": "C:/Users/maria/Downloads/sqlite-jdbc-3.47.0.0.jar",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
@@ -91,13 +83,21 @@
     </task>
     <task id="LOCAL-00003" summary="Revert change">
       <option name="closed" value="true" />
-      <created>1732472325442</created>
+      <created>1731380359013</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1732472325442</updated>
+      <updated>1731380359013</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1731380525152</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731380525152</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

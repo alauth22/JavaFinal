@@ -9,12 +9,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="mysql-connector-j-9.0" level="project" />
-    <orderEntry type="library" name="log4j-api-2.17.2" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../sqlite-jdbc-3.47.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/Resources/log4j-api-2.17.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/Resources/log4j-core-2.17.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
