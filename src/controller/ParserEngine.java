@@ -1,5 +1,9 @@
 package controller;
 import Model.Database;
+import Model.Levels2.Cabinet;
+import Model.Levels2.Item;
+import Model.Levels2.Room;
+import Model.Levels2.RoomBuilder;
 import Model.PlayerCords;
 import View.Window;
 import Model.gameTimer.GameTimer;
@@ -19,25 +23,26 @@ import Model.levels.livingroom.LivingBuilder;
 import java.util.*;
 
 public class ParserEngine {
-    //Scanner Parser
 
     //create private sets for nouns and verbs so that they remain unique.
     //could try an array or a dictionary, but I don't care about order.
-    private Set<String> verbs;
-    private Set<String> nouns;
+    private HashSet<String> verbs;
+    private HashSet<String> nouns;
     private Window window;
     private Database db;
     private ArrayList<String> commandHistory;
     private LevelGridSystem levelGridSystem;
 
     //GAME ENGINE STUFF
-    //private variables to hold the parameter values
-    //private Window window;
-    //private Database db;
     private GameTimer gameTimer;
     private SurvivalTimer survivalTimer;
     private LevelGridSystem levels;
     private PlayerCords playerCords;
+
+    private Room Kitchen;
+    //private Cabinet cabinet1;
+    private Item kitchenkey;
+    private Cabinet cabinet;
 
     //constructor
     public ParserEngine(Window window, Database db, PlayerCords playerCords) {
@@ -45,69 +50,32 @@ public class ParserEngine {
         this.db = db;
         this.window = window;
         this.playerCords = playerCords;
-
-
-        //GAME ENGINE
-        //this.setDb(db);
-        //this.setWindow(window);
         levels = new LevelGridSystem();
-        //setUpGameTimer();
-        //setUpSurvivalTimer();
+
+        //creates the entire house with rooms
         createRooms();
+
+        kitchenkey = new Item("Kitchen Key");
+        cabinet = new Cabinet().addItem(kitchenkey);
+
+        //this is what needs to be in the search method parser engine
+        Kitchen = new RoomBuilder("Kitchen")
+                .setLocked(kitchenkey)
+                .setLightsOn(true)
+                .addObject(cabinet)
+                .build();
 
         //initialize the HashSet, which implements the Set interface
         verbs = new HashSet<>();
         nouns = new HashSet<>();
         commandHistory = new ArrayList<>();
 
-        //add to verbs set.
-        verbs.add("take"); //keep
-        verbs.add("hide"); //keep
-        verbs.add("lock"); //keep
-        verbs.add("grab"); //keep
-        verbs.add("drop"); //keep
-        verbs.add("open"); //keep
-        verbs.add("exit"); //keep
-        verbs.add("go"); //keep
-        verbs.add("look"); //keep
-        verbs.add("unlock"); //keep
-        verbs.add("turn");
-//        verbs.add("turn on"); //keep
-//        verbs.add("turn off");
+        /*
+        Calls respective methods that will populate the hashsets with specific verb and noun string values.
+         */
+        verbs = getVerbs();
+        nouns = getNouns();
 
-        //add to nouns set.
-        nouns.add("key");
-        nouns.add("door");
-        nouns.add("room");
-        nouns.add("flashlight");
-        nouns.add("award");
-        nouns.add("upstairs");
-        nouns.add("downstairs");
-        nouns.add("drawer");
-        nouns.add("cabinet");
-        nouns.add("couch");
-        nouns.add("curtain");
-        nouns.add("noisemaker");
-        nouns.add("lights");
-        nouns.add("window");
-        nouns.add("fridge");
-        nouns.add("car");
-        nouns.add("sink");
-        nouns.add("desk");
-        nouns.add("bed");
-        nouns.add("stove");
-        nouns.add("shelves");
-        nouns.add("bookshelf");
-        nouns.add("table");
-        nouns.add("chair");
-        nouns.add("nightstand");
-        nouns.add("counter");
-        nouns.add("boxes");
-        nouns.add("timer");
-        nouns.add("north");
-        nouns.add("south");
-        nouns.add("west");
-        nouns.add("east");
 
     }
 
@@ -164,7 +132,12 @@ public class ParserEngine {
             commandHistory.add(noun);
         }
 
+        //OUR TESTING BY CALLING THESE METHODS
         trackMovement(verb, noun);
+        RoomSearch(noun, verb);
+        CabinetSearch(noun, verb);
+
+
 
         /*
         I need to ensure that the string array returned is indeed in the order of [0] = verb
@@ -233,7 +206,6 @@ public class ParserEngine {
     //switch case method to keep track of
     private void trackMovement(String verb, String noun)
     {
-
         /*
         if verb = go
         then we need a switch statement for noun for north, south, east, OR west
@@ -250,8 +222,6 @@ public class ParserEngine {
             levels.setCoorX(xNorth);
             //levels.getCoorX(xSouth);
             levels.setCoorY(yWest);
-
-
 
             switch (noun) {
                 case "north":
@@ -277,7 +247,6 @@ public class ParserEngine {
 
             }
 
-
         }
 
     }
@@ -295,6 +264,7 @@ public class ParserEngine {
         levels.printMap();
     }
 
+
     public void createHallways()
     {
         Hallway hallwayOne = new HallwayBuilder().picture().build();
@@ -307,11 +277,13 @@ public class ParserEngine {
         levels.setRoomToGrid(5,4,hallwayThree);
     }
 
+
     public void createKitchens()
     {
         Kitchen kitchenOne = new KitchenBuilder().bath().toilet().cabinet().build();
         levels.setRoomToGrid(6, 3, kitchenOne);
     }
+
 
     public void createLivingRooms()
     {
@@ -319,16 +291,21 @@ public class ParserEngine {
         levels.setRoomToGrid(5,3, livingOne);
     }
 
+
     public void createGarage()
     {
         Garage garageOne = new GarageBuilder().car().toolBox().desk().build();
         levels.setRoomToGrid(6, 5, garageOne);
     }
+
+
     public void createBathrooms()
     {
         Bath bathOne = new BathBuilder().toilet().shower().sink().build();
         levels.setRoomToGrid(6, 6, bathOne);
     }
+
+
     public void setUpGameTimer()
     {
         gameTimer = new GameTimer();
@@ -336,12 +313,15 @@ public class ParserEngine {
         gameTimer.start();
     }
 
+
     public void setUpSurvivalTimer()
     {
         survivalTimer = new SurvivalTimer();
         survivalTimer.setSeconds(10);
         survivalTimer.start();
     }
+
+
     public Window getWindow() {
         return window;
     }
@@ -361,9 +341,102 @@ public class ParserEngine {
         this.db = db;
     }
 
-    //create methods to trigger an update between two tables (Inventory and Item)
-    //player push button --> trigger methods --> take knife out of Inventory table and put it into Item table
-    //if there are 3 knives --> 2 knives left in Inventory table and 1 knife in Item table 
+
+    public HashSet<String> getVerbs() {
+        //declare a new hashset
+        verbs = new HashSet<>();
+        String[] verbList = {"take", "hide", "lock", "grab", "drop", "open", "exit", "go", "look", "unlock", "turn", "search"};
+        verbs.addAll(Arrays.asList(verbList));
+        return verbs;
+    }
+
+
+    public HashSet<String> getNouns() {
+        //declare a new hashset
+        nouns = new HashSet<>();
+        String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
+        "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
+        "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
+        "bedroom", "hallway", "basement", "living room", "bathroom"};
+        nouns.addAll(Arrays.asList(nounList));
+        return nouns;
+    }
+
+
+    /*
+    Search Method:
+    "search" - "noun - room name"
+    go to that builder class caller the roomBuilder
+    grab the items in the builder class
+
+    add the room names in the noun HashSet<>
+     */
+
+    public String RoomSearch(String noun, String verb) {
+
+        String result = "";
+        
+        
+        //validation for verb search
+        if (verb.equals("search")) {
+
+            //continue with switch statement
+            switch(noun){
+                case "kitchen":
+                    System.out.println(Kitchen.searchRoom());
+                    //which part of the kitchen are you searching first?
+                    break;
+                case "bedroom":
+                    System.out.println();
+                    break;
+                case "basement":
+                    System.out.println();
+                    break;
+                case "bathroom":
+                    System.out.println();
+                    break;
+                case "living room":
+                    System.out.println();
+                    break;
+                case "hallway":
+                    System.out.println();
+                    break;
+
+            }
+
+
+        }
+
+        else
+        {
+            System.out.println("Please use the verb Search in your command to search the room.");
+        }
+
+       return result;
+    }
+
+
+    //search cabinet
+    public String CabinetSearch(String noun, String verb)
+    {
+        String result = "";
+
+        //validation for verb search
+        if (verb.equals("search")) {
+            if(noun.equals("cabinet"))
+            {
+                System.out.println(cabinet.search());
+            }
+        }
+
+        else
+        {
+            System.out.println("Please use the verb Search in your command to search the room.");
+        }
+
+        return result;
+
+    }
 
 
 
