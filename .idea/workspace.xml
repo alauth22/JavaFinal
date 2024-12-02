@@ -120,7 +120,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733160089727</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160226150</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160226150</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160323195</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160323195</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160366912</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160366912</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
