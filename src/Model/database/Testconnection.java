@@ -6,7 +6,7 @@ import java.sql.SQLException;
 //class to test database connection
 public class Testconnection {
     public static void main(String[] args) throws SQLException {
-        Model.Database db = new Database();
+        Model.database.Database db = new Database();
         Connection connection = db.getConnection();
 
         if (connection != null) {

@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="commit database and player changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/AppClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/AppClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Database.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Testconnection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/database/Testconnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Testconnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +100,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733186958658</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="commit database and player changes">
+      <option name="closed" value="true" />
+      <created>1733187184738</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733187184738</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
