@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change">
-      <change afterPath="$PROJECT_DIR$/src/Model/Levels2/Cabinet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Levels2/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Levels2/Room.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Levels2/RoomBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Levels2/RoomObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
-    </list>
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +35,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/alauth22/JavaFinal.git&quot;,
-    &quot;accountId&quot;: &quot;525ed17e-c4cb-4d8e-8e1a-76a31f6b28ac&quot;
+    &quot;accountId&quot;: &quot;63891d79-37a5-40ba-a408-9409a942d22f&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -55,22 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.LoggingExample.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Testconnection.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "ameliaBranch",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.LoggingExample.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Testconnection.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#74 on master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -112,28 +104,52 @@
       <option name="project" value="LOCAL" />
       <updated>1732477374864</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160047823</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160047823</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160089727</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160089727</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160226150</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160226150</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160323195</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160323195</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Revert change">
+      <option name="closed" value="true" />
+      <created>1733160366912</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733160366912</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit to LoggingExample.java and write to Flat File - Mariana" />
     <MESSAGE value="Revert change" />
     <option name="LAST_COMMIT_MESSAGE" value="Revert change" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/controller/ParserEngine.java</url>
-          <line>137</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/controller/ParserEngine.java</url>
-          <line>136</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
