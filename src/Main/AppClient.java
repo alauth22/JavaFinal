@@ -1,9 +1,7 @@
 package Main;
-import Model.Player;
 import Model.PlayerCords;
 import controller.ParserEngine;
 import View.Window;
-import Model.Database;
 
 
 public enum AppClient {
