@@ -1,112 +1,72 @@
 package controller;
+import Model.Database;
+import Model.levels.Item;
+import Model.levels.Room;
+import Model.levels.RoomBuilder;
+import Model.levels.objects.RoomObjects;
 import Model.PlayerCords;
 import View.Window;
 import Model.gameTimer.GameTimer;
 import Model.gameTimer.SurvivalTimer;
 import Model.levels.LevelGridSystem;
-import Model.levels.bathroom.Bath;
-import Model.levels.bathroom.BathBuilder;
-import Model.levels.garage.Garage;
-import Model.levels.garage.GarageBuilder;
-import Model.levels.hallway.Hallway;
-import Model.levels.hallway.HallwayBuilder;
-import Model.levels.kitchen.Kitchen;
-import Model.levels.kitchen.KitchenBuilder;
-import Model.levels.livingroom.Living;
-import Model.levels.livingroom.LivingBuilder;
+
 
 import java.util.*;
 
 public class ParserEngine {
-    //Scanner Parser
 
     //create private sets for nouns and verbs so that they remain unique.
     //could try an array or a dictionary, but I don't care about order.
-    private Set<String> verbs;
-    private Set<String> nouns;
+    private HashSet<String> verbs;
+    private HashSet<String> nouns;
     private Window window;
     private Database db;
     private ArrayList<String> commandHistory;
-    private LevelGridSystem levelGridSystem;
+    private LevelGridSystem levels;
 
     //GAME ENGINE STUFF
-    //private variables to hold the parameter values
-    //private Window window;
-    //private Database db;
     private GameTimer gameTimer;
     private SurvivalTimer survivalTimer;
-    private LevelGridSystem levels;
     private PlayerCords playerCords;
 
+    private Room kitchen;
+    //private Cabinet cabinet1;
+    private RoomObjects cabinet;
+    private RoomObjects refrigerator;
+
+    //level design
+    Room hallwayOne;
+    Room hallwayTwo;
+    Room hallwayThree;
+    Room hallwayFour;
+    Room hallwayFive;
+    Room hallwaySix;
+    Room hallwaySeven;
+
     //constructor
-    public ParserEngine(Window window, Database db, PlayerCords playerCords) {
+    public ParserEngine(Window window, Database db) {
 
         this.db = db;
         this.window = window;
-        this.playerCords = playerCords;
 
-
-        //GAME ENGINE
-        //this.setDb(db);
-        //this.setWindow(window);
         levels = new LevelGridSystem();
-        //setUpGameTimer();
-        //setUpSurvivalTimer();
+        playerCords = new PlayerCords(levels, 4,4);
+        //creates the entire house with rooms
         createRooms();
+
+
 
         //initialize the HashSet, which implements the Set interface
         verbs = new HashSet<>();
         nouns = new HashSet<>();
         commandHistory = new ArrayList<>();
 
-        //add to verbs set.
-        verbs.add("take"); //keep
-        verbs.add("hide"); //keep
-        verbs.add("lock"); //keep
-        verbs.add("grab"); //keep
-        verbs.add("drop"); //keep
-        verbs.add("open"); //keep
-        verbs.add("exit"); //keep
-        verbs.add("go"); //keep
-        verbs.add("look"); //keep
-        verbs.add("unlock"); //keep
-        verbs.add("turn");
-//        verbs.add("turn on"); //keep
-//        verbs.add("turn off");
+        /*
+        Calls respective methods that will populate the hashsets with specific verb and noun string values.
+         */
+        verbs = getVerbs();
+        nouns = getNouns();
 
-        //add to nouns set.
-        nouns.add("key");
-        nouns.add("door");
-        nouns.add("room");
-        nouns.add("flashlight");
-        nouns.add("award");
-        nouns.add("upstairs");
-        nouns.add("downstairs");
-        nouns.add("drawer");
-        nouns.add("cabinet");
-        nouns.add("couch");
-        nouns.add("curtain");
-        nouns.add("noisemaker");
-        nouns.add("lights");
-        nouns.add("window");
-        nouns.add("fridge");
-        nouns.add("car");
-        nouns.add("sink");
-        nouns.add("desk");
-        nouns.add("bed");
-        nouns.add("stove");
-        nouns.add("shelves");
-        nouns.add("bookshelf");
-        nouns.add("table");
-        nouns.add("chair");
-        nouns.add("nightstand");
-        nouns.add("counter");
-        nouns.add("boxes");
-        nouns.add("timer");
-        nouns.add("north");
-        nouns.add("south");
-        nouns.add("west");
-        nouns.add("east");
 
     }
 
@@ -163,7 +123,13 @@ public class ParserEngine {
             commandHistory.add(noun);
         }
 
+        //OUR TESTING BY CALLING THESE METHODS
         trackMovement(verb, noun);
+        RoomSearch(noun, verb);
+        CabinetSearch(noun, verb);
+        showMap(noun, verb);
+
+
 
         /*
         I need to ensure that the string array returned is indeed in the order of [0] = verb
@@ -232,51 +198,42 @@ public class ParserEngine {
     //switch case method to keep track of
     private void trackMovement(String verb, String noun)
     {
-
         /*
         if verb = go
         then we need a switch statement for noun for north, south, east, OR west
          */
 
-        if(verb.equalsIgnoreCase("go"))
-        {
-            int xNorth = playerCords.getCoorX() - 1;
-            int xSouth = playerCords.getCoorX() + 1;
+        int currentX = playerCords.getCoordX();
+        int currentY = playerCords.getCoordY();
 
-            int yEast = playerCords.getCoorY() + 1;
-            int yWest = playerCords.getCoorY() - 1;
+        int newX = currentX;
+        int newY = currentY;
 
-            levels.setCoorX(xNorth);
-            //levels.getCoorX(xSouth);
-            levels.setCoorY(yWest);
+        switch (noun.toLowerCase()) {
+            case "north":
+                newX--;
+                break;
+            case "south":
+                newX++;
+                break;
+            case "west":
+                newY--;
+                break;
+            case "east":
+                newY++;
+                break;
+            default:
+                System.out.println("Invalid direction.");
+                return;
+        }
 
-
-
-            switch (noun) {
-                case "north":
-                    System.out.println("Going North!");
-                    playerCords.setCoorX(xNorth);
-                    levels.moveNorth();
-                    break;
-                case "south":
-                    System.out.println("Going South!");
-                    playerCords.setCoorX(xSouth);
-                    levels.moveSouth();
-                    break;
-                case "west":
-                    System.out.println("Going West!");
-                    playerCords.setCoorY(yWest);
-                    levels.moveWest();
-                    break;
-                case "east":
-                    System.out.println("Going East!");
-                    playerCords.setCoorY(yEast);
-                    levels.moveEast();
-                    break;
-
-            }
-
-
+        if (levels.isValidRoom(newX, newY) && levels.getRoomToGrid(newX, newY) != null) {
+            playerCords.setCoordX(newX);
+            playerCords.setCoordY(newY);
+            Room currentRoom = levels.getRoomToGrid(newX, newY);
+            System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
+        } else {
+            System.out.println("You can't move " + noun + ". There's no room there.");
         }
 
     }
@@ -291,43 +248,98 @@ public class ParserEngine {
         createLivingRooms();
 
 
-        levels.printMap();
+
     }
+
 
     public void createHallways()
     {
-        Hallway hallwayOne = new HallwayBuilder().picture().build();
-        levels.setRoomToGrid(7, 4, hallwayOne);
+        hallwayOne = new Room("Hallway");
+        hallwayTwo = new Room("Hallway");
+        hallwayThree = new Room("Hallway");
+        hallwayFour = new Room("Hallway");
+        hallwayFive = new Room("Hallway");
+        hallwaySix = new Room("Hallway");
+        hallwaySeven = new Room("Hallway");
 
-        Hallway hallwayTwo = new HallwayBuilder().build();
-        levels.setRoomToGrid(6, 4, hallwayTwo);
 
-        Hallway hallwayThree = new HallwayBuilder().build();
-        levels.setRoomToGrid(5,4,hallwayThree);
+        hallwayOne = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(7,4, hallwayOne);
+
+        hallwayTwo = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(6,4, hallwayTwo);
+
+        hallwayThree = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(5,4, hallwayThree);
+
+        hallwayFour = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(4,4, hallwayFour);
+
+        hallwayFive = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(3,4, hallwayFive);
+
+        hallwaySix = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(3,5, hallwaySix);
+
+        hallwaySeven = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(3,3, hallwaySeven);
+
+
     }
+
 
     public void createKitchens()
     {
-        Kitchen kitchenOne = new KitchenBuilder().bath().toilet().cabinet().build();
-        levels.setRoomToGrid(6, 3, kitchenOne);
+        kitchen = new Room("Kitchen");
+        cabinet = new RoomObjects("Cabinet");
+        refrigerator = new RoomObjects("Refrigerator");
+        cabinet.addItem(new Item("Key"));
+
+
+        //this is what needs to be in the search method parser engine
+        kitchen = new RoomBuilder("Kitchen")
+                .setLightsOn(true)
+                .addObject(cabinet)
+                .addObject(refrigerator)
+
+                .build();
+
+        levels.setRoomToGrid(6, 3, kitchen);
     }
+
 
     public void createLivingRooms()
     {
-        Living livingOne = new LivingBuilder().recliner().couch().build();
-        levels.setRoomToGrid(5,3, livingOne);
+
     }
+
 
     public void createGarage()
     {
-        Garage garageOne = new GarageBuilder().car().toolBox().desk().build();
-        levels.setRoomToGrid(6, 5, garageOne);
+
     }
+
+
     public void createBathrooms()
     {
-        Bath bathOne = new BathBuilder().toilet().shower().sink().build();
-        levels.setRoomToGrid(6, 6, bathOne);
+
     }
+
+
     public void setUpGameTimer()
     {
         gameTimer = new GameTimer();
@@ -335,12 +347,15 @@ public class ParserEngine {
         gameTimer.start();
     }
 
+
     public void setUpSurvivalTimer()
     {
         survivalTimer = new SurvivalTimer();
         survivalTimer.setSeconds(10);
         survivalTimer.start();
     }
+
+
     public Window getWindow() {
         return window;
     }
@@ -360,10 +375,118 @@ public class ParserEngine {
         this.db = db;
     }
 
-    //create methods to trigger an update between two tables (Inventory and Item)
-    //player push button --> trigger methods --> take knife out of Inventory table and put it into Item table
-    //if there are 3 knives --> 2 knives left in Inventory table and 1 knife in Item table 
 
+    public HashSet<String> getVerbs() {
+        //declare a new hashset
+        verbs = new HashSet<>();
+        String[] verbList = {"take", "hide", "lock", "grab", "drop", "open", "exit", "go", "look", "unlock", "turn", "search", "show"};
+        verbs.addAll(Arrays.asList(verbList));
+        return verbs;
+    }
+
+
+    public HashSet<String> getNouns() {
+        //declare a new hashset
+        nouns = new HashSet<>();
+        String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
+        "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
+        "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
+        "bedroom", "hallway", "basement", "living room", "bathroom", "refrigerator", "map"};
+        nouns.addAll(Arrays.asList(nounList));
+        return nouns;
+    }
+
+
+    /*
+    Search Method:
+    "search" - "noun - room name"
+    go to that builder class caller the roomBuilder
+    grab the items in the builder class
+
+    add the room names in the noun HashSet<>
+     */
+
+    public String RoomSearch(String noun, String verb) {
+
+        String result = "";
+        
+        
+        //validation for verb search
+        if (verb.equals("search")) {
+
+            //continue with switch statement
+            switch(noun){
+                case "kitchen":
+                    System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()));
+                    //which part of the kitchen are you searching first?
+                    break;
+                case "bedroom":
+                    System.out.println();
+                    break;
+                case "basement":
+                    System.out.println();
+                    break;
+                case "bathroom":
+                    System.out.println();
+                    break;
+                case "living room":
+                    System.out.println();
+                    break;
+                case "hallway":
+                    System.out.println();
+                    break;
+
+            }
+
+
+        }
+
+        else
+        {
+            System.out.println("Please use the verb Search in your command to search the room.");
+        }
+
+       return result;
+    }
+
+
+    //search cabinet
+    public String CabinetSearch(String noun, String verb)
+    {
+        String result = "";
+
+
+        //validation for verb search
+        if (verb.equals("search")) {
+            if(noun.equals("cabinet"))
+            {
+                System.out.println(cabinet.search());
+            }
+            else if(noun.equals("refrigerator"))
+            {
+                System.out.println(refrigerator.search());
+            }
+        }
+
+        else
+        {
+            System.out.println("Please use the verb Search in your command to search the room.");
+        }
+
+        return result;
+
+    }
+
+    public void showMap(String noun, String verb)
+    {
+        if(verb.equals("show"))
+        {
+            if(noun.equals("map"))
+            {
+                levels.printMap(playerCords);
+            }
+        }
+    }
 
 
 }

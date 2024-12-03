@@ -1,4 +1,4 @@
-package Model.Levels2;
+package Model.levels;
 
 public class Item {
 
@@ -17,7 +17,7 @@ public class Item {
 
     @Override
     public boolean equals(Object obj) {
-        if(this.equals(obj))
+        if(this == obj)
         {
             return true;
         }
