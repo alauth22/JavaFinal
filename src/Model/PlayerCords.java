@@ -1,41 +1,76 @@
 package Model;
 
+import Model.levels.LevelGridSystem;
+
 public class PlayerCords {
 
-    private int coorX;
-    private int coorY;
+    private int coordX;
+    private int coordY;
+    private LevelGridSystem levelGridSystem;
 
-
-    public PlayerCords()
-    {
-        this.coorX = 7;
-        this.coorY = 7;
+    public PlayerCords(LevelGridSystem levelGridSystem, int startX, int startY) {
+        this.levelGridSystem = levelGridSystem;
+        this.coordX = startX;
+        this.coordY = startY;
     }
 
 
-    public int getCoorX()
+    public int getCoordX()
     {
-        return coorX;
+        return coordX;
     }
 
     //setter for coorX
-    public void setCoorX(int coorX)
+    public void setCoordX(int coorX)
     {
-        this.coorX = coorX;
+        this.coordX = coorX;
 
     }
 
     //getter for coorY
-    public int getCoorY()
+    public int getCoordY()
     {
-        return coorY;
+        return coordY;
     }
 
-    //setter for coorY
-    public void setCoorY(int coorY)
+    //setter for coordY
+    public void setCoordY(int coorY)
     {
-        this.coorY = coorY;
+        this.coordY = coorY;
     }
+
+    public void move(String direction)
+    {
+        int newX = coordX;
+        int newY = coordY;
+
+        switch (direction.toLowerCase()) {
+            case "north":
+                newX -= 1;
+                break;
+            case "south":
+                newX += 1;
+                break;
+            case "west":
+                newY -= 1;
+                break;
+            case "east":
+                newY += 1;
+                break;
+            default:
+                System.out.println("Invalid direction.");
+                return;
+        }
+
+        if (levelGridSystem.isValidRoom(newX, newY)) {
+            coordX = newX;
+            coordY = newY;
+            System.out.println("Moved " + direction + " to (" + coordX + ", " + coordY + ").");
+        } else {
+            System.out.println("You can't move " + direction + ". No room there!");
+        }
+    }
+
 
 
 }

@@ -20,11 +20,11 @@ public enum AppClient {
         private Window window = new Window();
         private Database db = new Database();
 
-        PlayerCords playerCords = new PlayerCords();
+
 
         //using the GameEngne constructor
         //private GameEngine gameEngine = new GameEngine(window, db);
-        private ParserEngine parserEngine  = new ParserEngine(window, db, playerCords);
+        private ParserEngine parserEngine  = new ParserEngine(window, db);
 
 
         //getters and setters
