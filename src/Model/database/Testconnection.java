@@ -1,5 +1,4 @@
 package Model.database;
-import Model.Database;
 
 import java.sql.Connection;
 import java.sql.SQLException;

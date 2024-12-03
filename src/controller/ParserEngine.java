@@ -1,5 +1,4 @@
 package controller;
-import Model.Database;
 import Model.PlayerCords;
 import View.Window;
 import Model.gameTimer.GameTimer;

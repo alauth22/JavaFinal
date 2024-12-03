@@ -4,18 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change">
-      <change afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/database/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/database/Testconnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="commit database and player changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaFinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFinal.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Inventory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Item.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/AppClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/AppClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Database.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Testconnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/database/Testconnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Testconnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +47,9 @@
     &quot;accountId&quot;: &quot;525ed17e-c4cb-4d8e-8e1a-76a31f6b28ac&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -100,12 +99,21 @@
       <option name="project" value="LOCAL" />
       <updated>1730853636491</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="commit database and player changes">
+      <option name="closed" value="true" />
+      <created>1733186958658</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733186958658</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit to LoggingExample.java and write to Flat File - Mariana" />
     <MESSAGE value="Revert change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Revert change" />
+    <MESSAGE value="commit database and player changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit database and player changes" />
   </component>
 </project>
