@@ -1,7 +1,8 @@
 package Model.levels;
 
-import Model.Player;
+
 import Model.PlayerCords;
+import Model.levels.room.Room;
 
 public class LevelGridSystem {
 
@@ -19,7 +20,7 @@ public class LevelGridSystem {
 
     public LevelGridSystem()
     {
-        levelGrid = new Model.levels.Room[8][8];
+        levelGrid = new Room[8][8];
     }
 
     public void setRoomToGrid(int rows, int columns, Room room)
