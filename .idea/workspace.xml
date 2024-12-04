@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/AppClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/AppClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/EntityModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/PlayerCords.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/PlayerCords.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/LevelGridSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/LevelGridSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/RoomBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/RoomObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/objects/Cabinet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/objects/Refrigerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/objects/RoomObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
-    </list>
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -171,12 +158,37 @@
       <option name="project" value="LOCAL" />
       <updated>1733160366912</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update">
+      <option name="closed" value="true" />
+      <created>1733348673739</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733348673739</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update">
+      <option name="closed" value="true" />
+      <created>1733348700745</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1733348700745</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update">
+      <option name="closed" value="true" />
+      <created>1733348734462</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1733348734462</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit to LoggingExample.java and write to Flat File - Mariana" />
     <MESSAGE value="Revert change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Revert change" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>
