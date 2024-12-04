@@ -28,7 +28,6 @@ public class GameTimer {
         if(seconds % 15 == 0 && seconds != 0)
         {
            action.run();
-
         }
     }
     public void setSeconds(int time)
