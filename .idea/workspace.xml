@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="update" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="another Update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,7 +61,8 @@
     "last_opened_file_path": "C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "settings.sync"
   }
 }]]></component>
   <component name="RunManager">
@@ -182,13 +183,63 @@
       <option name="project" value="LOCAL" />
       <updated>1733348734462</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="update">
+      <option name="closed" value="true" />
+      <created>1733348813021</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1733348813021</updated>
+    </task>
+    <task id="LOCAL-00014" summary="update">
+      <option name="closed" value="true" />
+      <created>1733349213551</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1733349213551</updated>
+    </task>
+    <task id="LOCAL-00015" summary="update">
+      <option name="closed" value="true" />
+      <created>1733349231807</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1733349231807</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal">
+      <option name="closed" value="true" />
+      <created>1733349326309</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1733349326309</updated>
+    </task>
+    <task id="LOCAL-00017" summary="another Update">
+      <option name="closed" value="true" />
+      <created>1733352259365</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1733352259365</updated>
+    </task>
+    <task id="LOCAL-00018" summary="another Update">
+      <option name="closed" value="true" />
+      <created>1733352269618</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733352269618</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit to LoggingExample.java and write to Flat File - Mariana" />
     <MESSAGE value="Revert change" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal" />
+    <MESSAGE value="another Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="another Update" />
   </component>
 </project>
