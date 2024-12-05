@@ -1,17 +1,16 @@
-package Model.levels.objects;
+package Model.levels.room;
 
 import Model.levels.Item;
-import Model.levels.RoomObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Refrigerator implements RoomObject {
+public class RoomObjects implements RoomObject {
 
-    String name;
+    private String name;
     private List<Item> items;
 
-    public Refrigerator(String name)
+    public RoomObjects(String name)
     {
         this.items = new ArrayList<>();
         this.name = name;

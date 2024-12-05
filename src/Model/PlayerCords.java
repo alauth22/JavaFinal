@@ -39,37 +39,8 @@ public class PlayerCords {
         this.coordY = coorY;
     }
 
-    public void move(String direction)
-    {
-        int newX = coordX;
-        int newY = coordY;
 
-        switch (direction.toLowerCase()) {
-            case "north":
-                newX -= 1;
-                break;
-            case "south":
-                newX += 1;
-                break;
-            case "west":
-                newY -= 1;
-                break;
-            case "east":
-                newY += 1;
-                break;
-            default:
-                System.out.println("Invalid direction.");
-                return;
-        }
 
-        if (levelGridSystem.isValidRoom(newX, newY)) {
-            coordX = newX;
-            coordY = newY;
-            System.out.println("Moved " + direction + " to (" + coordX + ", " + coordY + ").");
-        } else {
-            System.out.println("You can't move " + direction + ". No room there!");
-        }
-    }
 
 
 

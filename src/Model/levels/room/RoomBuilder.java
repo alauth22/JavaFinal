@@ -1,4 +1,6 @@
-package Model.levels;
+package Model.levels.room;
+
+import Model.levels.Item;
 
 public class RoomBuilder {
 
