@@ -66,7 +66,7 @@ public class ParserEngine {
         this.window = window;
 
         levels = new LevelGridSystem();
-        playerCords = new PlayerCords(levels, 7,4);
+        playerCords = new PlayerCords(levels, 6,4);
         //creates the entire house with rooms
         createRooms();
 
@@ -168,25 +168,35 @@ public class ParserEngine {
         System.out.println("Welcome To Home Intrusion! Start the game and enter a verb and noun command " +
                 "(ex: 'Take Key'): ");
 
+        gameTimer = new GameTimer();
+
         //begin the while loop to loop through every person's turn until the game ends.
-        while (true)
-        {
-            //send message prompting user to type a command.
-            System.out.println("Enter Command: ");
 
-            //grab the user's input and set equal to a variable.
-            String userInput = scanner.nextLine();
-
-
-            //the loop will only break if the user uses the word "Exit"
-            if (userInput.equalsIgnoreCase("exit"))
+        gameTimer.start();
+            while (gameTimer.getSeconds() < 25)
             {
-                //break out of the loop.
-                break;
-            }
 
-            //call my function to parse the userinput.
-            parseInput(userInput);
+
+                //send message prompting user to type a command.
+                System.out.println("Enter Command: ");
+
+                //grab the user's input and set equal to a variable.
+                String userInput = scanner.nextLine();
+
+
+                //the loop will only break if the user uses the word "Exit"
+                if (userInput.equalsIgnoreCase("exit"))
+                {
+                    //break out of the loop.
+                    break;
+                }
+
+                //call my function to parse the userinput.
+                parseInput(userInput);
+
+
+
+
         }
 
         System.out.println("\n Game Over!");
@@ -229,22 +239,22 @@ public class ParserEngine {
             case "north":
 
                 newX--;
-                System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));
+
                 break;
             case "south":
 
                 newX++;
-                System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));
+
                 break;
             case "west":
 
                 newY--;
-                System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));
+
                 break;
             case "east":
 
                 newY++;
-                System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));
+
                 break;
             default:
                 //System.out.println("Invalid direction.");
@@ -254,7 +264,8 @@ public class ParserEngine {
         if (levels.isValidRoom(newX, newY) && levels.getRoomToGrid(newX, newY) != null) {
             playerCords.setCoordX(newX);
             playerCords.setCoordY(newY);
-            //Room currentRoom = levels.getRoomToGrid(newX, newY);
+            Room currentRoom = levels.getRoomToGrid(newX, newY);
+            System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));
             //System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
         } else {
             System.out.println("You can't move " + noun + ". There's no room there.");
@@ -290,7 +301,7 @@ public class ParserEngine {
         hallwayOne = new RoomBuilder("Hallway")
                 .setLightsOn(true)
                 .build();
-        levels.setRoomToGrid(7,4, hallwayOne);
+        levels.setRoomToGrid(3,4, hallwayOne);
 
         hallwayTwo = new RoomBuilder("Hallway")
                 .setLightsOn(true)
@@ -339,7 +350,6 @@ public class ParserEngine {
                 .setLightsOn(true)
                 .addObject(cabinet)
                 .addObject(refrigerator)
-
                 .build();
 
         levels.setRoomToGrid(6, 3, kitchen);
@@ -393,7 +403,7 @@ public class ParserEngine {
                 .addObject(halfbathToilet)
                 .addObject(halfbathSink)
                 .build();
-        levels.setRoomToGrid(7, 5, halfbath);
+        levels.setRoomToGrid(6, 5, halfbath);
     }
 
 
@@ -436,7 +446,7 @@ public class ParserEngine {
     public HashSet<String> getVerbs() {
         //declare a new hashset
         verbs = new HashSet<>();
-        String[] verbList = {"take", "hide", "lock", "grab", "drop", "open", "exit", "go", "look", "unlock", "turn", "search", "show"};
+        String[] verbList = {"take", "hide", "lock", "grab", "drop", "open", "exit", "go", "look", "unlock", "turn", "search", "show", "check"};
         verbs.addAll(Arrays.asList(verbList));
         return verbs;
     }
@@ -448,7 +458,7 @@ public class ParserEngine {
         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
-        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "recliner"};
+        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "recliner", "time"};
         nouns.addAll(Arrays.asList(nounList));
         return nouns;
     }
@@ -562,6 +572,14 @@ public class ParserEngine {
             if(noun.equals("map"))
             {
                 levels.printMap(playerCords);
+            }
+        }
+
+        if(verb.equals("check"))
+        {
+            if(noun.equals("time"))
+            {
+                System.out.println(gameTimer.getSeconds());
             }
         }
     }
