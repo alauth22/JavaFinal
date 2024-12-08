@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Revert change" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,12 +32,12 @@
     &quot;assignee&quot;: &quot;Randall442&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/alauth22/JavaFinal.git&quot;,
-    &quot;accountId&quot;: &quot;63891d79-37a5-40ba-a408-9409a942d22f&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/alauth22/JavaFinal",
+    "accountId": "71b3f993-faaa-4b5c-9784-00780f747139"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -47,37 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.LoggingExample.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Testconnection.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LoggingExample.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Testconnection.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "marianaBranch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -159,114 +144,20 @@
       <option name="project" value="LOCAL" />
       <updated>1733160366912</updated>
     </task>
-    <task id="LOCAL-00010" summary="update">
+    <task id="LOCAL-00010" summary="Revert change">
       <option name="closed" value="true" />
-      <created>1733348673739</created>
+      <created>1733685920048</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1733348673739</updated>
+      <updated>1733685920048</updated>
     </task>
-    <task id="LOCAL-00011" summary="update">
-      <option name="closed" value="true" />
-      <created>1733348700745</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1733348700745</updated>
-    </task>
-    <task id="LOCAL-00012" summary="update">
-      <option name="closed" value="true" />
-      <created>1733348734462</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1733348734462</updated>
-    </task>
-    <task id="LOCAL-00013" summary="update">
-      <option name="closed" value="true" />
-      <created>1733348813021</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1733348813021</updated>
-    </task>
-    <task id="LOCAL-00014" summary="update">
-      <option name="closed" value="true" />
-      <created>1733349213551</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1733349213551</updated>
-    </task>
-    <task id="LOCAL-00015" summary="update">
-      <option name="closed" value="true" />
-      <created>1733349231807</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1733349231807</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal">
-      <option name="closed" value="true" />
-      <created>1733349326309</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1733349326309</updated>
-    </task>
-    <task id="LOCAL-00017" summary="another Update">
-      <option name="closed" value="true" />
-      <created>1733352259365</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1733352259365</updated>
-    </task>
-    <task id="LOCAL-00018" summary="another Update">
-      <option name="closed" value="true" />
-      <created>1733352269618</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1733352269618</updated>
-    </task>
-    <task id="LOCAL-00019" summary="another Update">
-      <option name="closed" value="true" />
-      <created>1733357142867</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1733357142867</updated>
-    </task>
-    <task id="LOCAL-00020" summary="another Updated">
-      <option name="closed" value="true" />
-      <created>1733357625263</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1733357625263</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <option name="closed" value="true" />
-      <created>1733357660443</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1733357660443</updated>
-    </task>
-    <option name="localTasksCounter" value="22" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit to LoggingExample.java and write to Flat File - Mariana" />
     <MESSAGE value="Revert change" />
-    <MESSAGE value="update" />
-    <MESSAGE value="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal" />
-    <MESSAGE value="another Updateddd" />
-    <MESSAGE value="another Update" />
-    <MESSAGE value="another Updated" />
-    <MESSAGE value="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert change" />
   </component>
 </project>
