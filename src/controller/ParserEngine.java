@@ -92,7 +92,7 @@ public class ParserEngine {
                 "Select any verbs from this list: " + "\n" + sbVerb.toString() + "\n\n" +
                 "Select any nouns from this list: " + "\n" + sbNoun.toString() + "\n\n" +
                 "You will have 3 minutes to run through the home and grab essential items before the timer runs out and the " +
-                "intruder has caught you. Good luck! ");
+                "intruder has caught you. If a word is misspelled, you have 3 chances to correct and continue the game. Good luck! ");
 
         //begin the while loop to loop through every person's turn until the game ends.
         while (true)
@@ -215,19 +215,25 @@ public class ParserEngine {
         For some reason, 
          */
 
+
+        RoomSearch(noun, verb);
+        CabinetSearch(noun, verb);
+        trackMovement(verb, noun);
+        showMap(noun, verb);
+
         // Track movement and perform searches (testing purpose)
-        if(verb == "search")
-        {
-            RoomSearch(noun, verb);
-            CabinetSearch(noun, verb);
-
-        }
-        else
-        {
-            trackMovement(verb, noun);
-            showMap(noun, verb);
-
-        }
+//        if(verb == "search")
+//        {
+//            RoomSearch(noun, verb);
+//            CabinetSearch(noun, verb);
+//
+//        }
+//        else
+//        {
+//            trackMovement(verb, noun);
+//            showMap(noun, verb);
+//
+//        }
 
         // Return verb and noun as a String array
         return new String[]{verb, noun};
@@ -283,9 +289,9 @@ public class ParserEngine {
             case "east":
                 newY++;
                 break;
-            default:
-                System.out.println("Invalid direction.");
-                return;
+//            default:
+//                System.out.println("Invalid direction.");
+//                return;
         }
 
         if (levels.isValidRoom(newX, newY) && levels.getRoomToGrid(newX, newY) != null) {
@@ -470,6 +476,8 @@ public class ParserEngine {
     public String RoomSearch(String noun, String verb) {
 
         String result = "";
+        int currentX = playerCords.getCoordX();
+        int currentY = playerCords.getCoordY();
         
         
         //validation for verb search
@@ -478,7 +486,14 @@ public class ParserEngine {
             //continue with switch statement
             switch(noun){
                 case "kitchen":
-                    System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()));
+                    if(levels.getRoomToGrid(currentX, currentY) != kitchen)
+                    {
+                        System.out.println("You are not in a kitchen");
+                    }
+                    else
+                    {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
                     //which part of the kitchen are you searching first?
                     break;
                 case "bedroom":
@@ -487,17 +502,57 @@ public class ParserEngine {
                 case "basement":
                     System.out.println();
                     break;
-                case "bathroom":
-                    System.out.println();
-                    break;
-                case "living room":
-                    System.out.println();
-                    break;
+//                case "bathroom":
+//                    if(levels.getRoomToGrid(currentX, currentY) != bathroom && levels.getRoomToGrid(currentX, currentY) != halfbath)
+//                    {
+//                        System.out.println("You are not in a bathroom!");
+//                    }
+//                    else
+//                    {
+//                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+//                    }
+//                    break;
+//                case "livingroom":
+//                    if(levels.getRoomToGrid(currentX, currentY) != livingRoom)
+//                    {
+//                        System.out.println("You are not in a living room!");
+//                    }
+//                    else
+//                    {
+//                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+//                    }
+//                    break;
                 case "hallway":
                     System.out.println();
                     break;
 
             }
+
+
+
+
+//            switch(noun){
+//                case "kitchen":
+//                    System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()));
+//                    //which part of the kitchen are you searching first?
+//                    break;
+//                case "bedroom":
+//                    System.out.println();
+//                    break;
+//                case "basement":
+//                    System.out.println();
+//                    break;
+//                case "bathroom":
+//                    System.out.println();
+//                    break;
+//                case "living room":
+//                    System.out.println();
+//                    break;
+//                case "hallway":
+//                    System.out.println();
+//                    break;
+//
+//            }
 
 
         }
