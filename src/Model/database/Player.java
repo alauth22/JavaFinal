@@ -1,4 +1,9 @@
 package Model.database;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,23 +79,108 @@ public class Player {
         this.quantity = quantity;
     }
 
-    // Method to decrease the quantity of the item
-    public void decreaseItemQuantity(int decrement) {
-        if (quantity >= decrement) {
-            quantity -= decrement;
-        } else {
-            System.out.println("Not enough quantity to decrease.");
+    //Method-query to update Quantity
+    public void updateQuantity(Database db, int newQuantity) {
+        String query = "UPDATE player SET quantity = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, newQuantity); // Replace the first '?' with the new quantity
+            pstmt.setInt(2, this.id);     // Replace the second '?' with the player's ID
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                this.quantity = newQuantity;
+                System.out.println("Quantity updated successfully for Player ID: " + this.id);
+            } else {
+                System.out.println("No record found for the given ID.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating quantity: " + e.getMessage());
         }
     }
 
-    // Method to update the quantity of the item
-    public void updateItemQuantity(int newQuantity) {
-        if (newQuantity >= 0) {
-            this.quantity = newQuantity;
-        } else {
-            System.out.println("Quantity cannot be negative.");
+    //Method-query to update Achievement
+    public void updateAchievement(Database db, String newAchievement){
+        String query = "UPDATE player SET achievement = ? WHERE id ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Set the values for the placeholders
+            pstmt.setString(1, newAchievement);  // Set the new achievement
+            pstmt.setInt(2, this.id);  // Set the player's ID as the condition for update
+
+            // Execute the update query
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                this.achievement = newAchievement;  // Update the achievement in the Player object
+                System.out.println("Achievement updated successfully for Player ID: " + this.id);
+            } else {
+                System.out.println("No record found for the given Player ID.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating achievement: " + e.getMessage());
         }
     }
+
+    // Method-query to update Item
+    public void updateItem(Database db, String newItem) {
+        String query = "UPDATE player SET item = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Set the values for the placeholders
+            pstmt.setString(1, newItem);  // Set the new item
+            pstmt.setInt(2, this.id);     // Set the player's ID as the condition for update
+
+            // Execute the update query
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                this.item = newItem;  // Update the item in the Player object
+                System.out.println("Item updated successfully for Player ID: " + this.id);
+            } else {
+                System.out.println("No record found for the given Player ID.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating item: " + e.getMessage());
+        }
+    }
+
+    // Method-query to update Name
+    public void updateName(Database db, String newName) {
+        String query = "UPDATE player SET name = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Set the values for the placeholders
+            pstmt.setString(1, newName);  // Set the new name
+            pstmt.setInt(2, this.id);     // Set the player's ID as the condition for update
+
+            // Execute the update query
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                this.name = newName;  // Update the name in the Player object
+                System.out.println("Name updated successfully for Player ID: " + this.id);
+            } else {
+                System.out.println("No record found for the given Player ID.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating name: " + e.getMessage());
+        }
+    }
+
 
     // Static method to get the list of available items
     public static List<String> getItems() {
