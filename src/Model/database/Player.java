@@ -80,6 +80,8 @@ public class Player {
     }
 
     //Method-query to update Quantity
+
+    //Add return statement to know the updated quantity of items
     public void updateQuantity(Database db, int newQuantity) {
         String query = "UPDATE player SET quantity = ? WHERE id = ?";
 
