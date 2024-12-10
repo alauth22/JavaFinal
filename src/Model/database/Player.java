@@ -14,7 +14,6 @@ public class Player {
     private String achievement; // Achievement the player has earned
     private String item; // Current item the player possesses
     private int quantity; // Quantity of the current item
-
     // Static list to store available items
     private static final List<String> items = new ArrayList<>();
 
@@ -201,4 +200,3 @@ public class Player {
                 '}';
     }
 }
-
