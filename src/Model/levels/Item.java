@@ -1,36 +1,51 @@
 package Model.levels;
 
 public class Item {
-
     private String name;
+    private int quantity;
 
-    public Item(String name)
-    {
+    // Constructor with name only
+    public Item(String name) {
         this.name = name;
-
+        this.quantity = 0; // Default quantity
     }
 
-    public String getName() {
+    // Constructor with name and quantity
+    public Item(String name, int quantity) {
+        this.name = name;
+        this.quantity = quantity;
+    }
 
+    // Getter and Setter for quantity
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // Getter and Setter for name
+    public String getName() {
         return name;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if(this == obj)
-        {
-            return true;
-        }
-        if(obj == null || !getClass().equals(obj.getClass()))
-        {
-            return false;
-
-        }
-
-        //casting item to obj even though the datatypes differ
-        Item item = (Item) obj;
-        return name.equalsIgnoreCase(item.name);
-
+    public void setName(String name) {
+        this.name = name;
     }
 
+    // Create default items
+    public static Model.levels.Item createKey() {
+        return new Model.levels.Item("key");
+    }
+
+    public static Model.levels.Item createFlashlight() {
+        return new Model.levels.Item("flashlight");
+    }
+
+    public static Model.levels.Item createMap() {
+        return new Model.levels.Item("map");
+    }
 }
+
+
