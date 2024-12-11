@@ -12,7 +12,6 @@ import Model.levels.LevelGridSystem;
 
 
 import java.util.*;
-
 public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
@@ -369,23 +368,36 @@ public class ParserEngine {
     }
 
 
-    public void createKitchens()
-    {
-        kitchen = new Room("Kitchen");
-        cabinet = new RoomObjects("Cabinet");
-        refrigerator = new RoomObjects("Refrigerator");
-        cabinet.addItem(new Item("Key"));
+    public void createKitchens() {
+        int playerId = 1;  // Player ID
+        String item = "Key";  // The item to update ("Key")
+
+        // Update the quantity of the player's item (add 1 item)
+        int updatedQuantity = db.updateQuantity(db, playerId, item);  // This adds 1 item to the inventory and returns the updated quantity
+
+        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
+            // Print the updated quantity
+            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
+
+            // Create the key item with the updated quantity
+            Item key = new Item(item, updatedQuantity);  // Create a new Item instance with updated quantity
+
+            kitchen = new Room("Kitchen");
+            cabinet = new RoomObjects("Cabinet");
+            refrigerator = new RoomObjects("Refrigerator");
+
+            cabinet.addItem(key); // add the item to the cabinet
 
 
-        //this is what needs to be in the search method parser engine
-        kitchen = new RoomBuilder("Kitchen")
-                .setLightsOn(true)
-                .addObject(cabinet)
-                .addObject(refrigerator)
+            //this is what needs to be in the search method parser engine
+            kitchen = new RoomBuilder("Kitchen")
+                    .setLightsOn(true)
+                    .addObject(cabinet)
+                    .addObject(refrigerator)
+                    .build();
 
-                .build();
-
-        levels.setRoomToGrid(6, 3, kitchen);
+            levels.setRoomToGrid(6, 3, kitchen);
+        }
     }
 
 
