@@ -12,6 +12,7 @@ import Model.levels.LevelGridSystem;
 
 
 import java.util.*;
+
 public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
@@ -32,6 +33,29 @@ public class ParserEngine {
     //private Cabinet cabinet1;
     private RoomObjects cabinet;
     private RoomObjects refrigerator;
+
+
+    private Room bathroom;
+    private RoomObjects sink;
+    private RoomObjects tub;
+    private RoomObjects toilet;
+    private RoomObjects cabinet2;
+
+    private Room bedroom;
+    private RoomObjects bed;
+    private RoomObjects dresser;
+    private RoomObjects vanity;
+
+    private Room livingRoom;
+    private RoomObjects sofa;
+    private RoomObjects lamp;
+    private RoomObjects piano;
+    private RoomObjects tv;
+
+    private Room garage;
+    private RoomObjects car;
+    private RoomObjects mower;
+
 
     //level design
     Room hallwayOne;
@@ -90,7 +114,7 @@ public class ParserEngine {
                 "Enter a verb-and-noun command to begin game. " + "\n\n" +
                 "Select any verbs from this list: " + "\n" + sbVerb.toString() + "\n\n" +
                 "Select any nouns from this list: " + "\n" + sbNoun.toString() + "\n\n" +
-                "You will have 3 minutes to run through the home and grab essential items before the timer runs out and the " +
+                "You will have 30 seconds to run through the home and grab essential items before the timer runs out and the " +
                 "intruder has caught you. If a word is misspelled, you have 3 chances to correct and continue the game. Good luck! ");
 
         //begin the while loop to loop through every person's turn until the game ends.
@@ -210,43 +234,15 @@ public class ParserEngine {
         commandHistory.add(verb);
         commandHistory.add(noun);
 
-        /*
-        For some reason, 
-         */
-
-
         RoomSearch(noun, verb);
         CabinetSearch(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
 
-        // Track movement and perform searches (testing purpose)
-//        if(verb == "search")
-//        {
-//            RoomSearch(noun, verb);
-//            CabinetSearch(noun, verb);
-//
-//        }
-//        else
-//        {
-//            trackMovement(verb, noun);
-//            showMap(noun, verb);
-//
-//        }
-
         // Return verb and noun as a String array
         return new String[]{verb, noun};
 
     }
-
-
-
-
-
-
-
-
-
 
 
     private void showCommand()
@@ -294,11 +290,16 @@ public class ParserEngine {
         }
 
         if (levels.isValidRoom(newX, newY) && levels.getRoomToGrid(newX, newY) != null) {
-            playerCords.setCoordX(newX);
-            playerCords.setCoordY(newY);
-            Room currentRoom = levels.getRoomToGrid(newX, newY);
-            System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
-        } else {
+            if (noun.equals("west") || noun.equals("east") || noun.equals("north") || noun.equals("south"))
+            {
+                playerCords.setCoordX(newX);
+                playerCords.setCoordY(newY);
+                Room currentRoom = levels.getRoomToGrid(newX, newY);
+                System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
+            }
+        }
+        else
+        {
             System.out.println("You can't move " + noun + ". There's no room there.");
         }
 
@@ -312,10 +313,10 @@ public class ParserEngine {
         createGarage();
         createKitchens();
         createLivingRooms();
-
-
+        createBedrooms();
 
     }
+
 
 
     public void createHallways()
@@ -368,54 +369,100 @@ public class ParserEngine {
     }
 
 
-    public void createKitchens() {
-        int playerId = 1;  // Player ID
-        String item = "Key";  // The item to update ("Key")
-
-        // Update the quantity of the player's item (add 1 item)
-        int updatedQuantity = db.updateQuantity(db, playerId, item);  // This adds 1 item to the inventory and returns the updated quantity
-
-        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
-            // Print the updated quantity
-            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
-
-            // Create the key item with the updated quantity
-            Item key = new Item(item, updatedQuantity);  // Create a new Item instance with updated quantity
-
-            kitchen = new Room("Kitchen");
-            cabinet = new RoomObjects("Cabinet");
-            refrigerator = new RoomObjects("Refrigerator");
-
-            cabinet.addItem(key); // add the item to the cabinet
+    public void createKitchens()
+    {
+        kitchen = new Room("kitchen");
+        cabinet = new RoomObjects("Cabinet");
+        refrigerator = new RoomObjects("Refrigerator");
+        cabinet.addItem(new Item("Key"));
 
 
-            //this is what needs to be in the search method parser engine
-            kitchen = new RoomBuilder("Kitchen")
-                    .setLightsOn(true)
-                    .addObject(cabinet)
-                    .addObject(refrigerator)
-                    .build();
+        //this is what needs to be in the search method parser engine
+        kitchen = new RoomBuilder("Kitchen")
+                .setLightsOn(true)
+                .addObject(cabinet)
+                .addObject(refrigerator)
 
-            levels.setRoomToGrid(6, 3, kitchen);
-        }
+                .build();
+
+        levels.setRoomToGrid(6, 3, kitchen);
     }
 
 
     public void createLivingRooms()
     {
+        livingRoom = new Room("livingroom");
+        sofa = new RoomObjects("Sofa");
+        tv = new RoomObjects("TV");
+        lamp = new RoomObjects("Lamp");
+        piano = new RoomObjects("Piano");
+
+        livingRoom = new RoomBuilder("livingroom")
+                .setLightsOn(true)
+                .addObject(sofa)
+                .addObject(tv)
+                .addObject(lamp)
+                .addObject(piano)
+                .build();
+
+        levels.setRoomToGrid(2,5,livingRoom);
+
 
     }
 
 
     public void createGarage()
     {
+        garage = new Room("garage");
+        car = new RoomObjects("car");
+        mower = new RoomObjects("mower");
 
+        garage = new RoomBuilder("Garage")
+                .setLightsOn(true)
+                .addObject(car)
+                .addObject(mower)
+                .build();
+
+        levels.setRoomToGrid(7, 5, garage);
     }
 
+
+    public void createBedrooms()
+    {
+        bedroom = new Room("bedroom");
+        bed = new RoomObjects("Bed");
+        dresser = new RoomObjects("Dresser");
+        vanity = new RoomObjects("Vanity");
+
+        bedroom = new RoomBuilder("Bedroom")
+                .setLightsOn(true)
+                .addObject(bed)
+                .addObject(dresser)
+                .addObject(vanity)
+                .build();
+
+        levels.setRoomToGrid(3,2, bedroom);
+
+    }
 
     public void createBathrooms()
     {
 
+        bathroom = new Room("bathroom");
+        cabinet2 = new RoomObjects("Bathroom Cabinet");
+        sink = new RoomObjects("Sink");
+        tub = new RoomObjects("Tub");
+        toilet = new RoomObjects("Toilet");
+
+        bathroom = new RoomBuilder("Bathroom")
+                .setLightsOn(true)
+                .addObject(cabinet2)
+                .addObject(sink)
+                .addObject(tub)
+                .addObject(toilet)
+                .build();
+
+        levels.setRoomToGrid(5,5, bathroom);
     }
 
 
@@ -470,7 +517,7 @@ public class ParserEngine {
         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
-        "bedroom", "hallway", "basement", "living room", "bathroom", "refrigerator", "map"};
+        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage"};
         nouns.addAll(Arrays.asList(nounList));
         return nouns;
     }
@@ -509,31 +556,43 @@ public class ParserEngine {
                     //which part of the kitchen are you searching first?
                     break;
                 case "bedroom":
-                    System.out.println();
+                    if(levels.getRoomToGrid(currentX, currentY) != bedroom)
+                    {
+                        System.out.println("You are not in the bedroom");
+                    }
+                    else {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
                     break;
-                case "basement":
-                    System.out.println();
+                case "garage":
+                    if(levels.getRoomToGrid(currentX, currentY) != garage)
+                    {
+                        System.out.println("You are not in the garage.");
+                    }
+                    else {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
                     break;
-//                case "bathroom":
+                case "bathroom":
+                    if(levels.getRoomToGrid(currentX, currentY) != bathroom)
 //                    if(levels.getRoomToGrid(currentX, currentY) != bathroom && levels.getRoomToGrid(currentX, currentY) != halfbath)
-//                    {
-//                        System.out.println("You are not in a bathroom!");
-//                    }
-//                    else
-//                    {
-//                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
-//                    }
-//                    break;
-//                case "livingroom":
-//                    if(levels.getRoomToGrid(currentX, currentY) != livingRoom)
-//                    {
-//                        System.out.println("You are not in a living room!");
-//                    }
-//                    else
-//                    {
-//                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
-//                    }
-//                    break;
+                    {
+                        System.out.println("You are not in a bathroom!");
+                    }
+                    else
+                    {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
+                    break;
+                case "livingroom":
+                    if(levels.getRoomToGrid(currentX, currentY) != livingRoom)
+                    {
+                        System.out.println("You are not in a livingroom.");
+                    }
+                    else {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
+                    break;
                 case "hallway":
                     System.out.println();
                     break;
