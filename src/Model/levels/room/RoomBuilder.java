@@ -14,6 +14,7 @@ public class RoomBuilder {
         room = new Room(name);
     }
 
+    //below are setters for the locked rooms and lights on
 
 
     public RoomBuilder setLocked(Item key) {
@@ -34,11 +35,9 @@ public class RoomBuilder {
     }
 
 
-
+    //to build the room by returning the room structure.
     public Room build() {
         return room;
     }
-
-
 
 }

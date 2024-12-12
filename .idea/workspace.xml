@@ -4,20 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Validation work in ParserEngine and Added Sound class">
-      <change afterPath="$PROJECT_DIR$/src/Model/Music/Sound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_2_2024_7_01_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_12_2_2024_7_01_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2024_6_22_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2024_6_22_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2024_7_00_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2024_7_00_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2024_7_01_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2024_7_01_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="more rooms added to map with objects. -amelia">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Sound.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Door.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Enemy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/levels/LevelGridSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/LevelGridSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,13 +170,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733683488515</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="more rooms added to map with objects.">
+      <option name="closed" value="true" />
+      <created>1733967105627</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1733967105627</updated>
+    </task>
+    <task id="LOCAL-00013" summary="more rooms added to map with objects. -amelia">
+      <option name="closed" value="true" />
+      <created>1733967114881</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1733967114881</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit to LoggingExample.java and write to Flat File - Mariana" />
     <MESSAGE value="Revert change" />
     <MESSAGE value="Validation work in ParserEngine and Added Sound class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Validation work in ParserEngine and Added Sound class" />
+    <MESSAGE value="more rooms added to map with objects." />
+    <MESSAGE value="more rooms added to map with objects. -amelia" />
+    <option name="LAST_COMMIT_MESSAGE" value="more rooms added to map with objects. -amelia" />
   </component>
 </project>
