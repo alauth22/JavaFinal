@@ -1,0 +1,1842 @@
+Index: src/controller/ParserEngine.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller;\r\nimport Model.database.Database;\r\nimport Model.levels.Item;\r\nimport Model.levels.room.Room;\r\nimport Model.levels.room.RoomBuilder;\r\nimport Model.levels.room.RoomObjects;\r\nimport Model.PlayerCords;\r\nimport View.Window;\r\nimport Model.gameTimer.GameTimer;\r\nimport Model.gameTimer.SurvivalTimer;\r\nimport Model.levels.LevelGridSystem;\r\n\r\n\r\nimport java.util.*;\r\n\r\npublic class ParserEngine {\r\n\r\n    //create private sets for nouns and verbs so that they remain unique.\r\n    //could try an array or a dictionary, but I don't care about order.\r\n    private HashSet<String> verbs;\r\n    private HashSet<String> nouns;\r\n    private Window window;\r\n    private Database db;\r\n    private ArrayList<String> commandHistory;\r\n    private LevelGridSystem levels;\r\n\r\n    //GAME ENGINE STUFF\r\n    private GameTimer gameTimer;\r\n    private SurvivalTimer survivalTimer;\r\n    private PlayerCords playerCords;\r\n\r\n    //level design Rooms\r\n    private Room kitchen;\r\n    private Room livingRoom;\r\n    private Room bathroom;\r\n    private Room halfbath;\r\n    private Room garage;\r\n    //level design room objects;\r\n    private RoomObjects kitchenSink;\r\n    private RoomObjects cabinet;\r\n    private RoomObjects refrigerator;\r\n    private RoomObjects couch;\r\n    private RoomObjects recliner;\r\n    private RoomObjects desk;\r\n    private RoomObjects halfbathSink;\r\n    private RoomObjects bathSink;\r\n    private RoomObjects car;\r\n    private RoomObjects bath;\r\n    private RoomObjects bathroomToilet;\r\n    private RoomObjects halfbathToilet;\r\n\r\n    //level design\r\n    //hallways\r\n    private Room hallwayOne;\r\n    private Room hallwayTwo;\r\n    private Room hallwayThree;\r\n    private Room hallwayFour;\r\n    private Room hallwayFive;\r\n    private Room hallwaySix;\r\n    private Room hallwaySeven;\r\n\r\n    //constructor\r\n    public ParserEngine(Window window, Database db) {\r\n\r\n        this.db = db;\r\n        this.window = window;\r\n\r\n        levels = new LevelGridSystem();\r\n        playerCords = new PlayerCords(levels, 6,4);\r\n        //creates the entire house with rooms\r\n        createRooms();\r\n\r\n\r\n\r\n        //initialize the HashSet, which implements the Set interface\r\n        verbs = new HashSet<>();\r\n        nouns = new HashSet<>();\r\n        commandHistory = new ArrayList<>();\r\n\r\n        /*\r\n        Calls respective methods that will populate the hashsets with specific verb and noun string values.\r\n         */\r\n        verbs = getVerbs();\r\n        nouns = getNouns();\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n    //\r\n    //method that parses user input and returns the string array.\r\n    public String[] parseInput(String input) {\r\n\r\n        /*\r\n        enter a room, look around\r\n        builder see a cabinet and a fridge,\r\n        search individually and smaller objects\r\n        and search those\r\n        */\r\n\r\n        //set these variables equal to null.\r\n        String verb = null;\r\n        String noun = null;\r\n\r\n        //set everything to lowercase and split it by space.\r\n        String[] words = input.toLowerCase().split(\" \");\r\n\r\n        //now check if the word is in our sets through a foreach loop.\r\n        for (String w : words) {\r\n            if(verbs.contains(w))\r\n            {\r\n                verb = w;\r\n            }\r\n            else if (nouns.contains(w))\r\n            {\r\n                noun = w;\r\n            }\r\n            else\r\n            {\r\n                System.out.println(\"This verb and/or noun do not exist in our database. Please type a new command!\");\r\n            }\r\n\r\n        }\r\n\r\n        if (verb == null)\r\n        {\r\n            System.out.println(\"Invalid verb. Please try again!\");\r\n        }\r\n        if (noun == null)\r\n        {\r\n            System.out.println(\"Invalid noun. Please try again!\");\r\n        }\r\n\r\n        //add the verb and noun to commandHistory to keep track of user's moves.\r\n        if(verb != null && noun != null)\r\n        {\r\n            commandHistory.add(verb);\r\n            commandHistory.add(noun);\r\n        }\r\n\r\n        //OUR TESTING BY CALLING THESE METHODS\r\n        trackMovement(verb, noun);\r\n        RoomSearch(noun, verb);\r\n        objectSearch(noun, verb);\r\n        showMap(noun, verb);\r\n\r\n\r\n\r\n        /*\r\n        I need to ensure that the string array returned is indeed in the order of [0] = verb\r\n        and [1] = noun for future usage. For this reason, I'm choosing an Array and not an Arraylist\r\n        because I don't want the size of that Array to dynamically change. Will return a new\r\n        array of size 2 with the new verb and noun.\r\n        */\r\n        return new String[]{verb, noun};\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n    //method to scan and send appropriate messages to the player.\r\n    public void scanText() {\r\n\r\n        //create a new scanner for user input\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"Welcome To Home Intrusion! Start the game and enter a verb and noun command \" +\r\n                \"(ex: 'Take Key'): \");\r\n\r\n        gameTimer = new GameTimer();\r\n\r\n        //begin the while loop to loop through every person's turn until the game ends.\r\n\r\n        gameTimer.start();\r\n            while (gameTimer.getSeconds() < 25)\r\n            {\r\n\r\n\r\n                //send message prompting user to type a command.\r\n                System.out.println(\"Enter Command: \");\r\n\r\n                //grab the user's input and set equal to a variable.\r\n                String userInput = scanner.nextLine();\r\n\r\n\r\n                //the loop will only break if the user uses the word \"Exit\"\r\n                if (userInput.equalsIgnoreCase(\"exit\"))\r\n                {\r\n                    //break out of the loop.\r\n                    break;\r\n                }\r\n\r\n                //call my function to parse the userinput.\r\n                parseInput(userInput);\r\n\r\n\r\n\r\n\r\n        }\r\n\r\n        System.out.println(\"\\n Game Over!\");\r\n        showCommand();\r\n        commandHistory.clear();\r\n        //Close the scanner\r\n        scanner.close();\r\n\r\n    }\r\n\r\n\r\n\r\n    private void showCommand()\r\n    {\r\n        for(int i = 0; i < commandHistory.size(); i += 2)\r\n        {\r\n            String verbValue = commandHistory.get(i);\r\n            String nounValue = commandHistory.get(i + 1);\r\n            System.out.println(\"Verb: \" + verbValue  + \" |\" + \" Noun: \" + nounValue);\r\n        }\r\n    }\r\n\r\n\r\n\r\n    //switch case method to keep track of\r\n    private void trackMovement(String verb, String noun)\r\n    {\r\n        /*\r\n        if verb = go\r\n        then we need a switch statement for noun for north, south, east, OR west\r\n         */\r\n\r\n        int currentX = playerCords.getCoordX();\r\n        int currentY = playerCords.getCoordY();\r\n\r\n        int newX = currentX;\r\n        int newY = currentY;\r\n\r\n        switch (noun.toLowerCase()) {\r\n            case \"north\":\r\n\r\n                newX--;\r\n\r\n                break;\r\n            case \"south\":\r\n\r\n                newX++;\r\n\r\n                break;\r\n            case \"west\":\r\n\r\n                newY--;\r\n\r\n                break;\r\n            case \"east\":\r\n\r\n                newY++;\r\n\r\n                break;\r\n            default:\r\n                //System.out.println(\"Invalid direction.\");\r\n                return;\r\n        }\r\n\r\n        if (levels.isValidRoom(newX, newY) && levels.getRoomToGrid(newX, newY) != null) {\r\n            playerCords.setCoordX(newX);\r\n            playerCords.setCoordY(newY);\r\n            Room currentRoom = levels.getRoomToGrid(newX, newY);\r\n            System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));\r\n            //System.out.println(\"You moved \" + noun + \" to \" + currentRoom.getName() + \".\");\r\n        } else {\r\n            System.out.println(\"You can't move \" + noun + \". There's no room there.\");\r\n        }\r\n\r\n    }\r\n\r\n\r\n    public void createRooms()\r\n    {\r\n        createHallways();\r\n        createBathrooms();\r\n        createGarage();\r\n        createKitchens();\r\n        createLivingRooms();\r\n\r\n\r\n\r\n    }\r\n\r\n\r\n    public void createHallways()\r\n    {\r\n        hallwayOne = new Room(\"Hallway\");\r\n        hallwayTwo = new Room(\"Hallway\");\r\n        hallwayThree = new Room(\"Hallway\");\r\n        hallwayFour = new Room(\"Hallway\");\r\n        hallwayFive = new Room(\"Hallway\");\r\n        hallwaySix = new Room(\"Hallway\");\r\n        hallwaySeven = new Room(\"Hallway\");\r\n\r\n\r\n        hallwayOne = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(3,4, hallwayOne);\r\n\r\n        hallwayTwo = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(6,4, hallwayTwo);\r\n\r\n        hallwayThree = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(5,4, hallwayThree);\r\n\r\n        hallwayFour = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(4,4, hallwayFour);\r\n\r\n        hallwayFive = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(3,4, hallwayFive);\r\n\r\n        hallwaySix = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(3,5, hallwaySix);\r\n\r\n        hallwaySeven = new RoomBuilder(\"Hallway\")\r\n                .setLightsOn(true)\r\n                .build();\r\n        levels.setRoomToGrid(3,3, hallwaySeven);\r\n\r\n\r\n    }\r\n\r\n\r\n    public void createKitchens()\r\n    {\r\n        kitchen = new Room(\"Kitchen\");\r\n        cabinet = new RoomObjects(\"Cabinet\");\r\n        refrigerator = new RoomObjects(\"Refrigerator\");\r\n        cabinet.addItem(new Item(\"Key\"));\r\n\r\n\r\n        //this is what needs to be in the search method parser engine\r\n        kitchen = new RoomBuilder(\"Kitchen\")\r\n                .setLightsOn(true)\r\n                .addObject(cabinet)\r\n                .addObject(refrigerator)\r\n                .build();\r\n\r\n        levels.setRoomToGrid(6, 3, kitchen);\r\n    }\r\n\r\n\r\n    public void createLivingRooms()\r\n    {\r\n\r\n        couch = new RoomObjects(\"Couch\");\r\n        recliner = new RoomObjects(\"Recliner\");\r\n        desk = new RoomObjects(\"Desk\");\r\n\r\n        livingRoom = new RoomBuilder(\"Living Room\").setLightsOn(true)\r\n                .addObject(desk)\r\n                .addObject(recliner)\r\n                .addObject(couch)\r\n                .build();\r\n        levels.setRoomToGrid(4, 3, livingRoom);\r\n    }\r\n\r\n\r\n\r\n    public void createGarage()\r\n    {\r\n\r\n    }\r\n\r\n\r\n    public void createBathrooms()\r\n    {\r\n        bathroom = new Room(\"Bathroom\");\r\n        bathroomToilet = new RoomObjects(\"toilet\");\r\n        bath = new RoomObjects(\"bath\");\r\n        bathSink = new RoomObjects(\"sink\");\r\n\r\n        bathroom = new RoomBuilder(\"Bathroom\")\r\n                .setLightsOn(true)\r\n                .addObject(bathroomToilet)\r\n                .addObject(bath)\r\n                .addObject(bathSink)\r\n                .build();\r\n        levels.setRoomToGrid(2, 3, bathroom);\r\n\r\n        halfbath = new Room(\"Bathroom\");\r\n        halfbathToilet = new RoomObjects(\"toilet\");\r\n        halfbathSink = new RoomObjects(\"sink\");\r\n\r\n        halfbath = new RoomBuilder(\"Bathroom\")\r\n                .setLightsOn(false)\r\n                .addObject(halfbathToilet)\r\n                .addObject(halfbathSink)\r\n                .build();\r\n        levels.setRoomToGrid(6, 5, halfbath);\r\n    }\r\n\r\n\r\n    public void setUpGameTimer()\r\n    {\r\n        gameTimer = new GameTimer();\r\n\r\n        gameTimer.start();\r\n    }\r\n\r\n\r\n    public void setUpSurvivalTimer()\r\n    {\r\n        survivalTimer = new SurvivalTimer();\r\n        survivalTimer.setSeconds(10);\r\n        survivalTimer.start();\r\n    }\r\n\r\n\r\n    public Window getWindow() {\r\n        return window;\r\n    }\r\n\r\n\r\n    public void setWindow(Window window) {\r\n        this.window = window;\r\n    }\r\n\r\n\r\n    public Database getDb() {\r\n        return db;\r\n    }\r\n\r\n\r\n    public void setDb(Database db) {\r\n        this.db = db;\r\n    }\r\n\r\n\r\n    public HashSet<String> getVerbs() {\r\n        //declare a new hashset\r\n        verbs = new HashSet<>();\r\n        String[] verbList = {\"take\", \"hide\", \"lock\", \"grab\", \"drop\", \"open\", \"exit\", \"go\", \"look\", \"unlock\", \"turn\", \"search\", \"show\", \"check\"};\r\n        verbs.addAll(Arrays.asList(verbList));\r\n        return verbs;\r\n    }\r\n\r\n\r\n    public HashSet<String> getNouns() {\r\n        //declare a new hashset\r\n        nouns = new HashSet<>();\r\n        String[] nounList = {\"key\", \"door\", \"room\", \"flashlight\", \"award\", \"upstairs\", \"downstairs\", \"drawer\", \"cabinet\",\r\n        \"couch\", \"curtain\", \"noisemaker\", \"lights\", \"window\", \"fridge\", \"car\", \"sink\", \"desk\", \"bed\", \"stove\", \"shelves\",\r\n        \"bookshelf\", \"table\", \"chair\", \"nightstand\", \"counter\", \"boxes\", \"timer\", \"north\", \"south\", \"east\", \"west\", \"kitchen\",\r\n        \"bedroom\", \"hallway\", \"basement\", \"livingroom\", \"bathroom\", \"refrigerator\", \"map\", \"recliner\", \"time\"};\r\n        nouns.addAll(Arrays.asList(nounList));\r\n        return nouns;\r\n    }\r\n\r\n\r\n    /*\r\n    Search Method:\r\n    \"search\" - \"noun - room name\"\r\n    go to that builder class caller the roomBuilder\r\n    grab the items in the builder class\r\n\r\n    add the room names in the noun HashSet<>\r\n     */\r\n\r\n    public String RoomSearch(String noun, String verb) {\r\n\r\n        String result = \"\";\r\n        int currentX = playerCords.getCoordX();\r\n        int currentY= playerCords.getCoordY();\r\n        \r\n        //validation for verb search\r\n        if (verb.equals(\"search\")) {\r\n\r\n            //continue with switch statement\r\n            switch(noun){\r\n                case \"kitchen\":\r\n                    if(levels.getRoomToGrid(currentX, currentY) != kitchen)\r\n                    {\r\n                        System.out.println(\"You are not in a kitchen\");\r\n                    }\r\n                    else\r\n                    {\r\n                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());\r\n                    }\r\n                    //which part of the kitchen are you searching first?\r\n                    break;\r\n                case \"bedroom\":\r\n                    System.out.println();\r\n                    break;\r\n                case \"basement\":\r\n                    System.out.println();\r\n                    break;\r\n                case \"bathroom\":\r\n                    if(levels.getRoomToGrid(currentX, currentY) != bathroom && levels.getRoomToGrid(currentX, currentY) != halfbath)\r\n                    {\r\n                        System.out.println(\"You are not in a bathroom!\");\r\n                    }\r\n                    else\r\n                    {\r\n                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());\r\n                    }\r\n                    break;\r\n                case \"livingroom\":\r\n                    if(levels.getRoomToGrid(currentX, currentY) != livingRoom)\r\n                    {\r\n                        System.out.println(\"You are not in a living room!\");\r\n                    }\r\n                    else\r\n                    {\r\n                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());\r\n                    }\r\n                    break;\r\n                case \"hallway\":\r\n                    System.out.println();\r\n                    break;\r\n\r\n            }\r\n\r\n\r\n        }\r\n\r\n\r\n       return result;\r\n    }\r\n\r\n\r\n    //search cabinet\r\n    public String objectSearch(String noun, String verb)\r\n    {\r\n        String result = \"\";\r\n        String cabinet = \"cabinet\";\r\n        int currentX = playerCords.getCoordX();\r\n        int currentY = playerCords.getCoordY();\r\n\r\n        //validation for verb search\r\n        if (verb.equals(\"search\")) {\r\n            if(noun.equals(cabinet))\r\n            {\r\n                System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchObject(cabinet));\r\n            }\r\n            else if(noun.equals(\"refrigerator\"))\r\n            {\r\n                System.out.println(levels.getRoomToGrid(currentX,currentY).searchObject(\"refrigerator\"));\r\n            }\r\n            else if(noun.equals(\"desk\"))\r\n            {\r\n                System.out.println(levels.getRoomToGrid(currentX,currentY).searchObject(\"desk\"));\r\n            }\r\n        }\r\n\r\n\r\n\r\n        return result;\r\n\r\n    }\r\n\r\n    public void showMap(String noun, String verb)\r\n    {\r\n        if(verb.equals(\"show\"))\r\n        {\r\n            if(noun.equals(\"map\"))\r\n            {\r\n                levels.printMap(playerCords);\r\n            }\r\n        }\r\n\r\n        if(verb.equals(\"check\"))\r\n        {\r\n            if(noun.equals(\"time\"))\r\n            {\r\n                System.out.println(gameTimer.getSeconds());\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/controller/ParserEngine.java b/src/controller/ParserEngine.java
+--- a/src/controller/ParserEngine.java	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
++++ b/src/controller/ParserEngine.java	(date 1733691227849)
+@@ -21,33 +21,21 @@
+     private HashSet<String> nouns;
+     private Window window;
+     private Database db;
+-    private ArrayList<String> commandHistory;
+-    private LevelGridSystem levels;
++    private final ArrayList<String> commandHistory;
++    private final LevelGridSystem levels;
+ 
+     //GAME ENGINE STUFF
+     private GameTimer gameTimer;
+-    private SurvivalTimer survivalTimer;
+-    private PlayerCords playerCords;
+-
++    private final PlayerCords playerCords;
++    private Item key;
+     //level design Rooms
++    private Room bedroom;
+     private Room kitchen;
+     private Room livingRoom;
+     private Room bathroom;
+     private Room halfbath;
+     private Room garage;
+-    //level design room objects;
+-    private RoomObjects kitchenSink;
+-    private RoomObjects cabinet;
+-    private RoomObjects refrigerator;
+-    private RoomObjects couch;
+-    private RoomObjects recliner;
+-    private RoomObjects desk;
+-    private RoomObjects halfbathSink;
+-    private RoomObjects bathSink;
+     private RoomObjects car;
+-    private RoomObjects bath;
+-    private RoomObjects bathroomToilet;
+-    private RoomObjects halfbathToilet;
+ 
+     //level design
+     //hallways
+@@ -65,6 +53,7 @@
+         this.db = db;
+         this.window = window;
+ 
++
+         levels = new LevelGridSystem();
+         playerCords = new PlayerCords(levels, 6,4);
+         //creates the entire house with rooms
+@@ -173,7 +162,7 @@
+         //begin the while loop to loop through every person's turn until the game ends.
+ 
+         gameTimer.start();
+-            while (gameTimer.getSeconds() < 25)
++            while (gameTimer.getSeconds() < 60)
+             {
+ 
+ 
+@@ -265,7 +254,7 @@
+             playerCords.setCoordX(newX);
+             playerCords.setCoordY(newY);
+             Room currentRoom = levels.getRoomToGrid(newX, newY);
+-            System.out.println(levels.getRoomToGrid(newX, newY).enterRoom(null));
++            System.out.println(currentRoom.enterRoom(null));
+             //System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
+         } else {
+             System.out.println("You can't move " + noun + ". There's no room there.");
+@@ -274,137 +263,6 @@
+     }
+ 
+ 
+-    public void createRooms()
+-    {
+-        createHallways();
+-        createBathrooms();
+-        createGarage();
+-        createKitchens();
+-        createLivingRooms();
+-
+-
+-
+-    }
+-
+-
+-    public void createHallways()
+-    {
+-        hallwayOne = new Room("Hallway");
+-        hallwayTwo = new Room("Hallway");
+-        hallwayThree = new Room("Hallway");
+-        hallwayFour = new Room("Hallway");
+-        hallwayFive = new Room("Hallway");
+-        hallwaySix = new Room("Hallway");
+-        hallwaySeven = new Room("Hallway");
+-
+-
+-        hallwayOne = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(3,4, hallwayOne);
+-
+-        hallwayTwo = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(6,4, hallwayTwo);
+-
+-        hallwayThree = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(5,4, hallwayThree);
+-
+-        hallwayFour = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(4,4, hallwayFour);
+-
+-        hallwayFive = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(3,4, hallwayFive);
+-
+-        hallwaySix = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(3,5, hallwaySix);
+-
+-        hallwaySeven = new RoomBuilder("Hallway")
+-                .setLightsOn(true)
+-                .build();
+-        levels.setRoomToGrid(3,3, hallwaySeven);
+-
+-
+-    }
+-
+-
+-    public void createKitchens()
+-    {
+-        kitchen = new Room("Kitchen");
+-        cabinet = new RoomObjects("Cabinet");
+-        refrigerator = new RoomObjects("Refrigerator");
+-        cabinet.addItem(new Item("Key"));
+-
+-
+-        //this is what needs to be in the search method parser engine
+-        kitchen = new RoomBuilder("Kitchen")
+-                .setLightsOn(true)
+-                .addObject(cabinet)
+-                .addObject(refrigerator)
+-                .build();
+-
+-        levels.setRoomToGrid(6, 3, kitchen);
+-    }
+-
+-
+-    public void createLivingRooms()
+-    {
+-
+-        couch = new RoomObjects("Couch");
+-        recliner = new RoomObjects("Recliner");
+-        desk = new RoomObjects("Desk");
+-
+-        livingRoom = new RoomBuilder("Living Room").setLightsOn(true)
+-                .addObject(desk)
+-                .addObject(recliner)
+-                .addObject(couch)
+-                .build();
+-        levels.setRoomToGrid(4, 3, livingRoom);
+-    }
+-
+-
+-
+-    public void createGarage()
+-    {
+-
+-    }
+-
+-
+-    public void createBathrooms()
+-    {
+-        bathroom = new Room("Bathroom");
+-        bathroomToilet = new RoomObjects("toilet");
+-        bath = new RoomObjects("bath");
+-        bathSink = new RoomObjects("sink");
+-
+-        bathroom = new RoomBuilder("Bathroom")
+-                .setLightsOn(true)
+-                .addObject(bathroomToilet)
+-                .addObject(bath)
+-                .addObject(bathSink)
+-                .build();
+-        levels.setRoomToGrid(2, 3, bathroom);
+-
+-        halfbath = new Room("Bathroom");
+-        halfbathToilet = new RoomObjects("toilet");
+-        halfbathSink = new RoomObjects("sink");
+-
+-        halfbath = new RoomBuilder("Bathroom")
+-                .setLightsOn(false)
+-                .addObject(halfbathToilet)
+-                .addObject(halfbathSink)
+-                .build();
+-        levels.setRoomToGrid(6, 5, halfbath);
+-    }
+ 
+ 
+     public void setUpGameTimer()
+@@ -417,7 +275,7 @@
+ 
+     public void setUpSurvivalTimer()
+     {
+-        survivalTimer = new SurvivalTimer();
++        SurvivalTimer survivalTimer = new SurvivalTimer();
+         survivalTimer.setSeconds(10);
+         survivalTimer.start();
+     }
+@@ -458,7 +316,7 @@
+         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
+         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
+         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
+-        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "recliner", "time"};
++        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "recliner", "time", "jewelrybox"};
+         nouns.addAll(Arrays.asList(nounList));
+         return nouns;
+     }
+@@ -491,7 +349,7 @@
+                     }
+                     else
+                     {
+-                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
++                        System.out.println(levels.getRoomToGrid(currentX, currentY).searchRoom());
+                     }
+                     //which part of the kitchen are you searching first?
+                     break;
+@@ -508,7 +366,7 @@
+                     }
+                     else
+                     {
+-                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
++                        System.out.println(levels.getRoomToGrid(currentX, currentY).searchRoom());
+                     }
+                     break;
+                 case "livingroom":
+@@ -518,7 +376,7 @@
+                     }
+                     else
+                     {
+-                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
++                        System.out.println(levels.getRoomToGrid(currentX, currentY).searchRoom());
+                     }
+                     break;
+                 case "hallway":
+@@ -547,7 +405,7 @@
+         if (verb.equals("search")) {
+             if(noun.equals(cabinet))
+             {
+-                System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchObject(cabinet));
++                System.out.println(levels.getRoomToGrid(currentX, currentY).searchObject(cabinet));
+             }
+             else if(noun.equals("refrigerator"))
+             {
+@@ -584,5 +442,159 @@
+         }
+     }
+ 
++    public void createRooms()
++    {
++        createHallways();
++        createBathrooms();
++        createGarage();
++        createKitchens();
++        createLivingRooms();
++        createBedroom();
++
++
++    }
++
++
++    public void createHallways()
++    {
++        hallwayOne = new Room("Hallway");
++        hallwayTwo = new Room("Hallway");
++        hallwayThree = new Room("Hallway");
++        hallwayFour = new Room("Hallway");
++        hallwayFive = new Room("Hallway");
++        hallwaySix = new Room("Hallway");
++        hallwaySeven = new Room("Hallway");
++
++
++        hallwayOne = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(3,4, hallwayOne);
++
++        hallwayTwo = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(6,4, hallwayTwo);
++
++        hallwayThree = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(5,4, hallwayThree);
++
++        hallwayFour = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(4,4, hallwayFour);
++
++        hallwayFive = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(3,4, hallwayFive);
++
++        hallwaySix = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(3,5, hallwaySix);
++
++        hallwaySeven = new RoomBuilder("Hallway")
++                .setLightsOn(true)
++                .build();
++        levels.setRoomToGrid(3,3, hallwaySeven);
++
++
++    }
++
++
++    public void createKitchens()
++    {
++
++        kitchen = new Room("Kitchen");
++        RoomObjects cabinet = new RoomObjects("Cabinet");
++        RoomObjects refrigerator = new RoomObjects("Refrigerator");
++        //level design room objects;
++        RoomObjects kitchenSink = new RoomObjects("Sink");
++        cabinet.addItem(new Item("Key"));
++
++
++
++        //this is what needs to be in the search method parser engine
++        kitchen = new RoomBuilder("Kitchen")
++                .setLightsOn(true)
++                .addObject(cabinet)
++                .addObject(refrigerator)
++                .addObject(kitchenSink)
++                .build();
++
++        levels.setRoomToGrid(6, 3, kitchen);
++    }
++
++
++    public void createLivingRooms()
++    {
++
++        RoomObjects couch = new RoomObjects("Couch");
++        RoomObjects recliner = new RoomObjects("Recliner");
++        RoomObjects desk = new RoomObjects("Desk");
++
++        livingRoom = new RoomBuilder("Living Room").setLightsOn(true)
++                .addObject(desk)
++                .addObject(recliner)
++                .addObject(couch)
++                .build();
++        levels.setRoomToGrid(4, 3, livingRoom);
++    }
++
++
++
++    public void createGarage()
++    {
++
++    }
++
++    public void createBedroom()
++    {
++        bedroom = new Room("bedroom");
++        RoomObjects bed = new RoomObjects("bed");
++        RoomObjects dresser = new RoomObjects("dresser");
++        RoomObjects jewelryBox = new RoomObjects("jewelrybox");
++
++        bedroom = new RoomBuilder("bedroom")
++                .setLightsOn(true)
++                .setLocked(key)
++                .addObject(bed)
++                .addObject(dresser)
++                .addObject(jewelryBox)
++                .build();
++
++        levels.setRoomToGrid(3, 2, bedroom);
++    }
++
++    public void createBathrooms()
++    {
++        bathroom = new Room("Bathroom");
++        RoomObjects bathroomToilet = new RoomObjects("toilet");
++        RoomObjects bath = new RoomObjects("bath");
++        RoomObjects bathSink = new RoomObjects("sink");
++
++        bathroom = new RoomBuilder("Bathroom")
++                .setLightsOn(true)
++                .addObject(bathroomToilet)
++                .addObject(bath)
++                .addObject(bathSink)
++                .build();
++        levels.setRoomToGrid(2, 3, bathroom);
++
++        halfbath = new Room("Bathroom");
++        RoomObjects halfbathToilet = new RoomObjects("toilet");
++        RoomObjects halfbathSink = new RoomObjects("sink");
++
++        halfbath = new RoomBuilder("Bathroom")
++                .setLightsOn(false)
++                .addObject(halfbathToilet)
++                .addObject(halfbathSink)
++                .build();
++        levels.setRoomToGrid(6, 5, halfbath);
++    }
++
+ 
+ }
+\ No newline at end of file
+Index: src/Model/Enemy.java
+===================================================================
+diff --git a/src/Model/Enemy.java b/src/Model/Enemy.java
+deleted file mode 100644
+--- a/src/Model/Enemy.java	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
++++ /dev/null	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
+@@ -1,1287 +0,0 @@
+-package Model;
+-
+-import java.util.HashSet;
+-import java.util.Random;
+-import java.util.Set;
+-
+-public class Enemy {
+-    // Used for all enemy actions, previousRooms is going to mark down all the rooms passed
+-    // when the enemy moves to the player's location in ActiveEnemyMovement and NoiseMakerEnemyMovement
+-    private String enemyLocation = "5";
+-    private boolean enemyAlerted = false;
+-    private Set<String> previousRooms = new HashSet<String>();
+-    private final Random randRoom = new Random();
+-
+-    // All the accessors and mutators
+-    public String getEnemyLocation()
+-    {
+-        return this.enemyLocation;
+-    }
+-    public void setEnemyLocation(String enemyLocation)
+-    {
+-        this.enemyLocation = enemyLocation;
+-    }
+-
+-    public boolean getEnemyAlerted()
+-    {
+-        return this.enemyAlerted;
+-    }
+-    public void setEnemyAlerted(boolean enemyAlerted)
+-    {
+-        this.enemyAlerted = enemyAlerted;
+-    }
+-
+-    public Set<String> getPreviousRooms()
+-    {
+-        return this.previousRooms;
+-    }
+-    public void AddPreviousRooms(String previousRoom)
+-    {
+-        this.previousRooms.add(previousRoom);
+-    }
+-    // After the enemy has checked every room they passed, the rooms are removed for the next alert/noisemaker
+-    public void ResetPreviousRooms()
+-    {
+-        this.previousRooms.clear();
+-    }
+-
+-    // We don't need the mutator as we don't need to set the Random to anything
+-    public Random getRandRoom()
+-    {
+-        return this.randRoom;
+-    }
+-
+-    public void checkForPlayer(boolean playerHidden, String playerLocation, boolean lightOn)
+-    {
+-        if (!playerHidden && getEnemyLocation().equals(playerLocation))
+-        {
+-            //EnterRoomGameEnd();
+-        }
+-        else if (getEnemyLocation().equals(playerLocation) && lightOn)
+-        {
+-            //HiddenGameEnd();
+-        }
+-        else if (getEnemyLocation().equals(playerLocation))
+-        {
+-            //Run message to state enemy enters room and leaves
+-            this.PassiveEnemyMovement();
+-        }
+-        else
+-        {
+-            //Print a message to tell the player the enemy has moved
+-        }
+-    }
+-
+-    public void checkForPlayer_Alerted(boolean playerHidden, String playerLocation, boolean lightOn)
+-    {
+-        if (!playerHidden && getPreviousRooms().contains(playerLocation))
+-        {
+-            //EnemyRunsIntoGameEnd();
+-        }
+-        else if (getPreviousRooms().contains(playerLocation) && lightOn)
+-        {
+-            //EnemyRunsIntoHiddenGameEnd();
+-        }
+-
+-        if (getEnemyLocation().equals(playerLocation))
+-        {
+-            //Run message to state enemy enters room and leaves
+-            this.PassiveEnemyMovement();
+-            setEnemyAlerted(false);
+-            ResetPreviousRooms();
+-        }
+-        else
+-        {
+-            //Print a message to tell the player the enemy has moved
+-        }
+-    }
+-
+-    // Checks what room the enemy is currently in, and moves the enemy based on that information
+-    public void PassiveEnemyMovement()
+-    {
+-        if(getEnemyLocation().charAt(0) == 1)
+-        {
+-            setEnemyLocation("2a");
+-        }
+-        else if (getEnemyLocation().charAt(0) == 2)
+-        {
+-            if (getEnemyLocation().charAt(1) == 'a')
+-            {
+-                int tempRand = getRandRoom().nextInt(2);
+-                if (tempRand == 0)
+-                {
+-                    setEnemyLocation("1");
+-                }
+-                else
+-                {
+-                    setEnemyLocation("3a");
+-                }
+-            }
+-            else if (getEnemyLocation().charAt(1) == 'e')
+-            {
+-                setEnemyLocation("3b");
+-            }
+-            else
+-            {
+-                setEnemyLocation("3a");
+-            }
+-        }
+-        else if (getEnemyLocation().charAt(0) == 3)
+-        {
+-            if (getEnemyLocation().charAt(1) == 'a')
+-            {
+-                int tempRand = getRandRoom().nextInt(4);
+-                if (tempRand == 0)
+-                {
+-                    setEnemyLocation("2a");
+-                }
+-                else if (tempRand == 1)
+-                {
+-                    setEnemyLocation("2b");
+-                }
+-                else if (tempRand == 2)
+-                {
+-                    setEnemyLocation("2c");
+-                }
+-                else
+-                {
+-                    setEnemyLocation("2d");
+-                }
+-            }
+-            else if (getEnemyLocation().charAt(1) == 'b')
+-            {
+-                int tempRand = getRandRoom().nextInt(2);
+-                if (tempRand == 0)
+-                {
+-                    setEnemyLocation("2e");
+-                }
+-                else
+-                {
+-                    setEnemyLocation("4");
+-                }
+-            }
+-            else
+-            {
+-                setEnemyLocation("4");
+-            }
+-        }
+-        else if (getEnemyLocation().charAt(0) == 4)
+-        {
+-            int tempRand = getRandRoom().nextInt(6);
+-            if (tempRand == 0)
+-            {
+-                setEnemyLocation("3a");
+-            }
+-            else if (tempRand == 1)
+-            {
+-                setEnemyLocation("3b");
+-            }
+-            else if (tempRand == 2)
+-            {
+-                setEnemyLocation("3c");
+-            }
+-            else if (tempRand == 3)
+-            {
+-                setEnemyLocation("3d");
+-            }
+-            else if (tempRand == 4)
+-            {
+-                setEnemyLocation("3e");
+-            }
+-            else
+-            {
+-                setEnemyLocation("5");
+-            }
+-        }
+-        // The enemy has to be in the 5th layer of rooms
+-        else
+-        {
+-            setEnemyLocation("4");
+-        }
+-    }
+-
+-    public void ActiveEnemyMovement(String playerLocation)
+-    {
+-        if (playerLocation.charAt(0) == 1)
+-        {
+-            for (int i = 0; i < 2; i++)
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    i = 2;
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'a')
+-                    {
+-                        AddPreviousRooms("1");
+-                        setEnemyLocation("1");
+-                    }
+-                    else if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        setEnemyLocation("3b");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'a')
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3a");
+-                    setEnemyLocation("3a");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    setEnemyLocation("4");
+-                }
+-            }
+-        }
+-        else if (playerLocation.charAt(0) == 2)
+-        {
+-            if (playerLocation.charAt(1) == 'a')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'a')
+-                        {
+-                            i = 2;
+-                        }
+-                        else if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'a')
+-                        {
+-                            AddPreviousRooms("2a");
+-                            setEnemyLocation("2a");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'b')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'b')
+-                        {
+-                            i = 2;
+-                        }
+-                        else if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'a')
+-                        {
+-                            AddPreviousRooms("2b");
+-                            setEnemyLocation("2b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'c')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'c')
+-                        {
+-                            i = 2;
+-                        }
+-                        else if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'a')
+-                        {
+-                            AddPreviousRooms("2c");
+-                            setEnemyLocation("2c");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'd')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'd')
+-                        {
+-                            i = 2;
+-                        }
+-                        else if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'a')
+-                        {
+-                            AddPreviousRooms("2d");
+-                            setEnemyLocation("2d");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            i = 2;
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'b')
+-                        {
+-                            AddPreviousRooms("2e");
+-                            setEnemyLocation("2e");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3b");
+-                        setEnemyLocation("3b");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-        }
+-        else if (playerLocation.charAt(0) == 3)
+-        {
+-            if (playerLocation.charAt(1) == 'a')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'a')
+-                        {
+-                            i = 2;
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'b')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'b')
+-                        {
+-                            i = 2;
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3b");
+-                        setEnemyLocation("3b");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'c')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'c')
+-                        {
+-                            i = 2;
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3c");
+-                        setEnemyLocation("3c");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'd')
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'd')
+-                        {
+-                            i = 2;
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3d");
+-                        setEnemyLocation("3d");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-            else
+-            {
+-                for (int i = 0; i < 2; i++)
+-                {
+-                    if (getEnemyLocation().charAt(0) == 1)
+-                    {
+-                        AddPreviousRooms("2a");
+-                        setEnemyLocation("2a");
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 2)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            AddPreviousRooms("3b");
+-                            setEnemyLocation("3b");
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("3a");
+-                            setEnemyLocation("3a");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 3)
+-                    {
+-                        if (getEnemyLocation().charAt(1) == 'e')
+-                        {
+-                            i = 2;
+-                        }
+-                        else
+-                        {
+-                            AddPreviousRooms("4");
+-                            setEnemyLocation("4");
+-                        }
+-                    }
+-                    else if (getEnemyLocation().charAt(0) == 4)
+-                    {
+-                        AddPreviousRooms("3e");
+-                        setEnemyLocation("3e");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("4");
+-                        setEnemyLocation("4");
+-                    }
+-                }
+-            }
+-        }
+-        else if (playerLocation.charAt(0) == 4)
+-        {
+-            for (int i = 0; i < 2; i++)
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    setEnemyLocation("2a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        setEnemyLocation("3b");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    AddPreviousRooms("4");
+-                    setEnemyLocation("4");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    i = 2;
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    setEnemyLocation("4");
+-                }
+-            }
+-        }
+-        else
+-        {
+-            for (int i = 0; i < 2; i++)
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    setEnemyLocation("2a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        setEnemyLocation("3b");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("3a");
+-                        setEnemyLocation("3a");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    AddPreviousRooms("4");
+-                    setEnemyLocation("4");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("5");
+-                    setEnemyLocation("5");
+-                }
+-                else
+-                {
+-                    i = 2;
+-                }
+-            }
+-        }
+-    }
+-
+-    public void NoiseMakerEnemyMovement(String playerLocation)
+-    {
+-        if (playerLocation.charAt(0) == 1)
+-        {
+-            if (getEnemyLocation().charAt(0) == 2)
+-            {
+-                if (getEnemyLocation().charAt(1) == 'e')
+-                {
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("1");
+-                }
+-                else if (getEnemyLocation().charAt(1) == 'a')
+-                {
+-                    AddPreviousRooms("1");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("1");
+-                }
+-            }
+-            else if (getEnemyLocation().charAt(0) == 3)
+-            {
+-                if (getEnemyLocation().charAt(1) != 'a') {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                }
+-                AddPreviousRooms("2a");
+-                AddPreviousRooms("1");
+-            }
+-            else if (getEnemyLocation().charAt(0) == 4)
+-            {
+-                AddPreviousRooms("3a");
+-                AddPreviousRooms("2a");
+-                AddPreviousRooms("1");
+-            }
+-            // The enemy has to be in the 5th layer of rooms
+-            else
+-            {
+-                AddPreviousRooms("4");
+-                AddPreviousRooms("3a");
+-                AddPreviousRooms("2a");
+-                AddPreviousRooms("1");
+-            }
+-        }
+-        else if (playerLocation.charAt(0) == 2)
+-        {
+-            // Double check
+-            if (playerLocation.charAt(1) == 'a')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                    }
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'a')
+-                    {
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3a");
+-                    }
+-                    AddPreviousRooms("2a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2a");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2a");
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'b')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2b");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                    }
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2b");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'a')
+-                    {
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3a");
+-                    }
+-                    AddPreviousRooms("2b");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2b");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2b");
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'c')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2c");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                    }
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2c");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'a')
+-                    {
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3a");
+-                    }
+-                    AddPreviousRooms("2c");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2c");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2c");
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'd')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2d");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                    }
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2d");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'a')
+-                    {
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3a");
+-                    }
+-                    AddPreviousRooms("2d");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2d");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("2d");
+-                }
+-            }
+-            else
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("2e");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("2e");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 3)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'b')
+-                    {
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3b");
+-                    }
+-                    AddPreviousRooms("2e");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("2e");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("2e");
+-                }
+-            }
+-        }
+-        else if (playerLocation.charAt(0) == 3)
+-        {
+-            if (playerLocation.charAt(1) == 'a')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) == 'e')
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                    }
+-                    AddPreviousRooms("3a");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3a");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3a");
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'b')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3b");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'e')
+-                    {
+-                        AddPreviousRooms("3a");
+-                        AddPreviousRooms("4");
+-                    }
+-                    AddPreviousRooms("3b");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3b");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3b");
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'c')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3c");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'e')
+-                    {
+-                        AddPreviousRooms("3a");
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3c");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3c");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3c");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3c");
+-                }
+-            }
+-            else if (playerLocation.charAt(1) == 'd')
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3d");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'e')
+-                    {
+-                        AddPreviousRooms("3a");
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3d");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3d");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3d");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3d");
+-                }
+-            }
+-            else
+-            {
+-                if (getEnemyLocation().charAt(0) == 1)
+-                {
+-                    AddPreviousRooms("2a");
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3e");
+-                }
+-                else if (getEnemyLocation().charAt(0) == 2)
+-                {
+-                    if (getEnemyLocation().charAt(1) != 'e')
+-                    {
+-                        AddPreviousRooms("3a");
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3e");
+-                    }
+-                    else
+-                    {
+-                        AddPreviousRooms("3b");
+-                        AddPreviousRooms("4");
+-                        AddPreviousRooms("3e");
+-                    }
+-                }
+-                else if (getEnemyLocation().charAt(0) == 4)
+-                {
+-                    AddPreviousRooms("3e");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("3e");
+-                }
+-            }
+-        }
+-        else if (playerLocation.charAt(0) == 4)
+-        {
+-            if (getEnemyLocation().charAt(0) == 1)
+-            {
+-                AddPreviousRooms("2a");
+-                AddPreviousRooms("3a");
+-                AddPreviousRooms("4");
+-            }
+-            else if (getEnemyLocation().charAt(0) == 2)
+-            {
+-                if (getEnemyLocation().charAt(1) == 'e')
+-                {
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("4");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                }
+-            }
+-            else
+-            {
+-                AddPreviousRooms("4");
+-            }
+-        }
+-        else
+-        {
+-            if (getEnemyLocation().charAt(0) == 1)
+-            {
+-                AddPreviousRooms("2a");
+-                AddPreviousRooms("3a");
+-                AddPreviousRooms("4");
+-                AddPreviousRooms("5");
+-            }
+-            else if (getEnemyLocation().charAt(0) == 2)
+-            {
+-                if (getEnemyLocation().charAt(1) == 'e')
+-                {
+-                    AddPreviousRooms("3b");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("5");
+-                }
+-                else
+-                {
+-                    AddPreviousRooms("3a");
+-                    AddPreviousRooms("4");
+-                    AddPreviousRooms("5");
+-                }
+-            }
+-            else if (getEnemyLocation().charAt(0) == 3)
+-            {
+-                AddPreviousRooms("4");
+-                AddPreviousRooms("5");
+-            }
+-            else
+-            {
+-                AddPreviousRooms("5");
+-            }
+-        }
+-
+-        setEnemyLocation(playerLocation);
+-    }
+-}
+Index: src/Model/Door.java
+===================================================================
+diff --git a/src/Model/Door.java b/src/Model/Door.java
+deleted file mode 100644
+--- a/src/Model/Door.java	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
++++ /dev/null	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
+@@ -1,59 +0,0 @@
+-package Model;
+-
+-public class Door {
+-    private final int doorID;
+-    private final String doorDescription;
+-    private boolean lockStatus;
+-    private boolean openStatus;
+-    private boolean enemyNoticed;
+-    private final String keyID;
+-
+-    public Door(int doorID, String doorDescription,
+-                boolean lockStatus, boolean openStatus,
+-                boolean enemyNoticed, String keyID) {
+-        this.doorID = doorID;
+-        this.doorDescription = doorDescription;
+-        this.lockStatus = lockStatus;
+-        this.openStatus = openStatus;
+-        this.enemyNoticed = enemyNoticed;
+-        this.keyID = keyID;
+-    }
+-
+-    //Gets set in constructor and is final
+-    public int getDoorID() {
+-        return this.doorID;
+-    }
+-
+-    //Gets set in constructor and is final
+-    public String getDoorDescription() {
+-        return this.doorDescription;
+-    }
+-
+-    public boolean getLockStatus() {
+-        return this.lockStatus;
+-    }
+-
+-    public void setLockStatus(boolean lockStatus) {
+-        this.lockStatus = lockStatus;
+-    }
+-
+-    public boolean getOpenStatus() {
+-        return this.openStatus;
+-    }
+-
+-    public void setOpenStatus(boolean openStatus) {
+-        this.openStatus = openStatus;
+-    }
+-
+-    public boolean getEnemyNoticed() {
+-        return this.enemyNoticed;
+-    }
+-
+-    public void setEnemyNoticed(boolean enemyNoticed) {
+-        this.enemyNoticed = enemyNoticed;
+-    }
+-
+-    public String getKeyID() {
+-        return this.keyID;
+-    }
+-}
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_22\" default=\"true\" project-jdk-name=\"22\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
++++ b/.idea/misc.xml	(date 1733358551727)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="22" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="JavaSE-21" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"dcbe192d-e3e1-431d-81f5-a51ad6d66bca\" name=\"Changes\" comment=\"Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Randall442&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/alauth22/JavaFinal.git&quot;,\r\n    &quot;accountId&quot;: &quot;63891d79-37a5-40ba-a408-9409a942d22f&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 2\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2oLyYtKiThOQWtgf2Xsi1uEuxjn\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Application.LoggingExample.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.Testconnection.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RunManager\">\r\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\r\n      <option name=\"filePath\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"dcbe192d-e3e1-431d-81f5-a51ad6d66bca\" name=\"Changes\" comment=\"\" />\r\n      <created>1730663201018</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1730663201018</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Commit to LoggingExample.java and write to Flat File - Mariana\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1730848770233</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1730848770233</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1730853636491</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1730853636491</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1732477357679</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1732477357679</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1732477374864</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1732477374864</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733160047823</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733160047823</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733160089727</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733160089727</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733160226150</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733160226150</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733160323195</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733160323195</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Revert change\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733160366912</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733160366912</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733348673739</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733348673739</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733348700745</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733348700745</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733348734462</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733348734462</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733348813021</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733348813021</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733349213551</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733349213551</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733349231807</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733349231807</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733349326309</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733349326309</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"another Update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733352259365</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733352259365</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00018\" summary=\"another Update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733352269618</created>\r\n      <option name=\"number\" value=\"00018\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733352269618</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00019\" summary=\"another Update\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733357142867</created>\r\n      <option name=\"number\" value=\"00019\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733357142867</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00020\" summary=\"another Updated\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733357625263</created>\r\n      <option name=\"number\" value=\"00020\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733357625263</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00021\" summary=\"Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1733357660443</created>\r\n      <option name=\"number\" value=\"00021\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1733357660443</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"22\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Commit to LoggingExample.java and write to Flat File - Mariana\" />\r\n    <MESSAGE value=\"Revert change\" />\r\n    <MESSAGE value=\"update\" />\r\n    <MESSAGE value=\"Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal\" />\r\n    <MESSAGE value=\"another Updateddd\" />\r\n    <MESSAGE value=\"another Update\" />\r\n    <MESSAGE value=\"another Updated\" />\r\n    <MESSAGE value=\"Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c30ef21e946b1a18fe0dc9fce0bec136def613db)
++++ b/.idea/workspace.xml	(date 1733402612422)
+@@ -4,7 +4,13 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
++    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="Merge branch 'randyBranch' of https://github.com/alauth22/JavaFinal&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Model/Door.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Model/Enemy.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -59,7 +65,7 @@
+     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+     &quot;last_opened_file_path&quot;: &quot;C:/Users/Randy/IdeaProjects/JavaFinal2/src/Resources/log4j-core-2.17.2.jar&quot;,
+-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+     &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;
