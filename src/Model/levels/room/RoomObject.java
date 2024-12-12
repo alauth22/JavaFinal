@@ -1,12 +1,11 @@
 package Model.levels.room;
 
 import Model.levels.Item;
-
 import java.util.List;
 
 public interface RoomObject {
 
-    //search method
+    //all methods we want to be implemented
     String search();
     String getName();
     void addItem(Item item);
