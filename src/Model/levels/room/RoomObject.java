@@ -13,4 +13,6 @@ public interface RoomObject {
     List<Item> getItems();
 
     char getSymbol();
+
+    Boolean obtainCheck();
 }
