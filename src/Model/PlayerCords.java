@@ -2,46 +2,43 @@ package Model;
 
 import Model.levels.LevelGridSystem;
 
+
 public class PlayerCords {
 
+    // X-coordinate of the player's position
     private int coordX;
+
+    // Y-coordinate of the player's position
     private int coordY;
+
+    // Reference to the level grid system the player is on
     private LevelGridSystem levelGridSystem;
 
+    // Constructor to initialize the player's position and associate it with a level grid system
     public PlayerCords(LevelGridSystem levelGridSystem, int startX, int startY) {
-        this.levelGridSystem = levelGridSystem;
-        this.coordX = startX;
-        this.coordY = startY;
+        this.levelGridSystem = levelGridSystem; // Set the grid system reference
+        this.coordX = startX;                  // Set the starting X-coordinate
+        this.coordY = startY;                  // Set the starting Y-coordinate
     }
 
-
-    public int getCoordX()
-    {
+    // Getter method to retrieve the player's X-coordinate
+    public int getCoordX() {
         return coordX;
     }
 
-    //setter for coorX
-    public void setCoordX(int coorX)
-    {
-        this.coordX = coorX;
-
+    // Setter method to update the player's X-coordinate
+    public void setCoordX(int coorX) {
+        this.coordX = coorX; // Assign the new X-coordinate
     }
 
-    //getter for coorY
-    public int getCoordY()
-    {
+    // Getter method to retrieve the player's Y-coordinate
+    public int getCoordY() {
         return coordY;
     }
 
-    //setter for coordY
-    public void setCoordY(int coorY)
-    {
-        this.coordY = coorY;
+    // Setter method to update the player's Y-coordinate
+    public void setCoordY(int coorY) {
+        this.coordY = coorY; // Assign the new Y-coordinate
     }
-
-
-
-
-
-
 }
+

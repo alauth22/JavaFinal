@@ -3,45 +3,43 @@ package Model.gameTimer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SurvivalTimer{
+public class SurvivalTimer {
 
-    // creates a seconds variable to hold seconds
+    // Variable to store the remaining time in seconds
     public int seconds = 0;
-    //creates a timer object
+
+    // Timer object to schedule and manage timing tasks
     public Timer timer;
 
-    //instantiates the timer
-    public SurvivalTimer()
-    {
-        timer = new Timer("Survival Timer");
+    // Constructor to initialize the Timer instance with a descriptive name
+    public SurvivalTimer() {
+        timer = new Timer("Survival Timer"); // Create a new Timer with the name "Survival Timer"
     }
-    //starts the timer
-    public void start()
-    {
-        timer.scheduleAtFixedRate(new TimerTask()
-        {
-            //runs the timer
+
+    // Method to start the countdown timer
+    public void start() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+            // Runs the countdown logic every second
             @Override
             public void run() {
-                if(seconds > 0)
-                {
+                if (seconds > 0) { // Check if there is remaining time
                     seconds--;
-                    System.out.println("Time: " + seconds);
+                    System.out.println("Time: " + seconds); // Print the current time
                 } else {
-                    System.out.println();
-                    timer.cancel();
+                    System.out.println(); // Print an empty line to signify the timer's end
+                    timer.cancel(); // Stop the timer when time runs out
                 }
             }
-
-        }, 0, 1000);
+        }, 0, 1000); // Schedule the task to run every 1000 milliseconds (1 second) starting immediately
     }
 
-    public void setSeconds(int time)
-    {
+    // Method to manually set the starting time in seconds
+    public void setSeconds(int time) {
         this.seconds = time;
     }
-    public int getSeconds()
-    {
+
+    // Method to retrieve the remaining time in seconds
+    public int getSeconds() {
         return seconds;
     }
 }
