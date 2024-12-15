@@ -1,4 +1,6 @@
 package Main;
+import Model.Music.Sound;
+
 import javax.print.attribute.standard.Media;
 
 public class Main {
@@ -6,17 +8,13 @@ public class Main {
     public static void main(String[] args) {
 
         // TODO Auto-generated method stub
+
+            //having the try catch here in the main method. 
             try {
 
                 //grab the one instance of the appClient
                 AppClient test1 = AppClient.INSTANCE;
                 test1.getParserEngine().scanText();
-
-//                Sound test = new Sound();
-//                test.playSound("assets/gamemusic.mp3");
-
-
-
 
             }
             catch (ArithmeticException e) {

@@ -1,20 +1,23 @@
 package Model.levels.room;
 
 import Model.levels.Item;
-
 import java.util.ArrayList;
 import java.util.List;
 
+//the class that will implement our RoomObject interface.
 public class RoomObjects implements RoomObject {
 
     private String name;
     private List<Item> items;
 
+    //constructor
     public RoomObjects(String name)
     {
         this.items = new ArrayList<>();
         this.name = name;
     }
+
+    //search for the items in the room or inside a room object.
     @Override
     public String search() {
         if(items.isEmpty())
@@ -41,6 +44,7 @@ public class RoomObjects implements RoomObject {
         items.add(item);
     }
 
+    //allows us to remove an item from the ArrayList when player takes that item.
     @Override
     public String removeItem(String itemName) {
         for(Item item : items)

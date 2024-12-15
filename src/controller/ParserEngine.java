@@ -1,4 +1,5 @@
 package controller;
+
 import Model.database.Database;
 import Model.levels.Item;
 import Model.levels.room.Room;
@@ -9,9 +10,8 @@ import View.Window;
 import Model.gameTimer.GameTimer;
 import Model.gameTimer.SurvivalTimer;
 import Model.levels.LevelGridSystem;
-
-
 import java.util.*;
+
 public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
@@ -33,6 +33,29 @@ public class ParserEngine {
     private RoomObjects cabinet;
     private RoomObjects refrigerator;
 
+
+    private Room bathroom;
+    private RoomObjects sink;
+    private RoomObjects tub;
+    private RoomObjects toilet;
+    private RoomObjects cabinet2;
+
+    private Room bedroom;
+    private RoomObjects bed;
+    private RoomObjects dresser;
+    private RoomObjects vanity;
+
+    private Room livingRoom;
+    private RoomObjects sofa;
+    private RoomObjects lamp;
+    private RoomObjects piano;
+    private RoomObjects tv;
+
+    private Room garage;
+    private RoomObjects car;
+    private RoomObjects mower;
+
+
     //level design
     Room hallwayOne;
     Room hallwayTwo;
@@ -48,14 +71,16 @@ public class ParserEngine {
         this.db = db;
         this.window = window;
 
+        //get a new grid system that will be our map.
         levels = new LevelGridSystem();
+        //start the player off at these coordinates in the 2D grid
         playerCords = new PlayerCords(levels, 4,4);
-        //creates the entire house with rooms
+        //creates the entire house with rooms that we have designated already
         createRooms();
 
 
-
-        //initialize the HashSet, which implements the Set interface
+        //initialize the HashSet, which implements the Set interface to hold all the nouns and verbs
+        //allowed in the game.
         verbs = new HashSet<>();
         nouns = new HashSet<>();
         commandHistory = new ArrayList<>();
@@ -70,27 +95,22 @@ public class ParserEngine {
     }
 
 
-
-
-
     //method to scan and send appropriate messages to the player.
     public void scanText() {
 
-        StringBuilder sbVerb = new StringBuilder();
+        StringBuilder sbVerb;
         sbVerb = showVerbs();
 
-        StringBuilder sbNoun = new StringBuilder();
+        StringBuilder sbNoun;
         sbNoun = showNouns();
 
-
-
-        //create a new scanner for user input
+        //create a new scanner for user input with directions
         Scanner scanner = new Scanner(System.in);
         System.out.println("WELCOME TO HOME INTRUSION " + "\n" +
                 "Enter a verb-and-noun command to begin game. " + "\n\n" +
                 "Select any verbs from this list: " + "\n" + sbVerb.toString() + "\n\n" +
                 "Select any nouns from this list: " + "\n" + sbNoun.toString() + "\n\n" +
-                "You will have 3 minutes to run through the home and grab essential items before the timer runs out and the " +
+                "You will have 30 seconds to run through the home and grab essential items before the timer runs out and the " +
                 "intruder has caught you. If a word is misspelled, you have 3 chances to correct and continue the game. Good luck! ");
 
         //begin the while loop to loop through every person's turn until the game ends.
@@ -103,29 +123,32 @@ public class ParserEngine {
             boolean isCorrect = false;
 
             while (attempts < 3) {
-                // grab the user's input and set equal to a variable.
+                //grab the user's input and set equal to a variable.
                 String userInput = scanner.nextLine();
 
-                // Add logic here to validate user input, for example:
+                //Add logic here to validate user input, for example:
                 if (isValidInput(userInput)) {
-                    // Continue with the processing
+                    //Continue with the processing
                     String[] parsedInput = parseInput(userInput);
                     System.out.println("Command Executed!");
                     isCorrect = true;  // Stop after a valid command
                     break;
-                } else {
+                }
+                else
+                {
                     attempts++;
                     System.out.println("Invalid command. Try again!");
                 }
             }
 
-
+            //if the attempts reach to 3 tries, force user to end the game.
             if (attempts == 3)
             {
                 System.out.println("You have exhausted 3 attempts! Please enter a valid command next time.");
                 System.out.println("Enter Exit to quit the game.");
             }
 
+            //get the next input from the user.
             String userInput = scanner.nextLine();
 
             //the loop will only break if the user uses the word "Exit"
@@ -139,6 +162,7 @@ public class ParserEngine {
             parseInput(userInput);
         }
 
+        //tell user the game is over.
         System.out.println("\n Game Over!");
         showCommand();
         commandHistory.clear();
@@ -148,20 +172,19 @@ public class ParserEngine {
     }
 
 
-
     /*
     Method checks if the String user input is actually a string or not.
      */
     public Boolean isValidInput(String input)
     {
-        // Convert input to lowercase and split by space
+        //Convert input to lowercase and split by space
         String[] words = input.toLowerCase().split(" ");
 
-        // Variables to store verb and noun
+        //Variables to store verb and noun
         String verb = null;
         String noun = null;
 
-        // Loop through words and check if they're in the sets
+        //Loop through words and check if they're in the sets
         for (String w : words) {
             if (verbs.contains(w)) {
                 verb = w;
@@ -170,7 +193,7 @@ public class ParserEngine {
             }
         }
 
-        // Check if both verb and noun were found
+        //Check if both verb and noun were found
         if (verb != null && noun != null) {
             return true;  // Both verb and noun are valid
         } else {
@@ -180,24 +203,21 @@ public class ParserEngine {
     }
 
 
-
-
-
-    //method that parses user input and returns the string array.
+    //Method that parses user input and returns the string array.
     public String[] parseInput(String input) {
 
-        // First, validate input
+        //First, validate input
         if (!isValidInput(input)) {
             System.out.println("Invalid input. Please ensure you use a valid verb and noun.");
             return new String[]{null, null};  // Return a default array for invalid input
         }
 
-        // Now that we know input is valid, proceed with parsing
+        //Now that we know input is valid, proceed with parsing
         String[] words = input.toLowerCase().split(" ");
         String verb = null;
         String noun = null;
 
-        // Loop through words and assign verb/noun
+        //Loop through words and assign verb/noun
         for (String w : words) {
             if (verbs.contains(w)) {
                 verb = w;
@@ -206,49 +226,24 @@ public class ParserEngine {
             }
         }
 
-        // Add verb and noun to command history
+        //Add verb and noun to command history
         commandHistory.add(verb);
         commandHistory.add(noun);
-
-        /*
-        For some reason, 
-         */
-
 
         RoomSearch(noun, verb);
         CabinetSearch(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
 
-        // Track movement and perform searches (testing purpose)
-//        if(verb == "search")
-//        {
-//            RoomSearch(noun, verb);
-//            CabinetSearch(noun, verb);
-//
-//        }
-//        else
-//        {
-//            trackMovement(verb, noun);
-//            showMap(noun, verb);
-//
-//        }
-
-        // Return verb and noun as a String array
+        //Return verb and noun as a String array
         return new String[]{verb, noun};
 
     }
 
 
-
-
-
-
-
-
-
-
-
+    /*
+    Method to just show the command history once the person exists the game.
+     */
     private void showCommand()
     {
         for(int i = 0; i < commandHistory.size(); i += 2)
@@ -260,15 +255,14 @@ public class ParserEngine {
     }
 
 
-
-    //switch case method to keep track of
+    //switch case method to keep track of the player's movement throughout the map.
     private void trackMovement(String verb, String noun)
     {
         /*
-        if verb = go
-        then we need a switch statement for noun for north, south, east, OR west
+        if verb equals "go" then we need a switch statement for noun for north, south, east, OR west
          */
 
+        //get the current coordinates
         int currentX = playerCords.getCoordX();
         int currentY = playerCords.getCoordY();
 
@@ -288,23 +282,29 @@ public class ParserEngine {
             case "east":
                 newY++;
                 break;
-//            default:
-//                System.out.println("Invalid direction.");
-//                return;
         }
 
+        //condition to move around the map
         if (levels.isValidRoom(newX, newY) && levels.getRoomToGrid(newX, newY) != null) {
-            playerCords.setCoordX(newX);
-            playerCords.setCoordY(newY);
-            Room currentRoom = levels.getRoomToGrid(newX, newY);
-            System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
-        } else {
+            if (noun.equals("west") || noun.equals("east") || noun.equals("north") || noun.equals("south"))
+            {
+                playerCords.setCoordX(newX);
+                playerCords.setCoordY(newY);
+                Room currentRoom = levels.getRoomToGrid(newX, newY);
+                System.out.println("You moved " + noun + " to " + currentRoom.getName() + ".");
+            }
+        }
+        else
+        {
             System.out.println("You can't move " + noun + ". There's no room there.");
         }
 
     }
 
-
+    /*
+    Here we are calling one method to actually create all the rooms we have built below.
+    Method is called in the constructor.
+     */
     public void createRooms()
     {
         createHallways();
@@ -312,12 +312,14 @@ public class ParserEngine {
         createGarage();
         createKitchens();
         createLivingRooms();
-
-
+        createBedrooms();
 
     }
 
 
+    /*
+    Method to create all the hallways and lay them in the right coordinates on the map.
+     */
     public void createHallways()
     {
         hallwayOne = new Room("Hallway");
@@ -368,57 +370,123 @@ public class ParserEngine {
     }
 
 
-    public void createKitchens() {
-        int playerId = 1;  // Player ID
-        String item = "Key";  // The item to update ("Key")
-
-        // Update the quantity of the player's item (add 1 item)
-        int updatedQuantity = db.updateQuantity(db, playerId, item);  // This adds 1 item to the inventory and returns the updated quantity
-
-        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
-            // Print the updated quantity
-            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
-
-            // Create the key item with the updated quantity
-            Item key = new Item(item, updatedQuantity);  // Create a new Item instance with updated quantity
-
-            kitchen = new Room("Kitchen");
-            cabinet = new RoomObjects("Cabinet");
-            refrigerator = new RoomObjects("Refrigerator");
-
-            cabinet.addItem(key); // add the item to the cabinet
+    /*
+    Create the kitchen with the following objects of choice.
+    */
+    public void createKitchens()
+    {
+        kitchen = new Room("kitchen");
+        cabinet = new RoomObjects("Cabinet");
+        refrigerator = new RoomObjects("Refrigerator");
+        cabinet.addItem(new Item("Key"));
 
 
-            //this is what needs to be in the search method parser engine
-            kitchen = new RoomBuilder("Kitchen")
-                    .setLightsOn(true)
-                    .addObject(cabinet)
-                    .addObject(refrigerator)
-                    .build();
+        //this is what needs to be in the search method parser engine
+        kitchen = new RoomBuilder("Kitchen")
+                .setLightsOn(true)
+                .addObject(cabinet)
+                .addObject(refrigerator)
 
-            levels.setRoomToGrid(6, 3, kitchen);
-        }
+                .build();
+
+        //set the desired coordinates for kitchen
+        levels.setRoomToGrid(6, 3, kitchen);
     }
 
 
+    /*
+    Create the livingroom with the following objects of choice.
+    */
     public void createLivingRooms()
     {
+        livingRoom = new Room("livingroom");
+        sofa = new RoomObjects("Sofa");
+        tv = new RoomObjects("TV");
+        lamp = new RoomObjects("Lamp");
+        piano = new RoomObjects("Piano");
+
+        livingRoom = new RoomBuilder("livingroom")
+                .setLightsOn(true)
+                .addObject(sofa)
+                .addObject(tv)
+                .addObject(lamp)
+                .addObject(piano)
+                .build();
+
+        //set the desired coordinates for livingroom
+        levels.setRoomToGrid(2,5,livingRoom);
+
 
     }
 
-
+    /*
+    Create the garage with the following objects of choice.
+    */
     public void createGarage()
     {
+        garage = new Room("garage");
+        car = new RoomObjects("car");
+        mower = new RoomObjects("mower");
 
+        garage = new RoomBuilder("Garage")
+                .setLightsOn(true)
+                .addObject(car)
+                .addObject(mower)
+                .build();
+
+        //set the desired coordinates for garage
+        levels.setRoomToGrid(7, 5, garage);
     }
 
 
+    /*
+    Create the bedroom with the following objects of choice.
+    */
+    public void createBedrooms()
+    {
+        bedroom = new Room("bedroom");
+        bed = new RoomObjects("Bed");
+        dresser = new RoomObjects("Dresser");
+        vanity = new RoomObjects("Vanity");
+
+        bedroom = new RoomBuilder("Bedroom")
+                .setLightsOn(true)
+                .addObject(bed)
+                .addObject(dresser)
+                .addObject(vanity)
+                .build();
+
+        //set the desired coordinates for bedroom
+        levels.setRoomToGrid(3,2, bedroom);
+
+    }
+
+    /*
+    Create the bathroom with the following objects of choice.
+    */
     public void createBathrooms()
     {
 
+        bathroom = new Room("bathroom");
+        cabinet2 = new RoomObjects("Bathroom Cabinet");
+        sink = new RoomObjects("Sink");
+        tub = new RoomObjects("Tub");
+        toilet = new RoomObjects("Toilet");
+
+        bathroom = new RoomBuilder("Bathroom")
+                .setLightsOn(true)
+                .addObject(cabinet2)
+                .addObject(sink)
+                .addObject(tub)
+                .addObject(toilet)
+                .build();
+
+        //set the desired coordinates for bathroom
+        levels.setRoomToGrid(5,5, bathroom);
     }
 
 
+    //set up the gameTimer to call and start.
     public void setUpGameTimer()
     {
         gameTimer = new GameTimer();
@@ -427,6 +495,7 @@ public class ParserEngine {
     }
 
 
+    //method to survival timer.
     public void setUpSurvivalTimer()
     {
         survivalTimer = new SurvivalTimer();
@@ -435,16 +504,19 @@ public class ParserEngine {
     }
 
 
+    //if there are any windows.
     public Window getWindow() {
         return window;
     }
 
 
+    //if there are any set windows.
     public void setWindow(Window window) {
         this.window = window;
     }
 
 
+    //get the database.
     public Database getDb() {
         return db;
     }
@@ -455,6 +527,7 @@ public class ParserEngine {
     }
 
 
+    //all our verbs in the hashset
     public HashSet<String> getVerbs() {
         //declare a new hashset
         verbs = new HashSet<>();
@@ -464,13 +537,14 @@ public class ParserEngine {
     }
 
 
+    //all the nouns in the hashset.
     public HashSet<String> getNouns() {
         //declare a new hashset
         nouns = new HashSet<>();
         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
-        "bedroom", "hallway", "basement", "living room", "bathroom", "refrigerator", "map"};
+        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage"};
         nouns.addAll(Arrays.asList(nounList));
         return nouns;
     }
@@ -484,7 +558,6 @@ public class ParserEngine {
 
     add the room names in the noun HashSet<>
      */
-
     public String RoomSearch(String noun, String verb) {
 
         String result = "";
@@ -495,7 +568,7 @@ public class ParserEngine {
         //validation for verb search
         if (verb.equals("search")) {
 
-            //continue with switch statement
+            //continue with switch statement depending on which noun or room it is from user input.
             switch(noun){
                 case "kitchen":
                     if(levels.getRoomToGrid(currentX, currentY) != kitchen)
@@ -506,83 +579,62 @@ public class ParserEngine {
                     {
                         System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
                     }
-                    //which part of the kitchen are you searching first?
                     break;
                 case "bedroom":
-                    System.out.println();
+                    if(levels.getRoomToGrid(currentX, currentY) != bedroom)
+                    {
+                        System.out.println("You are not in the bedroom");
+                    }
+                    else {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
                     break;
-                case "basement":
-                    System.out.println();
+                case "garage":
+                    if(levels.getRoomToGrid(currentX, currentY) != garage)
+                    {
+                        System.out.println("You are not in the garage.");
+                    }
+                    else {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
                     break;
-//                case "bathroom":
+                case "bathroom":
+                    if(levels.getRoomToGrid(currentX, currentY) != bathroom)
 //                    if(levels.getRoomToGrid(currentX, currentY) != bathroom && levels.getRoomToGrid(currentX, currentY) != halfbath)
-//                    {
-//                        System.out.println("You are not in a bathroom!");
-//                    }
-//                    else
-//                    {
-//                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
-//                    }
-//                    break;
-//                case "livingroom":
-//                    if(levels.getRoomToGrid(currentX, currentY) != livingRoom)
-//                    {
-//                        System.out.println("You are not in a living room!");
-//                    }
-//                    else
-//                    {
-//                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
-//                    }
-//                    break;
+                    {
+                        System.out.println("You are not in a bathroom!");
+                    }
+                    else
+                    {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
+                    break;
+                case "livingroom":
+                    if(levels.getRoomToGrid(currentX, currentY) != livingRoom)
+                    {
+                        System.out.println("You are not in a livingroom.");
+                    }
+                    else {
+                        System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()).searchRoom());
+                    }
+                    break;
                 case "hallway":
                     System.out.println();
                     break;
 
             }
 
-
-
-
-//            switch(noun){
-//                case "kitchen":
-//                    System.out.println(levels.getRoomToGrid(playerCords.getCoordX(), playerCords.getCoordY()));
-//                    //which part of the kitchen are you searching first?
-//                    break;
-//                case "bedroom":
-//                    System.out.println();
-//                    break;
-//                case "basement":
-//                    System.out.println();
-//                    break;
-//                case "bathroom":
-//                    System.out.println();
-//                    break;
-//                case "living room":
-//                    System.out.println();
-//                    break;
-//                case "hallway":
-//                    System.out.println();
-//                    break;
-//
-//            }
-
-
         }
-
-//        else
-//        {
-//            System.out.println("Please use the verb Search in your command to search the room.");
-//        }
 
        return result;
     }
 
 
-    //search cabinet
+    //search cabinet method, bringing in the proper noun and verb from user input
+    //this example is specific for a kitchen cabinet.
     public String CabinetSearch(String noun, String verb)
     {
         String result = "";
-
 
         //validation for verb search
         if (verb.equals("search")) {
@@ -596,15 +648,10 @@ public class ParserEngine {
             }
         }
 
-//        else
-//        {
-//            System.out.println("Please use the verb Search in your command to search the room.");
-//        }
-
         return result;
-
     }
 
+    //display the 2D grid map for the user when they type show map.
     public void showMap(String noun, String verb)
     {
         if(verb.equals("show"))
@@ -616,6 +663,8 @@ public class ParserEngine {
         }
     }
 
+    //method to display all the verbs in an ArrayList. Method is called in the greeting and directions
+    //to show player what verbs they may use.
     public StringBuilder showVerbs()
     {
         StringBuilder sb = new StringBuilder();
@@ -639,6 +688,7 @@ public class ParserEngine {
     }
 
 
+    //displays all the nouns the user can use at the beginning of the game.
     public StringBuilder showNouns()
     {
         StringBuilder sb = new StringBuilder();
@@ -659,6 +709,5 @@ public class ParserEngine {
 
         return sb;
     }
-
 
 }
