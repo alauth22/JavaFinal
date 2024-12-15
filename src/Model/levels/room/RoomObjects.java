@@ -9,6 +9,7 @@ public class RoomObjects implements RoomObject {
 
     private String name;
     private List<Item> items;
+    private Item currentItem;
 
     //constructor
     public RoomObjects(String name)
@@ -67,5 +68,29 @@ public class RoomObjects implements RoomObject {
     @Override
     public char getSymbol() {
         return name.charAt(0);
+    }
+
+
+    @Override
+    public Boolean obtainCheck()
+    {
+        for(Item item : items)
+        {
+            if(item.getName().equalsIgnoreCase("key"))
+            {
+                return true;
+            }
+            else if (item.getName().equalsIgnoreCase("flashlight"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return false;
+
     }
 }
