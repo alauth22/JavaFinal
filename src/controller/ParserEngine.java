@@ -1,6 +1,7 @@
 package controller;
 
 import Model.database.Database;
+import Model.database.Player;
 import Model.levels.Item;
 import Model.levels.room.Room;
 import Model.levels.room.RoomBuilder;
@@ -20,6 +21,7 @@ public class ParserEngine {
     private HashSet<String> nouns;
     private Window window;
     private Database db;
+    private Player playerDB;
     private ArrayList<String> commandHistory;
     private LevelGridSystem levels;
 
@@ -72,12 +74,14 @@ public class ParserEngine {
         this.db = db;
         this.window = window;
 
+
         //get a new grid system that will be our map.
         levels = new LevelGridSystem();
         //start the player off at these coordinates in the 2D grid
         playerCords = new PlayerCords(levels, 4,4);
         //creates the entire house with rooms that we have designated already
         createRooms();
+
 
 
         //initialize the HashSet, which implements the Set interface to hold all the nouns and verbs
@@ -233,6 +237,7 @@ public class ParserEngine {
 
         RoomSearch(noun, verb);
         CabinetSearch(noun, verb);
+        GrabKeyFlashlightCabinet(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
 
@@ -377,12 +382,12 @@ public class ParserEngine {
     public void createKitchens()
     {
         int playerId = 1;  // Player ID
-        String item = "Key";  // The item to update ("Key")
+        String item = "key";  // The item to update ("Key")
 
         // Update the quantity of the player's item (add 1 item)
         int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
 
-        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
+//        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
             // Print the updated quantity for verification
             System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
 
@@ -392,7 +397,6 @@ public class ParserEngine {
         kitchen = new Room("kitchen");
         cabinet = new RoomObjects("Cabinet");
         refrigerator = new RoomObjects("Refrigerator");
-
         cabinet.addItem(key);
 
         //this is what needs to be in the search method parser engine
@@ -400,15 +404,14 @@ public class ParserEngine {
                 .setLightsOn(true)
                 .addObject(cabinet)
                 .addObject(refrigerator)
-
                 .build();
 
         //set the desired coordinates for kitchen
         levels.setRoomToGrid(6, 3, kitchen);
-        } else {
-            // Log a message if the quantity update fails
-            System.out.println("Failed to update quantity for item: " + item);
-        }
+//        } else {
+//            // Log a message if the quantity update fails
+//            System.out.println("Failed to update quantity for item: " + item);
+//        }
     }
 
 
@@ -467,6 +470,9 @@ public class ParserEngine {
         int playerId = 1;  // Player ID
         String item = "Key";  // The item to update ("Key")
         // Update the quantity of the player's item (add 1 item)
+        //reads the command of "Take Key" -> update the db
+
+
         int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
 
         if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
@@ -476,7 +482,7 @@ public class ParserEngine {
             // Create a new Item instance with the updated quantity
             Item key = new Item(item, updatedQuantity);
             // Add the item to the mower
-            mower.addItem(key);
+            //mower.addItem(key);
 
         // garage = new Room("garage");
         car = new RoomObjects("car");
@@ -507,8 +513,11 @@ public class ParserEngine {
         String item = "Flashlight";  // The item to update ("Flashlight")
 
         // Update the quantity of the player's item (add 1 item)
+
+        //MARIANA - REMOVE THIS DATABASE REFERENCE EVERYWHERE ELSE THIS IS.
         int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
 
+        //MARIANA - REMOVE THIS DATABASE REFERENCE IF STATEMENT AND EVERYWHERE ELSE THIS IS.
         if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
             // Print the updated quantity for verification
             System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
@@ -718,6 +727,7 @@ public class ParserEngine {
             if(noun.equals("cabinet"))
             {
                 System.out.println(cabinet.search());
+
             }
             else if(noun.equals("refrigerator"))
             {
@@ -727,6 +737,67 @@ public class ParserEngine {
 
         return result;
     }
+
+
+
+    //MARIANA - MUST KEEP THE DB.UPDATEQUANTITY METHOD HERE
+    public void GrabKeyFlashlightCabinet(String noun, String verb)
+    {
+
+
+        //ensure that the verb is take
+        if(verb.equals("take")) {
+            //ensure that the noun is either key or flashlight
+            if (noun.equals("key") || noun.equals("flashlight")) {
+                //ensure that the roomobject acutally has a key or flashlight
+                if (cabinet.obtainCheck().equals(true)) {
+                    //db has been updated for that particular player
+                    db.updateQuantity(db, 1, noun);
+                    //remove item from roomobject
+                    System.out.println(cabinet.removeItem(noun));
+
+                } else {
+                    System.out.println("Cabinet does not have a flashlight and/or key.");
+                }
+            } else {
+                System.out.println("You have used the wrong noun, plesee type either key or flashlight.");
+            }
+        }
+        else
+        {
+            System.out.println("This verb is not in our database, Please try again.");
+        }
+
+    }
+
+
+
+    public String KeySearch(String noun, String verb, RoomObjects room, Database db, String item, int PlayerID)
+    {
+        String result = "";
+        if(verb.equals("take"))
+        {
+            if(noun.equals("key"))
+            {
+                //if the key is present in the whatever object you're looking in
+                //if the object's list contains the key or a flashlight then run the db.
+                if(room.obtainCheck() == true)
+                {
+                    db.updateQuantity(db, PlayerID, item);
+                }
+                else {
+                    System.out.println("No item present!");
+                }
+
+            }
+
+
+        }
+
+        return result;
+    }
+
+
 
     //display the 2D grid map for the user when they type show map.
     public void showMap(String noun, String verb)
@@ -786,5 +857,6 @@ public class ParserEngine {
 
         return sb;
     }
+
 
 }
