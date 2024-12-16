@@ -700,9 +700,6 @@ public class ParserEngine {
     }
 
 
-
-
-
     public void GrabItemCabinet(String noun, String verb)
     {
         //ensure that the verb is take
@@ -722,6 +719,10 @@ public class ParserEngine {
             } else {
                 System.out.println("You have used the wrong noun, plesee type either key or flashlight.");
             }
+        }
+        else
+        {
+            System.out.println("This verb is not in our database, Please try again.");
         }
 
     }
@@ -748,6 +749,10 @@ public class ParserEngine {
                 System.out.println("You have used the wrong noun, plesee type either key or flashlight.");
             }
         }
+        else
+        {
+            System.out.println("This verb is not in our database, Please try again.");
+        }
 
     }
 
@@ -771,6 +776,10 @@ public class ParserEngine {
             } else {
                 System.out.println("You have used the wrong noun, plesee type either key or flashlight.");
             }
+        }
+        else
+        {
+            System.out.println("This verb is not in our database, Please try again.");
         }
 
     }
