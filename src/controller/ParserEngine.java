@@ -381,13 +381,13 @@ public class ParserEngine {
     */
     public void createKitchens()
     {
-        String item = "key";  // The item to update ("Key")
-        Item key = new Item(item);
+        // Create a new Item instance with the updated quantity
+           // Item key = new Item(item, updatedQuantity);
 
         kitchen = new Room("kitchen");
         cabinet = new RoomObjects("Cabinet");
         refrigerator = new RoomObjects("Refrigerator");
-        cabinet.addItem(key);
+        //cabinet.addItem(key);
 
         //this is what needs to be in the search method parser engine
         kitchen = new RoomBuilder("Kitchen")
@@ -398,10 +398,6 @@ public class ParserEngine {
 
         //set the desired coordinates for kitchen
         levels.setRoomToGrid(6, 3, kitchen);
-//        } else {
-//            // Log a message if the quantity update fails
-//            System.out.println("Failed to update quantity for item: " + item);
-//        }
     }
 
 
@@ -409,58 +405,39 @@ public class ParserEngine {
     Create the livingroom with the following objects of choice.
     */
     public void createLivingRooms() {
+        // Initialize the living room and its objects
+        livingRoom = new Room("livingroom");
+        sofa = new RoomObjects("Sofa");
+        tv = new RoomObjects("TV");
+        lamp = new RoomObjects("Lamp");
+        piano = new RoomObjects("Piano");
+        table = new RoomObjects("Table");
 
-        String item = "Map";  // The item to update ("Map")
+        // Build the living room with objects
+        livingRoom = new RoomBuilder("livingroom")
+                .setLightsOn(true)
+                .addObject(sofa)
+                .addObject(tv)
+                .addObject(lamp)
+                .addObject(piano)
+                .addObject(table)
+                .build();
 
-            // Create a new Item instance with the updated quantity
-            Item map = new Item(item);
-
-            // Initialize the living room and its objects
-            livingRoom = new Room("livingroom");
-            sofa = new RoomObjects("Sofa");
-            tv = new RoomObjects("TV");
-            lamp = new RoomObjects("Lamp");
-            piano = new RoomObjects("Piano");
-            table = new RoomObjects("Table");
-
-            // Add the item to the table
-            table.addItem(map);
-
-            // Build the living room with objects
-            livingRoom = new RoomBuilder("livingroom")
-                    .setLightsOn(true)
-                    .addObject(sofa)
-                    .addObject(tv)
-                    .addObject(lamp)
-                    .addObject(piano)
-                    .addObject(table)
-                    .build();
-
-            // Set the living room at the desired grid coordinates
-            levels.setRoomToGrid(2, 5, livingRoom);
+        // Set the living room at the desired grid coordinates
+        levels.setRoomToGrid(2, 5, livingRoom);
     }
+
 
 
     /*
     Create the garage with the following objects of choice.
     */
-    public void createGarage()
-    {
-
+    public void createGarage() {
+        int playerId = 1;  // Player ID
         String item = "Key";  // The item to update ("Key")
-        // Update the quantity of the player's item (add 1 item)
-        //reads the command of "Take Key" -> update the db
-
-
-            // Create a new Item instance with the updated quantity
-            Item key = new Item(item);
-            // Add the item to the mower
-            //mower.addItem(key);
-
-        // garage = new Room("garage");
+        // Initialize the garage and its objects
         car = new RoomObjects("car");
         mower = new RoomObjects("mower");
-
 
         garage = new RoomBuilder("Garage")
                 .setLightsOn(true)
@@ -468,33 +445,24 @@ public class ParserEngine {
                 .addObject(mower)
                 .build();
 
-        //set the desired coordinates for garage
+        // Set the desired coordinates for garage
         levels.setRoomToGrid(7, 5, garage);
-
     }
+
 
 
     /*
     Create the bedroom with the following objects of choice.
     */
-    public void createBedrooms()
-    {
-
+    public void createBedrooms() {
+        int playerId = 1;  // Player ID
         String item = "Flashlight";  // The item to update ("Flashlight")
 
-        // Update the quantity of the player's item (add 1 item)
-
-
-
+        // Initialize the bedroom and its objects
         bedroom = new Room("bedroom");
         bed = new RoomObjects("Bed");
         dresser = new RoomObjects("Dresser");
         vanity = new RoomObjects("Vanity");
-
-        // Create a new Item instance with the updated quantity
-        Item flashlight = new Item(item);
-        // Add the item to the table
-        dresser.addItem(flashlight);
 
         bedroom = new RoomBuilder("Bedroom")
                 .setLightsOn(true)
@@ -503,10 +471,10 @@ public class ParserEngine {
                 .addObject(vanity)
                 .build();
 
-        //set the desired coordinates for bedroom
-        levels.setRoomToGrid(3,2, bedroom);
-
+        // Set the desired coordinates for bedroom
+        levels.setRoomToGrid(3, 2, bedroom);
     }
+
 
     /*
     Create the bathroom with the following objects of choice.
@@ -520,7 +488,9 @@ public class ParserEngine {
         tub = new RoomObjects("Tub");
         toilet = new RoomObjects("Toilet");
 
-        bathroom = new RoomBuilder("Bathroom")
+        bathroom = new RoomBuilder(
+
+                "Bathroom")
                 .setLightsOn(true)
                 .addObject(cabinet2)
                 .addObject(sink)
@@ -700,6 +670,8 @@ public class ParserEngine {
     }
 
 
+
+    //MARIANA - MUST KEEP THE DB.UPDATEQUANTITY METHOD HERE
     public void GrabItemCabinet(String noun, String verb)
     {
         //ensure that the verb is take
@@ -782,6 +754,38 @@ public class ParserEngine {
             System.out.println("This verb is not in our database, Please try again.");
         }
 
+    }
+
+
+
+
+
+
+
+
+    public String KeySearch(String noun, String verb, RoomObjects room, Database db, String item, int PlayerID)
+    {
+        String result = "";
+        if(verb.equals("take"))
+        {
+            if(noun.equals("key"))
+            {
+                //if the key is present in the whatever object you're looking in
+                //if the object's list contains the key or a flashlight then run the db.
+                if(room.obtainCheck() == true)
+                {
+                    db.updateQuantity(db, PlayerID, item);
+                }
+                else {
+                    System.out.println("No item present!");
+                }
+
+            }
+
+
+        }
+
+        return result;
     }
 
 
