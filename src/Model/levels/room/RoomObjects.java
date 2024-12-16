@@ -84,6 +84,10 @@ public class RoomObjects implements RoomObject {
             {
                 return true;
             }
+            else if (item.getName().equalsIgnoreCase("map"))
+            {
+                return true;
+            }
             else
             {
                 return false;
