@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="updates for searching objects and removing from items list and database. -amelia">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Resources/FinalJava1.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/Resources/FinalJava1.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
-    </list>
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="removed UpdateQuantity throughout ParserEngine except for three item methods" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -198,7 +192,39 @@
       <option name="project" value="LOCAL" />
       <updated>1734300463336</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added 2 more methods to get items from RoomObject items">
+      <option name="closed" value="true" />
+      <created>1734387712364</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1734387712364</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added 2 more methods to get items from RoomObject items">
+      <option name="closed" value="true" />
+      <created>1734387720133</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1734387720133</updated>
+    </task>
+    <task id="LOCAL-00018" summary="removed UpdateQuantity throughout ParserEngine except for three item methods">
+      <option name="closed" value="true" />
+      <created>1734388249360</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1734388249360</updated>
+    </task>
+    <task id="LOCAL-00019" summary="removed UpdateQuantity throughout ParserEngine except for three item methods">
+      <option name="closed" value="true" />
+      <created>1734388254229</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1734388254229</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -208,24 +234,21 @@
     <MESSAGE value="more rooms added to map with objects." />
     <MESSAGE value="more rooms added to map with objects. -amelia" />
     <MESSAGE value="updates for searching objects and removing from items list and database. -amelia" />
-    <option name="LAST_COMMIT_MESSAGE" value="updates for searching objects and removing from items list and database. -amelia" />
+    <MESSAGE value="added 2 more methods to get items from RoomObject items" />
+    <MESSAGE value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/controller/ParserEngine.java</url>
-          <line>720</line>
+          <line>681</line>
           <properties class="controller.ParserEngine" method="CabinetSearch">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/controller/ParserEngine.java</url>
-          <line>399</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
