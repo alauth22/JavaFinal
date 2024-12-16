@@ -96,7 +96,7 @@ public class Room {
             return "The " + name + " is empty.";
         }
 
-        StringBuilder objectsList = new StringBuilder("You look around the " + name + "and see the following things: ");
+        StringBuilder objectsList = new StringBuilder("You look around the " + name + " and see the following things: ");
 
         //loop through the list of objects that were added for that specific room.
         for(RoomObject object: roomObjects)
