@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="more rooms added to map with objects. -amelia">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_8_2024_11_37_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_8_2024_11_37_AM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="updates for searching objects and removing from items list and database. -amelia">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaFinal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFinal.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Resources/FinalJava1.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/Resources/FinalJava1.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
@@ -188,7 +182,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733967114881</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="updates for searching objects and removing from items list and database. -amelia">
+      <option name="closed" value="true" />
+      <created>1734300457488</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1734300457488</updated>
+    </task>
+    <task id="LOCAL-00015" summary="updates for searching objects and removing from items list and database. -amelia">
+      <option name="closed" value="true" />
+      <created>1734300463336</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1734300463336</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -197,14 +207,15 @@
     <MESSAGE value="Validation work in ParserEngine and Added Sound class" />
     <MESSAGE value="more rooms added to map with objects." />
     <MESSAGE value="more rooms added to map with objects. -amelia" />
-    <option name="LAST_COMMIT_MESSAGE" value="more rooms added to map with objects. -amelia" />
+    <MESSAGE value="updates for searching objects and removing from items list and database. -amelia" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates for searching objects and removing from items list and database. -amelia" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/controller/ParserEngine.java</url>
-          <line>717</line>
+          <line>720</line>
           <properties class="controller.ParserEngine" method="CabinetSearch">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

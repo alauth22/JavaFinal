@@ -237,7 +237,7 @@ public class ParserEngine {
 
         RoomSearch(noun, verb);
         CabinetSearch(noun, verb);
-        GrabKeyFlashlightCabinet(noun, verb);
+        GrabItemCabinet(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
 
@@ -741,14 +741,12 @@ public class ParserEngine {
 
 
     //MARIANA - MUST KEEP THE DB.UPDATEQUANTITY METHOD HERE
-    public void GrabKeyFlashlightCabinet(String noun, String verb)
+    public void GrabItemCabinet(String noun, String verb)
     {
-
-
         //ensure that the verb is take
         if(verb.equals("take")) {
             //ensure that the noun is either key or flashlight
-            if (noun.equals("key") || noun.equals("flashlight")) {
+            if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
                 //ensure that the roomobject acutally has a key or flashlight
                 if (cabinet.obtainCheck().equals(true)) {
                     //db has been updated for that particular player
@@ -769,6 +767,68 @@ public class ParserEngine {
         }
 
     }
+
+
+    //update query to get the item from a table roomobject
+    public void GrabItemTable(String noun, String verb)
+    {
+        //ensure that the verb
+        if(verb.equals("take")) {
+            //ensure that the noun is either key or flashlight
+            if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
+                //ensure that the roomobject acutally has a key or flashlight
+                if (table.obtainCheck().equals(true)) {
+                    //db has been updated for that particular player
+                    db.updateQuantity(db, 1, noun);
+                    //remove item from roomobject
+                    System.out.println(table.removeItem(noun));
+
+                } else {
+                    System.out.println("Cabinet does not have a flashlight and/or key.");
+                }
+            } else {
+                System.out.println("You have used the wrong noun, plesee type either key or flashlight.");
+            }
+        }
+        else
+        {
+            System.out.println("This verb is not in our database, Please try again.");
+        }
+
+    }
+
+    //method to get an item from a desser roomobject
+    public void GrabItemDresser(String noun, String verb)
+    {
+        //ensure that the verb
+        if(verb.equals("take")) {
+            //ensure that the noun is either key or flashlight
+            if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
+                //ensure that the roomobject acutally has a key or flashlight
+                if (dresser.obtainCheck().equals(true)) {
+                    //db has been updated for that particular player
+                    db.updateQuantity(db, 1, noun);
+                    //remove item from roomobject
+                    System.out.println(dresser.removeItem(noun));
+
+                } else {
+                    System.out.println("Cabinet does not have a flashlight and/or key.");
+                }
+            } else {
+                System.out.println("You have used the wrong noun, plesee type either key or flashlight.");
+            }
+        }
+        else
+        {
+            System.out.println("This verb is not in our database, Please try again.");
+        }
+
+    }
+
+
+
+
+
 
 
 

@@ -1,7 +1,6 @@
 package Model.database;
 
 import java.sql.*;
-
 import java.io.File;
 
 public class Database {
@@ -66,9 +65,6 @@ public class Database {
 
         return updatedQuantity;  // Return updated quantity or 0 if unsuccessful
     }
-
-
-
 
 
 }
