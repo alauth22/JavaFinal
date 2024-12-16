@@ -381,18 +381,8 @@ public class ParserEngine {
     */
     public void createKitchens()
     {
-        int playerId = 1;  // Player ID
         String item = "key";  // The item to update ("Key")
-
-        // Update the quantity of the player's item (add 1 item)
-        int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
-
-//        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
-            // Print the updated quantity for verification
-            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
-
-            // Create a new Item instance with the updated quantity
-            Item key = new Item(item, updatedQuantity);
+        Item key = new Item(item);
 
         kitchen = new Room("kitchen");
         cabinet = new RoomObjects("Cabinet");
@@ -419,18 +409,11 @@ public class ParserEngine {
     Create the livingroom with the following objects of choice.
     */
     public void createLivingRooms() {
-        int playerId = 1;  // Player ID
+
         String item = "Map";  // The item to update ("Map")
 
-        // Update the quantity of the player's item (add 1 item)
-        int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
-
-        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
-            // Print the updated quantity for verification
-            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
-
             // Create a new Item instance with the updated quantity
-            Item map = new Item(item, updatedQuantity);
+            Item map = new Item(item);
 
             // Initialize the living room and its objects
             livingRoom = new Room("livingroom");
@@ -455,10 +438,6 @@ public class ParserEngine {
 
             // Set the living room at the desired grid coordinates
             levels.setRoomToGrid(2, 5, livingRoom);
-        } else {
-            // Log a message if the quantity update fails
-            System.out.println("Failed to update quantity for item: " + item);
-        }
     }
 
 
@@ -467,20 +446,14 @@ public class ParserEngine {
     */
     public void createGarage()
     {
-        int playerId = 1;  // Player ID
+
         String item = "Key";  // The item to update ("Key")
         // Update the quantity of the player's item (add 1 item)
         //reads the command of "Take Key" -> update the db
 
 
-        int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
-
-        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
-            // Print the updated quantity for verification
-            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
-
             // Create a new Item instance with the updated quantity
-            Item key = new Item(item, updatedQuantity);
+            Item key = new Item(item);
             // Add the item to the mower
             //mower.addItem(key);
 
@@ -497,10 +470,7 @@ public class ParserEngine {
 
         //set the desired coordinates for garage
         levels.setRoomToGrid(7, 5, garage);
-        } else {
-            // Log a message if the quantity update fails
-            System.out.println("Failed to update quantity for item: " + item);
-        }
+
     }
 
 
@@ -509,18 +479,12 @@ public class ParserEngine {
     */
     public void createBedrooms()
     {
-        int playerId = 1;  // Player ID
+
         String item = "Flashlight";  // The item to update ("Flashlight")
 
         // Update the quantity of the player's item (add 1 item)
 
-        //MARIANA - REMOVE THIS DATABASE REFERENCE EVERYWHERE ELSE THIS IS.
-        int updatedQuantity = db.updateQuantity(db, playerId, item);  // Increment the quantity by 1 and get the updated value
 
-        //MARIANA - REMOVE THIS DATABASE REFERENCE IF STATEMENT AND EVERYWHERE ELSE THIS IS.
-        if (updatedQuantity > 0) {  // Proceed only if the quantity was successfully updated
-            // Print the updated quantity for verification
-            System.out.println("Updated Quantity for " + item + ": " + updatedQuantity);
 
         bedroom = new Room("bedroom");
         bed = new RoomObjects("Bed");
@@ -528,7 +492,7 @@ public class ParserEngine {
         vanity = new RoomObjects("Vanity");
 
         // Create a new Item instance with the updated quantity
-        Item flashlight = new Item(item, updatedQuantity);
+        Item flashlight = new Item(item);
         // Add the item to the table
         dresser.addItem(flashlight);
 
@@ -541,10 +505,7 @@ public class ParserEngine {
 
         //set the desired coordinates for bedroom
         levels.setRoomToGrid(3,2, bedroom);
-        } else {
-            // Log a message if the quantity update fails
-            System.out.println("Failed to update quantity for item: " + item);
-        }
+
     }
 
     /*
@@ -739,8 +700,6 @@ public class ParserEngine {
     }
 
 
-
-    //MARIANA - MUST KEEP THE DB.UPDATEQUANTITY METHOD HERE
     public void GrabItemCabinet(String noun, String verb)
     {
         //ensure that the verb is take
@@ -823,38 +782,6 @@ public class ParserEngine {
             System.out.println("This verb is not in our database, Please try again.");
         }
 
-    }
-
-
-
-
-
-
-
-
-    public String KeySearch(String noun, String verb, RoomObjects room, Database db, String item, int PlayerID)
-    {
-        String result = "";
-        if(verb.equals("take"))
-        {
-            if(noun.equals("key"))
-            {
-                //if the key is present in the whatever object you're looking in
-                //if the object's list contains the key or a flashlight then run the db.
-                if(room.obtainCheck() == true)
-                {
-                    db.updateQuantity(db, PlayerID, item);
-                }
-                else {
-                    System.out.println("No item present!");
-                }
-
-            }
-
-
-        }
-
-        return result;
     }
 
 
