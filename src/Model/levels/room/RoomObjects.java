@@ -23,7 +23,7 @@ public class RoomObjects implements RoomObject {
     public String search() {
         if(items.isEmpty())
         {
-            return "The " + name + "is empty.";
+            return "The " + name + " is empty.";
         }
 
         StringBuilder result = new StringBuilder("Inside the " + name + ", you find: ");
@@ -53,7 +53,7 @@ public class RoomObjects implements RoomObject {
             if(item.getName().equalsIgnoreCase(itemName))
             {
                 items.remove(item);
-                return "You took the " + itemName + "from the " + name + ".";
+                return "You took the " + itemName + " from the " + name + ".";
             }
 
         }

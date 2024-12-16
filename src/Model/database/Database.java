@@ -55,8 +55,8 @@ public class Database {
                         System.out.println("No record found for the given Player ID and Item.");
                     }
                 }
-            } else {
-                System.out.println("No record found for Player ID: " + playerId + " and Item: " + item);
+//            } else {
+//                System.out.println("No record found for Player ID: " + playerId + " and Item: " + item);
             }
 
         } catch (SQLException e) {
