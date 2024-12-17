@@ -17,6 +17,7 @@ public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
     //could try an array or a dictionary, but I don't care about order.
+    private List<RoomObjects> objectList;
     private HashSet<String> verbs;
     private HashSet<String> nouns;
     private Window window;
@@ -82,6 +83,8 @@ public class ParserEngine {
         //creates the entire house with rooms that we have designated already
         createRooms();
 
+        objectToList();
+
 
 
         //initialize the HashSet, which implements the Set interface to hold all the nouns and verbs
@@ -98,6 +101,28 @@ public class ParserEngine {
 
 
     }
+
+
+    private void objectToList()
+    {
+        objectList = new ArrayList<>();
+
+        objectList.add(cabinet);
+        objectList.add(refrigerator);
+        objectList.add(sink);
+        objectList.add(tub);
+        objectList.add(toilet);
+        objectList.add(cabinet2);
+        objectList.add(bed);
+        objectList.add(dresser);
+        objectList.add(vanity);
+        objectList.add(sofa);
+        objectList.add(lamp);
+        objectList.add(piano);
+        objectList.add(tv);
+        objectList.add(table);
+    }
+
 
 
     //method to scan and send appropriate messages to the player.
@@ -236,8 +261,10 @@ public class ParserEngine {
         commandHistory.add(noun);
 
         RoomSearch(noun, verb);
-        CabinetSearch(noun, verb);
+        ObjectSearch(noun, verb);
         GrabItemCabinet(noun, verb);
+        GrabItemDresser(noun, verb);
+        GrabItemTable(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
 
@@ -245,6 +272,8 @@ public class ParserEngine {
         return new String[]{verb, noun};
 
     }
+
+
 
 
     /*
@@ -410,10 +439,9 @@ public class ParserEngine {
     */
     public void createLivingRooms() {
 
-        String item = "Map";  // The item to update ("Map")
+          // The item to update ("Map")
 
-            // Create a new Item instance with the updated quantity
-            Item map = new Item(item);
+
 
             // Initialize the living room and its objects
             livingRoom = new Room("livingroom");
@@ -423,6 +451,9 @@ public class ParserEngine {
             piano = new RoomObjects("Piano");
             table = new RoomObjects("Table");
 
+            String item = "map";
+            // Create a new Item instance with the updated quantity
+            Item map = new Item(item);
             // Add the item to the table
             table.addItem(map);
 
@@ -452,10 +483,10 @@ public class ParserEngine {
         //reads the command of "Take Key" -> update the db
 
 
-            // Create a new Item instance with the updated quantity
-            Item key = new Item(item);
-            // Add the item to the mower
-            //mower.addItem(key);
+        // Create a new Item instance with the updated quantity
+        Item key = new Item(item);
+        // Add the item to the mower
+        //mower.addItem(key);
 
         // garage = new Room("garage");
         car = new RoomObjects("car");
@@ -480,18 +511,14 @@ public class ParserEngine {
     public void createBedrooms()
     {
 
-        String item = "Flashlight";  // The item to update ("Flashlight")
-
         // Update the quantity of the player's item (add 1 item)
-
-
-
         bedroom = new Room("bedroom");
         bed = new RoomObjects("Bed");
         dresser = new RoomObjects("Dresser");
         vanity = new RoomObjects("Vanity");
 
         // Create a new Item instance with the updated quantity
+        String item = "Flashlight";  // The item to update ("Flashlight")
         Item flashlight = new Item(item);
         // Add the item to the table
         dresser.addItem(flashlight);
@@ -591,7 +618,7 @@ public class ParserEngine {
         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
-        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage"};
+        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage", "dresser", "vanity"};
         nouns.addAll(Arrays.asList(nounList));
         return nouns;
     }
@@ -677,27 +704,43 @@ public class ParserEngine {
     }
 
 
+    public void ObjectSearch(String noun, String verb) {
+
+
+        if (verb.equalsIgnoreCase("search")) {
+            for (RoomObjects obj : objectList) {
+                if (noun.equalsIgnoreCase(obj.getName())) {
+                    System.out.println(obj.search());
+
+                    break;
+                }
+            }
+
+        }
+    }
+
+
     //search cabinet method, bringing in the proper noun and verb from user input
     //this example is specific for a kitchen cabinet.
-    public String CabinetSearch(String noun, String verb)
-    {
-        String result = "";
-
-        //validation for verb search
-        if (verb.equals("search")) {
-            if(noun.equals("cabinet"))
-            {
-                System.out.println(cabinet.search());
-
-            }
-            else if(noun.equals("refrigerator"))
-            {
-                System.out.println(refrigerator.search());
-            }
-        }
-
-        return result;
-    }
+//    public String CabinetSearch(String noun, String verb)
+//    {
+//        String result = "";
+//
+//        //validation for verb search
+//        if (verb.equals("search")) {
+//            if(noun.equals("cabinet"))
+//            {
+//                System.out.println(cabinet.search());
+//
+//            }
+//            else if(noun.equals("refrigerator"))
+//            {
+//                System.out.println(refrigerator.search());
+//            }
+//        }
+//
+//        return result;
+//    }
 
 
     public void GrabItemCabinet(String noun, String verb)
@@ -739,7 +782,7 @@ public class ParserEngine {
                     System.out.println(table.removeItem(noun));
 
                 } else {
-                    System.out.println("Cabinet does not have a flashlight and/or key.");
+                    System.out.println("Table does not have a flashlight and/or key.");
                 }
             } else {
                 System.out.println("You have used the wrong noun, please type either key or flashlight.");
@@ -762,7 +805,7 @@ public class ParserEngine {
                     System.out.println(dresser.removeItem(noun));
 
                 } else {
-                    System.out.println("Cabinet does not have a flashlight and/or key.");
+                    System.out.println("Dresser does not have a flashlight and/or key.");
                 }
             } else {
                 System.out.println("You have used the wrong noun, please type either key or flashlight.");
