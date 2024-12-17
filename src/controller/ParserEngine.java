@@ -78,7 +78,7 @@ public class ParserEngine {
         playerCords = new PlayerCords(levels, 4,4);
         //creates the entire house with rooms that we have designated already
         createRooms();
-
+        setUpGameTimer();
         objectToList();
 
 
@@ -263,6 +263,7 @@ public class ParserEngine {
         GrabItemTable(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
+        showTime(noun, verb);
 
         //Return verb and noun as a String array
         return new String[]{verb, noun};
@@ -810,6 +811,18 @@ public class ParserEngine {
             if(noun.equals("map"))
             {
                 levels.printMap(playerCords);
+            }
+        }
+    }
+
+    //show timer
+    public void showTime(String noun, String verb)
+    {
+        if(verb.equals("show"))
+        {
+            if(noun.equals("timer"))
+            {
+                System.out.println(gameTimer.getSeconds());
             }
         }
     }
