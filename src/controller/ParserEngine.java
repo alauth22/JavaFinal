@@ -243,7 +243,7 @@ public class ParserEngine {
         String verb = null;
         String noun = null;
 
-        //Loop through words and assign verb/noun
+        //Loop through words and assign verb/nouns
         for (String w : words) {
             if (verbs.contains(w)) {
                 verb = w;
