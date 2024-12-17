@@ -25,7 +25,6 @@ public class ParserEngine {
 
     //GAME ENGINE STUFF
     private GameTimer gameTimer;
-    private SurvivalTimer survivalTimer;
     private PlayerCords playerCords;
 
     private Room kitchen;

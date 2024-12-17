@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="removed UpdateQuantity throughout ParserEngine except for three item methods">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Music/Sound.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/database/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/gameTimer/SurvivalTimer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/gamemusic.mp3" beforeDir="false" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="clean project">
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -248,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734388316520</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="clean project">
+      <option name="closed" value="true" />
+      <created>1734395018149</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1734395018149</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -260,6 +262,7 @@
     <MESSAGE value="updates for searching objects and removing from items list and database. -amelia" />
     <MESSAGE value="added 2 more methods to get items from RoomObject items" />
     <MESSAGE value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
+    <MESSAGE value="clean project" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean project" />
   </component>
 </project>
