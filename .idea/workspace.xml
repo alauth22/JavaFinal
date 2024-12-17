@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="removed UpdateQuantity throughout ParserEngine except for three item methods">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="more error handling corrections">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -246,7 +243,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734388316520</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="more error handling corrections">
+      <option name="closed" value="true" />
+      <created>1734390008225</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1734390008225</updated>
+    </task>
+    <task id="LOCAL-00023" summary="more error handling corrections">
+      <option name="closed" value="true" />
+      <created>1734390014227</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1734390014227</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -258,6 +271,7 @@
     <MESSAGE value="updates for searching objects and removing from items list and database. -amelia" />
     <MESSAGE value="added 2 more methods to get items from RoomObject items" />
     <MESSAGE value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
+    <MESSAGE value="more error handling corrections" />
+    <option name="LAST_COMMIT_MESSAGE" value="more error handling corrections" />
   </component>
 </project>
