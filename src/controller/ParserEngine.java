@@ -11,6 +11,9 @@ import Model.gameTimer.GameTimer;
 import Model.levels.LevelGridSystem;
 import java.util.*;
 
+
+//Randy Hawkins, Mariana Andrade, Amelia Lauth | 12/18/2024 | Java Part 2 Final Project
+
 public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
@@ -67,6 +70,8 @@ public class ParserEngine {
 
     //constructor
     public ParserEngine(Window window, Database db) {
+
+        Scanner scanner = new Scanner(System.in);
 
         this.db = db;
         this.window = window;
@@ -563,6 +568,7 @@ public class ParserEngine {
         gameTimer = new GameTimer();
 
         gameTimer.start();
+
     }
 
     //if there are any windows.

@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="more error handling corrections">
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/gameTimer/GameTimer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/gameTimer/GameTimer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -259,7 +260,31 @@
       <option name="project" value="LOCAL" />
       <updated>1734390014227</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="timer added">
+      <option name="closed" value="true" />
+      <created>1734395850748</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1734395850748</updated>
+    </task>
+    <task id="LOCAL-00025" summary="timer added">
+      <option name="closed" value="true" />
+      <created>1734395858413</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1734395858413</updated>
+    </task>
+    <task id="LOCAL-00026" summary="stuff deleted">
+      <option name="closed" value="true" />
+      <created>1734396453294</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1734396453294</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -272,6 +297,8 @@
     <MESSAGE value="added 2 more methods to get items from RoomObject items" />
     <MESSAGE value="removed UpdateQuantity throughout ParserEngine except for three item methods" />
     <MESSAGE value="more error handling corrections" />
-    <option name="LAST_COMMIT_MESSAGE" value="more error handling corrections" />
+    <MESSAGE value="timer added" />
+    <MESSAGE value="stuff deleted" />
+    <option name="LAST_COMMIT_MESSAGE" value="stuff deleted" />
   </component>
 </project>

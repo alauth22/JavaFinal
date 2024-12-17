@@ -1,5 +1,6 @@
 package Model.gameTimer;
 
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,20 +12,38 @@ public class GameTimer {
     // Timer object to schedule and manage timing tasks
     private Timer timer;
 
+    private Boolean isGameOver = false;
+
     // Constructor to initialize the Timer instance with a descriptive name
     public GameTimer() {
         timer = new Timer("Game Timer"); // Create a new Timer with the name "Game Timer"
     }
 
     // Method to start the timer, incrementing the seconds counter every second
+
+    /*
+    Method to start the timer, increment the seconds counter for every second.
+     */
     public void start() {
+        Scanner scanner = new Scanner(System.in);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                seconds++; // Increment the seconds counter
+                //if the game is NOT over or false
+                if (!isGameOver) {
+                    seconds++;
+                    //check if the timer has reached 60 seconds
+                    if (seconds >= 60) {
+                        //end the game.
+                        endGame();
+                        scanner.close();
+                    }
+                }
             }
-        }, 0, 1000); // Schedule the task to run every 1000 milliseconds (1 second) starting immediately
+
+        }, 0, 1000);
     }
+
 
     // Method to check if the timer has reached a multiple of 15 seconds
     public void checkTimer(Runnable action) {
@@ -41,5 +60,12 @@ public class GameTimer {
     // Method to retrieve the current elapsed time in seconds
     public int getSeconds() {
         return seconds; // Return the value of the seconds variable
+    }
+
+    public void endGame()
+    {
+        isGameOver = true;
+        timer.cancel();
+        System.out.println("Game is Over! You ran out of time and lost the game!");
     }
 }
