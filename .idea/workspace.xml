@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/gameTimer/GameTimer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/gameTimer/GameTimer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
-    </list>
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="timer cap of 60 seconds added -amelia" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -284,7 +280,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734396453294</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="timer cap of 60 seconds added -amelia">
+      <option name="closed" value="true" />
+      <created>1734479771333</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1734479771333</updated>
+    </task>
+    <task id="LOCAL-00028" summary="timer cap of 60 seconds added -amelia">
+      <option name="closed" value="true" />
+      <created>1734479780353</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1734479780353</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -299,6 +311,7 @@
     <MESSAGE value="more error handling corrections" />
     <MESSAGE value="timer added" />
     <MESSAGE value="stuff deleted" />
-    <option name="LAST_COMMIT_MESSAGE" value="stuff deleted" />
+    <MESSAGE value="timer cap of 60 seconds added -amelia" />
+    <option name="LAST_COMMIT_MESSAGE" value="timer cap of 60 seconds added -amelia" />
   </component>
 </project>
