@@ -1,7 +1,6 @@
 package controller;
 
 import Model.database.Database;
-import Model.database.Player;
 import Model.levels.Item;
 import Model.levels.room.Room;
 import Model.levels.room.RoomBuilder;
@@ -9,7 +8,6 @@ import Model.levels.room.RoomObjects;
 import Model.PlayerCords;
 import View.Window;
 import Model.gameTimer.GameTimer;
-import Model.gameTimer.SurvivalTimer;
 import Model.levels.LevelGridSystem;
 import java.util.*;
 
@@ -22,13 +20,11 @@ public class ParserEngine {
     private HashSet<String> nouns;
     private Window window;
     private Database db;
-    private Player playerDB;
     private ArrayList<String> commandHistory;
     private LevelGridSystem levels;
 
     //GAME ENGINE STUFF
     private GameTimer gameTimer;
-    private SurvivalTimer survivalTimer;
     private PlayerCords playerCords;
 
     private Room kitchen;
@@ -567,16 +563,6 @@ public class ParserEngine {
 
         gameTimer.start();
     }
-
-
-    //method to survival timer.
-    public void setUpSurvivalTimer()
-    {
-        survivalTimer = new SurvivalTimer();
-        survivalTimer.setSeconds(10);
-        survivalTimer.start();
-    }
-
 
     //if there are any windows.
     public Window getWindow() {
