@@ -564,16 +564,6 @@ public class ParserEngine {
         gameTimer.start();
     }
 
-
-    //method to survival timer.
-    public void setUpSurvivalTimer()
-    {
-        survivalTimer = new SurvivalTimer();
-        survivalTimer.setSeconds(10);
-        survivalTimer.start();
-    }
-
-
     //if there are any windows.
     public Window getWindow() {
         return window;
