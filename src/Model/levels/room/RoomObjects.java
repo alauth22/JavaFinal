@@ -72,29 +72,14 @@ public class RoomObjects implements RoomObject {
 
 
     @Override
-    public Boolean obtainCheck()
-    {
-        for(Item item : items)
-        {
-            if(item.getName().equalsIgnoreCase("key"))
-            {
+    public Boolean obtainCheck() {
+        for (Item item : items) {
+            if (item.getName().equalsIgnoreCase("key") ||
+                    item.getName().equalsIgnoreCase("flashlight") ||
+                    item.getName().equalsIgnoreCase("map")) {
                 return true;
-            }
-            else if (item.getName().equalsIgnoreCase("flashlight"))
-            {
-                return true;
-            }
-            else if (item.getName().equalsIgnoreCase("map"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
-
         return false;
-
     }
 }
