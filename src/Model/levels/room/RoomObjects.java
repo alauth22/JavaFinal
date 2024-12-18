@@ -2,6 +2,7 @@ package Model.levels.room;
 
 import Model.levels.Item;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 //the class that will implement our RoomObject interface.

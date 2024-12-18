@@ -23,47 +23,40 @@ public class Database {
         return conn;
     }
 
-    // method-query that would return the quantity of an item for a specific player and item
+    // Increment the quantity of a specific item for a player and return the updated value
     public int updateQuantity(Database db, int playerId, String item) {
+        String updateQuery = "UPDATE Player SET Quantity = Quantity + 1 WHERE ID = ? AND Item = ?";
         String getQuery = "SELECT Quantity FROM Player WHERE ID = ? AND Item = ?";
-        String updateQuery = "UPDATE Player SET Quantity = ? WHERE ID = ? AND Item = ?";
-        int updatedQuantity = 0;  // Default value in case of failure
+        int updatedQuantity = -1; // Default value to indicate failure
 
         try (Connection conn = db.getConnection();
+             PreparedStatement updatePstmt = conn.prepareStatement(updateQuery);
              PreparedStatement getPstmt = conn.prepareStatement(getQuery)) {
 
-            // Get the current quantity of the specific item
-            getPstmt.setInt(1, playerId); // Player's ID to retrieve quantity
-            getPstmt.setString(2, item);  // Item name
-            ResultSet rs = getPstmt.executeQuery();
+            // Step 1: Increment the Quantity directly in the database
+            updatePstmt.setInt(1, playerId);
+            updatePstmt.setString(2, item);
+            int rowsAffected = updatePstmt.executeUpdate();
 
-            if (rs.next()) {
-                int currentQuantity = rs.getInt("Quantity"); // Retrieve current quantity from database
-                updatedQuantity = currentQuantity + 1; // Increment the quantity by 1 (add one item)
-
-                // Now update the quantity in the database
-                try (PreparedStatement updatePstmt = conn.prepareStatement(updateQuery)) {
-                    updatePstmt.setInt(1, updatedQuantity);  // Set the new quantity
-                    updatePstmt.setInt(2, playerId);         // Player's ID to update
-                    updatePstmt.setString(3, item);          // Item name to update
-                    int rowsAffected = updatePstmt.executeUpdate();
-
-                    if (rowsAffected > 0) {
-                        // If the update was successful, say confirmation
+            if (rowsAffected > 0) {
+                // Step 2: Retrieve the updated Quantity
+                getPstmt.setInt(1, playerId);
+                getPstmt.setString(2, item);
+                try (ResultSet rs = getPstmt.executeQuery()) {
+                    if (rs.next()) {
+                        updatedQuantity = rs.getInt("Quantity");
                         System.out.println("Quantity updated successfully for Player ID: " + playerId + " and Item: " + item);
-                    } else {
-                        System.out.println("No record found for the given Player ID and Item.");
                     }
                 }
-//            } else {
-//                System.out.println("No record found for Player ID: " + playerId + " and Item: " + item);
+            } else {
+                System.out.println("No record found for Player ID: " + playerId + " and Item: " + item);
             }
 
         } catch (SQLException e) {
-            System.out.println("Error updating quantity: " + e.getMessage());
+            System.err.println("Error updating quantity: " + e.getMessage());
         }
 
-        return updatedQuantity;  // Return updated quantity or 0 if unsuccessful
+        return updatedQuantity;
     }
 
 
