@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="big update">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="dcbe192d-e3e1-431d-81f5-a51ad6d66bca" name="Changes" comment="--corrected player rules.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/database/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/RoomObjects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Resources/FinalJava1.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/Resources/FinalJava1.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/levels/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/levels/room/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/ParserEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -295,7 +292,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734478718599</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="--corrected player rules.">
+      <option name="closed" value="true" />
+      <created>1734481561958</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1734481561958</updated>
+    </task>
+    <task id="LOCAL-00029" summary="--corrected player rules.">
+      <option name="closed" value="true" />
+      <created>1734481567673</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1734481567673</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -310,6 +323,7 @@
     <MESSAGE value="more error handling corrections" />
     <MESSAGE value="practice" />
     <MESSAGE value="big update" />
-    <option name="LAST_COMMIT_MESSAGE" value="big update" />
+    <MESSAGE value="--corrected player rules." />
+    <option name="LAST_COMMIT_MESSAGE" value="--corrected player rules." />
   </component>
 </project>
