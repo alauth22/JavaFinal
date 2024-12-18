@@ -28,9 +28,14 @@ public class GameTimer {
                     seconds++;
                     //check if the timer has reached 60 seconds
                     if (seconds >= 60) {
-                        //end the game.
+                        //end the game because you lost
                         endGame();
                         scanner.close();
+                    }
+                    else if (!isGameOver)
+                    {
+                        wonGame();
+
                     }
                 }
             }
@@ -66,4 +71,13 @@ public class GameTimer {
         timer.cancel();
         System.out.println("Game is Over! You ran out of time and lost the game!");
     }
+
+    public void wonGame()
+    {
+
+        isGameOver = true;
+        timer.cancel();
+        System.out.println("Game is Over! You won, congrats!");
+    }
+
 }
