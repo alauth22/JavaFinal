@@ -136,7 +136,7 @@ public class ParserEngine {
                 "Enter a verb-and-noun command to begin game. " + "\n\n" +
                 "Select any verbs from this list: " + "\n" + sbVerb.toString() + "\n\n" +
                 "Select any nouns from this list: " + "\n" + sbNoun.toString() + "\n\n" +
-                "You will have 30 seconds to run through the home and grab essential items before the timer runs out and the " +
+                "You will have 1 minute to search the house and take a flashlight, a map, and a key before the timer runs out and the " +
                 "intruder has caught you. If a word is misspelled, you have 3 chances to correct and continue the game. Good luck! ");
 
         //begin the while loop to loop through every person's turn until the game ends.
