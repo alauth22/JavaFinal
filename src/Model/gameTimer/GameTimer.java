@@ -12,6 +12,7 @@ public class GameTimer {
     // Timer object to schedule and manage timing tasks
     private Timer timer;
 
+
     // Constructor to initialize the Timer instance with a descriptive name
     public GameTimer() {
         timer = new Timer("Game Timer"); // Create a new Timer with the name "Game Timer"
@@ -27,15 +28,10 @@ public class GameTimer {
                 if (!isGameOver) {
                     seconds++;
                     //check if the timer has reached 60 seconds
-                    if (seconds >= 60) {
-                        //end the game because you lost
+                    if (seconds >= 120) {
+                        //end the game.
                         endGame();
                         scanner.close();
-                    }
-                    else if (!isGameOver)
-                    {
-                        wonGame();
-
                     }
                 }
             }
@@ -52,7 +48,6 @@ public class GameTimer {
     /*
     Method to start the timer, increment the seconds counter for every second.
      */
-
 
 
     // Method to manually set the elapsed time in seconds
@@ -72,12 +67,9 @@ public class GameTimer {
         System.out.println("Game is Over! You ran out of time and lost the game!");
     }
 
-    public void wonGame()
-    {
-
-        isGameOver = true;
+    //End game if the player won
+    public void endGameWon(){
         timer.cancel();
-        System.out.println("Game is Over! You won, congrats!");
+        System.out.println("Game finished. You won!");
     }
-
 }
