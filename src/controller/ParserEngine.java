@@ -11,14 +11,6 @@ import Model.gameTimer.GameTimer;
 import Model.levels.LevelGridSystem;
 import java.util.*;
 
-
-/*
-Mariana Andrade, Randall Hawkins, Amelia Lauth
-12/18/2024
-Java Part 2 Final Project - Home Intrusion
- */
-
-
 public class ParserEngine {
 
     //create private sets for nouns and verbs so that they remain unique.
@@ -144,8 +136,10 @@ public class ParserEngine {
                 "Enter a verb-and-noun command to begin game. " + "\n\n" +
                 "Select any verbs from this list: " + "\n" + sbVerb.toString() + "\n\n" +
                 "Select any nouns from this list: " + "\n" + sbNoun.toString() + "\n\n" +
-                "You will have 1 minute to search the house and take a flashlight, a map, and a key before the timer runs out and the " +
-                "intruder has caught you. If a word is misspelled, you have 3 chances to correct and continue the game. Good luck! ");
+                "You will have 120 seconds to search the house and take a flashlight, a map, " +
+                "and a key before the timer runs out and the " +
+                "intruder has caught you. If a word is misspelled, " +
+                "you have 3 chances to correct and continue the game. Good luck! ");
 
         //begin the while loop to loop through every person's turn until the game ends.
         while (true)
@@ -394,11 +388,18 @@ public class ParserEngine {
         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
-        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage", "dresser", "vanity", "database", "mower"};
+        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage", "dresser", "vanity", "database", "mower",
+        "toilet", "bathroomcabinet", "tub", "piano", "tv", "lamp", "sofa"};
         nouns.addAll(Arrays.asList(nounList));
         return nouns;
     }
 
+
+    // A set to track collected items
+    private Set<String> collectedItems = new HashSet<>();
+
+    // The items required to win the game
+    private final Set<String> requiredItems = Set.of("key", "flashlight", "map");
 
     /*
     Search Method:
@@ -496,62 +497,6 @@ public class ParserEngine {
     }
 
 
-    //search cabinet method, bringing in the proper noun and verb from user input
-    //this example is specific for a kitchen cabinet.
-//    public String CabinetSearch(String noun, String verb)
-//    {
-//        String result = "";
-//
-//        //validation for verb search
-//        if (verb.equals("search")) {
-//            if(noun.equals("cabinet"))
-//            {
-//                System.out.println(cabinet.search());
-//
-//            }
-//            else if(noun.equals("refrigerator"))
-//            {
-//                System.out.println(refrigerator.search());
-//            }
-//        }
-//
-//        return result;
-//    }
-
-
-    public void GrabItemCabinet(String noun, String verb)
-    {
-        int coordX = playerCords.getCoordX();
-        int coordY = playerCords.getCoordY();
-
-        //ensure that the verb is take
-        if(verb.equals("take")) {
-            //ensure that the noun is either key or flashlight
-            if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
-
-                if(levels.getRoomToGrid(coordX, coordY) == kitchen)
-                {
-
-                }
-                //ensure that the roomobject acutally has a key or flashlight
-
-                if (cabinet.obtainCheck().equals(true)) {
-                    //db has been updated for that particular player
-                    db.updateQuantity(db, 1, noun);
-                    //remove item from roomobject
-                    System.out.println(cabinet.removeItem(noun));
-
-                } else {
-                    System.out.println("Cabinet does not have a flashlight and/or key.");
-                }
-            } else {
-                System.out.println("You have used the wrong noun, please type either key or flashlight.");
-            }
-        }
-
-    }
-
-
     //update query to get the item from a table roomobject
     public void GrabItemTable(String noun, String verb)
     {
@@ -567,20 +512,23 @@ public class ParserEngine {
                 //ensure that the roomobject acutally has a key or flashlight
                 if (table.obtainCheck().equals(true) && levels.getRoomToGrid(coordX, coordY) == livingRoom) {
                     //db has been updated for that particular player
-                    db.updateQuantity(db, 1, "Map");
+                    db.updateQuantity(db, 1, noun);
                     //remove item from roomobject
                     System.out.println(table.removeItem(noun));
+                    collectedItems.add(noun);
 
                 }
 
                 if(cabinet.obtainCheck().equals(true) && levels.getRoomToGrid(coordX, coordY) == kitchen) {
-                    db.updateQuantity(db, 1, "Key");
+                    db.updateQuantity(db, 1, noun);
                     System.out.println(cabinet.removeItem(noun));
+                    collectedItems.add(noun);
                 }
                 else if(dresser.obtainCheck().equals(true) && levels.getRoomToGrid(coordX, coordY) == bedroom)
                 {
-                    db.updateQuantity(db, 1, "Flashlight");
+                    db.updateQuantity(db, 1, noun);
                     System.out.println(dresser.removeItem(noun));
+                    collectedItems.add(noun);
                 }
                 else {
                     System.out.println("There is nothing to take.");
@@ -588,34 +536,19 @@ public class ParserEngine {
             } else {
                 System.out.println("You have used the wrong noun, please type either key or flashlight.");
             }
+            PlayerWon();
         }
     }
 
-    //method to get an item from a desser roomobject
-    public void GrabItemDresser(String noun, String verb)
-    {
-        //ensure that the verb
-        if(verb.equals("take")) {
-            //ensure that the noun is either key or flashlight
-            if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
-                //ensure that the roomobject acutally has a key or flashlight
-                if (dresser.obtainCheck().equals(true)) {
-                    //db has been updated for that particular player
-                    db.updateQuantity(db, 1, noun);
-                    //remove item from roomobject
-                    System.out.println(dresser.removeItem(noun));
-
-                } else {
-                    System.out.println("Dresser does not have a flashlight and/or key.");
-                }
-            } else {
-                System.out.println("You have used the wrong noun, please type either key or flashlight.");
-            }
+    // Method to check if the player has won
+    public void PlayerWon() {
+        if (collectedItems.containsAll(requiredItems)) {
+            // Logic to stop the timer and display that the user won
+            gameTimer.endGameWon();
+        } else {
+            System.out.println("You have not collected all the required items yet.");
         }
-
     }
-
-
 
     //display the 2D grid map for the user when they type show map.
     public void showMap(String noun, String verb)
@@ -793,10 +726,6 @@ public class ParserEngine {
 
         //set the desired coordinates for kitchen
         levels.setRoomToGrid(6, 3, kitchen);
-//        } else {
-//            // Log a message if the quantity update fails
-//            System.out.println("Failed to update quantity for item: " + item);
-//        }
     }
 
 
@@ -804,10 +733,6 @@ public class ParserEngine {
     Create the livingroom with the following objects of choice.
     */
     public void createLivingRooms() {
-
-        // The item to update ("Map")
-
-
 
         // Initialize the living room and its objects
         livingRoom = new Room("livingroom");
@@ -817,6 +742,7 @@ public class ParserEngine {
         piano = new RoomObjects("Piano");
         table = new RoomObjects("Table");
 
+        // The item to update ("Map")
         String item = "map";
         // Create a new Item instance with the updated quantity
         Item map = new Item(item);
@@ -835,39 +761,6 @@ public class ParserEngine {
 
         // Set the living room at the desired grid coordinates
         levels.setRoomToGrid(2, 5, livingRoom);
-    }
-
-
-    /*
-    Create the garage with the following objects of choice.
-    */
-    public void createGarage()
-    {
-
-        String item = "Key";  // The item to update ("Key")
-        // Update the quantity of the player's item (add 1 item)
-        //reads the command of "Take Key" -> update the db
-
-
-        // Create a new Item instance with the updated quantity
-        Item key = new Item(item);
-        // Add the item to the mower
-        //mower.addItem(key);
-
-        // garage = new Room("garage");
-        car = new RoomObjects("car");
-        mower = new RoomObjects("mower");
-
-
-        garage = new RoomBuilder("Garage")
-                .setLightsOn(true)
-                .addObject(car)
-                .addObject(mower)
-                .build();
-
-        //set the desired coordinates for garage
-        levels.setRoomToGrid(7, 5, garage);
-
     }
 
 
@@ -901,6 +794,7 @@ public class ParserEngine {
 
     }
 
+
     /*
     Create the bathroom with the following objects of choice.
     */
@@ -908,7 +802,7 @@ public class ParserEngine {
     {
 
         bathroom = new Room("bathroom");
-        cabinet2 = new RoomObjects("Bathroom Cabinet");
+        cabinet2 = new RoomObjects("bathroomCabinet");
         sink = new RoomObjects("Sink");
         tub = new RoomObjects("Tub");
         toilet = new RoomObjects("Toilet");
@@ -924,4 +818,26 @@ public class ParserEngine {
         //set the desired coordinates for bathroom
         levels.setRoomToGrid(5,5, bathroom);
     }
+
+
+    /*
+    Create the garage with the following objects of choice.
+    */
+    public void createGarage()
+    {
+        garage = new Room("garage");
+        car = new RoomObjects("car");
+        mower = new RoomObjects("mower");
+
+        garage = new RoomBuilder("Garage")
+                .setLightsOn(true)
+                .addObject(car)
+                .addObject(mower)
+                .build();
+
+        //set the desired coordinates for garage
+        levels.setRoomToGrid(7, 5, garage);
+
+    }
+
 }
