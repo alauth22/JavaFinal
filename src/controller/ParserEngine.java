@@ -57,20 +57,22 @@ public class ParserEngine {
 
 
     //level design
-    Room hallwayOne;
-    Room hallwayTwo;
-    Room hallwayThree;
-    Room hallwayFour;
-    Room hallwayFive;
-    Room hallwaySix;
-    Room hallwaySeven;
+   private Room hallwayOne;
+   private Room hallwayTwo;
+   private Room hallwayThree;
+   private Room hallwayFour;
+   private Room hallwayFive;
+   private Room hallwaySix;
+   private Room hallwaySeven;
 
     //constructor
     public ParserEngine(Window window, Database db) {
 
         this.db = db;
         this.window = window;
-
+        db.setQuantity(db,1,"flashlight");
+        db.setQuantity(db,1,"map");
+        db.setQuantity(db,1,"key");
 
         //get a new grid system that will be our map.
         levels = new LevelGridSystem();
@@ -243,7 +245,7 @@ public class ParserEngine {
         String verb = null;
         String noun = null;
 
-        //Loop through words and assign verb/noun
+        //Loop through words and assign verb/nouns
         for (String w : words) {
             if (verbs.contains(w)) {
                 verb = w;
@@ -258,8 +260,8 @@ public class ParserEngine {
 
         RoomSearch(noun, verb);
         ObjectSearch(noun, verb);
-        GrabItemCabinet(noun, verb);
-        GrabItemDresser(noun, verb);
+        //GrabItemCabinet(noun, verb);
+        //GrabItemDresser(noun, verb);
         GrabItemTable(noun, verb);
         trackMovement(verb, noun);
         showMap(noun, verb);
@@ -337,224 +339,7 @@ public class ParserEngine {
     Here we are calling one method to actually create all the rooms we have built below.
     Method is called in the constructor.
      */
-    public void createRooms()
-    {
-        createHallways();
-        createBathrooms();
-        createGarage();
-        createKitchens();
-        createLivingRooms();
-        createBedrooms();
 
-    }
-
-
-    /*
-    Method to create all the hallways and lay them in the right coordinates on the map.
-     */
-    public void createHallways()
-    {
-        hallwayOne = new Room("Hallway");
-        hallwayTwo = new Room("Hallway");
-        hallwayThree = new Room("Hallway");
-        hallwayFour = new Room("Hallway");
-        hallwayFive = new Room("Hallway");
-        hallwaySix = new Room("Hallway");
-        hallwaySeven = new Room("Hallway");
-
-
-        hallwayOne = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(7,4, hallwayOne);
-
-        hallwayTwo = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(6,4, hallwayTwo);
-
-        hallwayThree = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(5,4, hallwayThree);
-
-        hallwayFour = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(4,4, hallwayFour);
-
-        hallwayFive = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(3,4, hallwayFive);
-
-        hallwaySix = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(3,5, hallwaySix);
-
-        hallwaySeven = new RoomBuilder("Hallway")
-                .setLightsOn(true)
-                .build();
-        levels.setRoomToGrid(3,3, hallwaySeven);
-
-
-    }
-
-
-    /*
-    Create the kitchen with the following objects of choice.
-    */
-    public void createKitchens()
-    {
-        String item = "key";  // The item to update ("Key")
-        Item key = new Item(item);
-
-        kitchen = new Room("kitchen");
-        cabinet = new RoomObjects("Cabinet");
-        refrigerator = new RoomObjects("Refrigerator");
-        cabinet.addItem(key);
-
-        //this is what needs to be in the search method parser engine
-        kitchen = new RoomBuilder("Kitchen")
-                .setLightsOn(true)
-                .addObject(cabinet)
-                .addObject(refrigerator)
-                .build();
-
-        //set the desired coordinates for kitchen
-        levels.setRoomToGrid(6, 3, kitchen);
-//        } else {
-//            // Log a message if the quantity update fails
-//            System.out.println("Failed to update quantity for item: " + item);
-//        }
-    }
-
-
-    /*
-    Create the livingroom with the following objects of choice.
-    */
-    public void createLivingRooms() {
-
-          // The item to update ("Map")
-
-
-
-            // Initialize the living room and its objects
-            livingRoom = new Room("livingroom");
-            sofa = new RoomObjects("Sofa");
-            tv = new RoomObjects("TV");
-            lamp = new RoomObjects("Lamp");
-            piano = new RoomObjects("Piano");
-            table = new RoomObjects("Table");
-
-            String item = "map";
-            // Create a new Item instance with the updated quantity
-            Item map = new Item(item);
-            // Add the item to the table
-            table.addItem(map);
-
-            // Build the living room with objects
-            livingRoom = new RoomBuilder("livingroom")
-                    .setLightsOn(true)
-                    .addObject(sofa)
-                    .addObject(tv)
-                    .addObject(lamp)
-                    .addObject(piano)
-                    .addObject(table)
-                    .build();
-
-            // Set the living room at the desired grid coordinates
-            levels.setRoomToGrid(2, 5, livingRoom);
-    }
-
-
-    /*
-    Create the garage with the following objects of choice.
-    */
-    public void createGarage()
-    {
-
-        String item = "Key";  // The item to update ("Key")
-        // Update the quantity of the player's item (add 1 item)
-        //reads the command of "Take Key" -> update the db
-
-
-        // Create a new Item instance with the updated quantity
-        Item key = new Item(item);
-        // Add the item to the mower
-        //mower.addItem(key);
-
-        // garage = new Room("garage");
-        car = new RoomObjects("car");
-        mower = new RoomObjects("mower");
-
-
-        garage = new RoomBuilder("Garage")
-                .setLightsOn(true)
-                .addObject(car)
-                .addObject(mower)
-                .build();
-
-        //set the desired coordinates for garage
-        levels.setRoomToGrid(7, 5, garage);
-
-    }
-
-
-    /*
-    Create the bedroom with the following objects of choice.
-    */
-    public void createBedrooms()
-    {
-
-        // Update the quantity of the player's item (add 1 item)
-        bedroom = new Room("bedroom");
-        bed = new RoomObjects("Bed");
-        dresser = new RoomObjects("Dresser");
-        vanity = new RoomObjects("Vanity");
-
-        // Create a new Item instance with the updated quantity
-        String item = "Flashlight";  // The item to update ("Flashlight")
-        Item flashlight = new Item(item);
-        // Add the item to the table
-        dresser.addItem(flashlight);
-
-        bedroom = new RoomBuilder("Bedroom")
-                .setLightsOn(true)
-                .addObject(bed)
-                .addObject(dresser)
-                .addObject(vanity)
-                .build();
-
-        //set the desired coordinates for bedroom
-        levels.setRoomToGrid(3,2, bedroom);
-
-    }
-
-    /*
-    Create the bathroom with the following objects of choice.
-    */
-    public void createBathrooms()
-    {
-
-        bathroom = new Room("bathroom");
-        cabinet2 = new RoomObjects("Bathroom Cabinet");
-        sink = new RoomObjects("Sink");
-        tub = new RoomObjects("Tub");
-        toilet = new RoomObjects("Toilet");
-
-        bathroom = new RoomBuilder("Bathroom")
-                .setLightsOn(true)
-                .addObject(cabinet2)
-                .addObject(sink)
-                .addObject(tub)
-                .addObject(toilet)
-                .build();
-
-        //set the desired coordinates for bathroom
-        levels.setRoomToGrid(5,5, bathroom);
-    }
 
 
     //set up the gameTimer to call and start.
@@ -605,7 +390,7 @@ public class ParserEngine {
         String[] nounList = {"key", "door", "room", "flashlight", "award", "upstairs", "downstairs", "drawer", "cabinet",
         "couch", "curtain", "noisemaker", "lights", "window", "fridge", "car", "sink", "desk", "bed", "stove", "shelves",
         "bookshelf", "table", "chair", "nightstand", "counter", "boxes", "timer", "north", "south", "east", "west", "kitchen",
-        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage", "dresser", "vanity"};
+        "bedroom", "hallway", "basement", "livingroom", "bathroom", "refrigerator", "map", "garage", "dresser", "vanity", "database"};
         nouns.addAll(Arrays.asList(nounList));
         return nouns;
     }
@@ -732,11 +517,20 @@ public class ParserEngine {
 
     public void GrabItemCabinet(String noun, String verb)
     {
+        int coordX = playerCords.getCoordX();
+        int coordY = playerCords.getCoordY();
+
         //ensure that the verb is take
         if(verb.equals("take")) {
             //ensure that the noun is either key or flashlight
             if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
+
+                if(levels.getRoomToGrid(coordX, coordY) == kitchen)
+                {
+
+                }
                 //ensure that the roomobject acutally has a key or flashlight
+
                 if (cabinet.obtainCheck().equals(true)) {
                     //db has been updated for that particular player
                     db.updateQuantity(db, 1, noun);
@@ -757,19 +551,35 @@ public class ParserEngine {
     //update query to get the item from a table roomobject
     public void GrabItemTable(String noun, String verb)
     {
+        int coordX = playerCords.getCoordX();
+        int coordY = playerCords.getCoordY();
         //ensure that the verb
         if(verb.equals("take")) {
+
+
             //ensure that the noun is either key or flashlight
             if (noun.equals("key") || noun.equals("flashlight") || noun.equals("map")) {
+
                 //ensure that the roomobject acutally has a key or flashlight
-                if (table.obtainCheck().equals(true)) {
+                if (table.obtainCheck().equals(true) && levels.getRoomToGrid(coordX, coordY) == livingRoom) {
                     //db has been updated for that particular player
                     db.updateQuantity(db, 1, noun);
                     //remove item from roomobject
                     System.out.println(table.removeItem(noun));
 
-                } else {
-                    System.out.println("Table does not have a flashlight and/or key.");
+                }
+
+                if(cabinet.obtainCheck().equals(true) && levels.getRoomToGrid(coordX, coordY) == kitchen) {
+                    db.updateQuantity(db, 1, noun);
+                    System.out.println(cabinet.removeItem(noun));
+                }
+                else if(dresser.obtainCheck().equals(true) && levels.getRoomToGrid(coordX, coordY) == bedroom)
+                {
+                    db.updateQuantity(db, 1, noun);
+                    System.out.println(dresser.removeItem(noun));
+                }
+                else {
+                    System.out.println("There is nothing to take.");
                 }
             } else {
                 System.out.println("You have used the wrong noun, please type either key or flashlight.");
@@ -827,6 +637,14 @@ public class ParserEngine {
         }
     }
 
+    public void getDB(String noun, String verb)
+    {
+        if(verb.equals("show"))
+        {
+            if(noun.equals("database"));
+        }
+    }
+
     //method to display all the verbs in an ArrayList. Method is called in the greeting and directions
     //to show player what verbs they may use.
     public StringBuilder showVerbs()
@@ -874,5 +692,222 @@ public class ParserEngine {
         return sb;
     }
 
+    public void createRooms()
+    {
+        createHallways();
+        createBathrooms();
+        createGarage();
+        createKitchens();
+        createLivingRooms();
+        createBedrooms();
 
+    }
+
+
+    /*
+    Method to create all the hallways and lay them in the right coordinates on the map.
+     */
+    public void createHallways()
+    {
+        hallwayOne = new Room("Hallway");
+        hallwayTwo = new Room("Hallway");
+        hallwayThree = new Room("Hallway");
+        hallwayFour = new Room("Hallway");
+        hallwayFive = new Room("Hallway");
+        hallwaySix = new Room("Hallway");
+        hallwaySeven = new Room("Hallway");
+
+
+        hallwayOne = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(7,4, hallwayOne);
+
+        hallwayTwo = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(6,4, hallwayTwo);
+
+        hallwayThree = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(5,4, hallwayThree);
+
+        hallwayFour = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(4,4, hallwayFour);
+
+        hallwayFive = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(3,4, hallwayFive);
+
+        hallwaySix = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(3,5, hallwaySix);
+
+        hallwaySeven = new RoomBuilder("Hallway")
+                .setLightsOn(true)
+                .build();
+        levels.setRoomToGrid(3,3, hallwaySeven);
+
+
+    }
+
+
+    /*
+    Create the kitchen with the following objects of choice.
+    */
+    public void createKitchens()
+    {
+        String item = "key";  // The item to update ("Key")
+        Item key = new Item(item);
+
+        kitchen = new Room("kitchen");
+        cabinet = new RoomObjects("Cabinet");
+        refrigerator = new RoomObjects("Refrigerator");
+        cabinet.addItem(key);
+
+        //this is what needs to be in the search method parser engine
+        kitchen = new RoomBuilder("Kitchen")
+                .setLightsOn(true)
+                .addObject(cabinet)
+                .addObject(refrigerator)
+                .build();
+
+        //set the desired coordinates for kitchen
+        levels.setRoomToGrid(6, 3, kitchen);
+//        } else {
+//            // Log a message if the quantity update fails
+//            System.out.println("Failed to update quantity for item: " + item);
+//        }
+    }
+
+
+    /*
+    Create the livingroom with the following objects of choice.
+    */
+    public void createLivingRooms() {
+
+        // The item to update ("Map")
+
+
+
+        // Initialize the living room and its objects
+        livingRoom = new Room("livingroom");
+        sofa = new RoomObjects("Sofa");
+        tv = new RoomObjects("TV");
+        lamp = new RoomObjects("Lamp");
+        piano = new RoomObjects("Piano");
+        table = new RoomObjects("Table");
+
+        String item = "map";
+        // Create a new Item instance with the updated quantity
+        Item map = new Item(item);
+        // Add the item to the table
+        table.addItem(map);
+
+        // Build the living room with objects
+        livingRoom = new RoomBuilder("livingroom")
+                .setLightsOn(true)
+                .addObject(sofa)
+                .addObject(tv)
+                .addObject(lamp)
+                .addObject(piano)
+                .addObject(table)
+                .build();
+
+        // Set the living room at the desired grid coordinates
+        levels.setRoomToGrid(2, 5, livingRoom);
+    }
+
+
+    /*
+    Create the garage with the following objects of choice.
+    */
+    public void createGarage()
+    {
+
+        String item = "Key";  // The item to update ("Key")
+        // Update the quantity of the player's item (add 1 item)
+        //reads the command of "Take Key" -> update the db
+
+
+        // Create a new Item instance with the updated quantity
+        Item key = new Item(item);
+        // Add the item to the mower
+        //mower.addItem(key);
+
+        // garage = new Room("garage");
+        car = new RoomObjects("car");
+        mower = new RoomObjects("mower");
+
+
+        garage = new RoomBuilder("Garage")
+                .setLightsOn(true)
+                .addObject(car)
+                .addObject(mower)
+                .build();
+
+        //set the desired coordinates for garage
+        levels.setRoomToGrid(7, 5, garage);
+
+    }
+
+
+    /*
+    Create the bedroom with the following objects of choice.
+    */
+    public void createBedrooms()
+    {
+
+        // Update the quantity of the player's item (add 1 item)
+        bedroom = new Room("bedroom");
+        bed = new RoomObjects("Bed");
+        dresser = new RoomObjects("Dresser");
+        vanity = new RoomObjects("Vanity");
+
+        // Create a new Item instance with the updated quantity
+        String item = "Flashlight";  // The item to update ("Flashlight")
+        Item flashlight = new Item(item);
+        // Add the item to the table
+        dresser.addItem(flashlight);
+
+        bedroom = new RoomBuilder("Bedroom")
+                .setLightsOn(true)
+                .addObject(bed)
+                .addObject(dresser)
+                .addObject(vanity)
+                .build();
+
+        //set the desired coordinates for bedroom
+        levels.setRoomToGrid(3,2, bedroom);
+
+    }
+
+    /*
+    Create the bathroom with the following objects of choice.
+    */
+    public void createBathrooms()
+    {
+
+        bathroom = new Room("bathroom");
+        cabinet2 = new RoomObjects("Bathroom Cabinet");
+        sink = new RoomObjects("Sink");
+        tub = new RoomObjects("Tub");
+        toilet = new RoomObjects("Toilet");
+
+        bathroom = new RoomBuilder("Bathroom")
+                .setLightsOn(true)
+                .addObject(cabinet2)
+                .addObject(sink)
+                .addObject(tub)
+                .addObject(toilet)
+                .build();
+
+        //set the desired coordinates for bathroom
+        levels.setRoomToGrid(5,5, bathroom);
+    }
 }
