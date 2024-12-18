@@ -1,10 +1,11 @@
 package Model.gameTimer;
 
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameTimer {
-
+    private boolean isGameOver = false;
     // Variable to store the elapsed time in seconds
     private int seconds = 0;
 
@@ -18,12 +19,23 @@ public class GameTimer {
 
     // Method to start the timer, incrementing the seconds counter every second
     public void start() {
+        Scanner scanner = new Scanner(System.in);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                seconds++; // Increment the seconds counter
+                //if the game is NOT over or false
+                if (!isGameOver) {
+                    seconds++;
+                    //check if the timer has reached 60 seconds
+                    if (seconds >= 60) {
+                        //end the game.
+                        endGame();
+                        scanner.close();
+                    }
+                }
             }
-        }, 0, 1000); // Schedule the task to run every 1000 milliseconds (1 second) starting immediately
+
+        }, 0, 1000);
     }
 
     // Method to check if the timer has reached a multiple of 15 seconds
@@ -32,6 +44,11 @@ public class GameTimer {
             action.run(); // Execute the provided action
         }
     }
+    /*
+    Method to start the timer, increment the seconds counter for every second.
+     */
+
+
 
     // Method to manually set the elapsed time in seconds
     public void setSeconds(int time) {
@@ -41,5 +58,12 @@ public class GameTimer {
     // Method to retrieve the current elapsed time in seconds
     public int getSeconds() {
         return seconds; // Return the value of the seconds variable
+    }
+
+    public void endGame()
+    {
+        isGameOver = true;
+        timer.cancel();
+        System.out.println("Game is Over! You ran out of time and lost the game!");
     }
 }
