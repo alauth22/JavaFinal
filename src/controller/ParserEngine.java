@@ -70,9 +70,7 @@ public class ParserEngine {
 
         this.db = db;
         this.window = window;
-        db.setQuantity(db,1,"flashlight");
-        db.setQuantity(db,1,"map");
-        db.setQuantity(db,1,"key");
+
 
         //get a new grid system that will be our map.
         levels = new LevelGridSystem();
@@ -266,7 +264,7 @@ public class ParserEngine {
         trackMovement(verb, noun);
         showMap(noun, verb);
         showTime(noun, verb);
-
+        getDB(noun, verb);
         //Return verb and noun as a String array
         return new String[]{verb, noun};
 
@@ -363,9 +361,7 @@ public class ParserEngine {
 
 
     //get the database.
-    public Database getDb() {
-        return db;
-    }
+
 
 
     public void setDb(Database db) {
@@ -377,7 +373,7 @@ public class ParserEngine {
     public HashSet<String> getVerbs() {
         //declare a new hashset
         verbs = new HashSet<>();
-        String[] verbList = {"take", "hide", "lock", "grab", "drop", "open", "exit", "go", "look", "unlock", "turn", "search", "show"};
+        String[] verbList = {"take", "hide", "lock", "grab", "drop", "open", "exit", "go", "look", "unlock", "turn", "search", "show", "wipe"};
         verbs.addAll(Arrays.asList(verbList));
         return verbs;
     }
@@ -641,7 +637,17 @@ public class ParserEngine {
     {
         if(verb.equals("show"))
         {
-            if(noun.equals("database"));
+            if(noun.equals("database"))
+            {
+                db.getAllQuantities(db);
+            }
+        }
+        if(verb.equals("wipe"))
+        {
+            if(noun.equals("database"))
+            {
+                db.resetAllQuantities(db);
+            }
         }
     }
 

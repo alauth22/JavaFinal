@@ -66,45 +66,41 @@ public class Database {
         return updatedQuantity;  // Return updated quantity or 0 if unsuccessful
     }
 
-    public int setQuantity(Database db, int playerId, String item) {
-        String getQuery = "SELECT Quantity FROM Player WHERE ID = ? AND Item = ?";
-        String updateQuery = "UPDATE Player SET Quantity = ? WHERE ID = ? AND Item = ?";
-        int updatedQuantity = 0;  // Default value in case of failure
+
+
+    public void resetAllQuantities(Database db) {
+        String resetQuery = "UPDATE Player SET Quantity = 0"; // Updates all items to Quantity 0
 
         try (Connection conn = db.getConnection();
-             PreparedStatement getPstmt = conn.prepareStatement(getQuery)) {
+             PreparedStatement resetPstmt = conn.prepareStatement(resetQuery)) {
 
-            // Get the current quantity of the specific item
-            getPstmt.setInt(1, playerId); // Player's ID to retrieve quantity
-            getPstmt.setString(2, item);  // Item name
-            ResultSet rs = getPstmt.executeQuery();
+            int rowsAffected = resetPstmt.executeUpdate(); // Execute the query and get affected rows
+            System.out.println("Reset successful: " + rowsAffected + " rows updated to Quantity 0.");
 
-            if (rs.next()) {
-                int currentQuantity = rs.getInt("Quantity"); // Retrieve current quantity from database
-                // Increment the quantity by 1 (add one item)
+        } catch (SQLException e) {
+            System.out.println("Error resetting quantities: " + e.getMessage());
+        }
+    }
 
-                // Now update the quantity in the database
-                try (PreparedStatement updatePstmt = conn.prepareStatement(updateQuery)) {
-                    updatePstmt.setInt(1, updatedQuantity);  // Set the new quantity
-                    updatePstmt.setInt(2, playerId);         // Player's ID to update
-                    updatePstmt.setString(3, item);          // Item name to update
-                    int rowsAffected = updatePstmt.executeUpdate();
+    public void getAllQuantities(Database db) {
+        String selectQuery = "SELECT * FROM Player"; // Select all rows from the Player table
 
-                    if (rowsAffected > 0) {
-                        // If the update was successful, say confirmation
-                        System.out.println("Quantity updated successfully for Player ID: " + playerId + " and Item: " + item);
-                    } else {
-                        System.out.println("No record found for the given Player ID and Item.");
-                    }
-                }
-//            } else {
-//                System.out.println("No record found for Player ID: " + playerId + " and Item: " + item);
+        try (Connection conn = db.getConnection();
+             PreparedStatement selectPstmt = conn.prepareStatement(selectQuery);
+             ResultSet rs = selectPstmt.executeQuery()) { // Use executeQuery() for SELECT statements
+
+            while (rs.next()) {
+                int playerId = rs.getInt("ID");
+                String item = rs.getString("Item");
+                int quantity = rs.getInt("Quantity");
+
+                // Display the result
+                System.out.println("Player ID: " + playerId + ", Item: " + item + ", Quantity: " + quantity);
             }
 
         } catch (SQLException e) {
-            System.out.println("Error updating quantity: " + e.getMessage());
+            System.out.println("Error fetching quantities: " + e.getMessage());
         }
-
-        return updatedQuantity;
     }
+
 }
