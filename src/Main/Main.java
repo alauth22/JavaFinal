@@ -1,6 +1,10 @@
 package Main;
 
-import javax.print.attribute.standard.Media;
+/*
+Mariana Andrade, Randall Hawkins, Amelia Lauth
+12/18/2024
+Java Part 2 Final Project - Home Intrusion
+ */
 
 public class Main {
 
