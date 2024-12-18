@@ -108,16 +108,6 @@ public class Room {
         return objectsList.substring(0, objectsList.length() - 2) + ".";
     }
 
-    //now you can search that object if let's say that object contains an item, like a key or flashlight.
-    public String searchObject(String objectName)
-    {
-        for (RoomObject object : roomObjects) {
-            if (object.getName().equalsIgnoreCase(objectName)) {
-                return object.search();
-            }
-        }
-        return "There is no " + objectName + " in the " + name + ".";
-    }
 
     //get the first letter of that name so that it may appear on the map.
     public char getSymbol() {
